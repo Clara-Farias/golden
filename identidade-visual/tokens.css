@@ -1,0 +1,261 @@
+/* Golden Atlas · tokens da marca
+   Fonte única para o manual e para o app. Regras em identidade-visual/movimento.md.
+   Cores em paleta.md, tipografia em tipografia.md. O app (index.html e cidadao.html) importa este arquivo. */
+
+/* ---------- Cores (paleta F, nomes do mito de Atlas) ---------- */
+:root {
+  /* Marca */
+  --primaria: #0f4c5c;          /* Titã: logo, cabeçalho, barra do topo */
+  --primaria-escura: #0a3a47;
+  --secundaria: #008080;        /* Egeu: botão principal, seleção, foco */
+  --secundaria-texto: #006d6d;  /* Egeu escuro: Egeu como texto em fundo claro */
+  --acao: #008080;
+  --acao-hover: #006d6d;
+  --sobre-acao: #ffffff;
+  --acento: #f36f21;            /* Chama: nome GOLDEN, traço da aba ativa e UM destaque por tela */
+  --sobre-acento: #17262b;      /* branco sobre Chama dá 3,0:1 */
+  --ia: #6d28d9;                /* Estrela: tudo que vem da Maia */
+  --ia-fundo: #f3eefd;
+
+  /* Neutros */
+  --fundo: #f3f6f6;             /* Névoa */
+  --cartao: #ffffff;            /* Mármore */
+  --elevado: #ffffff;
+  --texto: #17262b;             /* Bronze */
+  --suave: #5b6b70;             /* Pedra */
+  --borda: #dde5e6;             /* Coluna */
+  --barra: #0f4c5c;
+  --sup-2: #f7fafa;             /* superfície levemente abaixo do cartão */
+  --sup-3: #eef3f3;             /* faixa, chip neutro, hover */
+  --borda-forte: #c6d3d5;       /* borda de campo e de botão secundário */
+  --texto-2: #2c3e43;           /* texto forte em tabela e gráfico */
+  --titulo: #0f4c5c;            /* títulos em Titã */
+
+  /* Semânticas (toda cor de alerta vem com ícone ou palavra) */
+  --critica: #dc2626;
+  --alta: #c2410c;
+  --media: #eab308;             /* nunca texto: ver --media-texto */
+  --media-texto: #854d0e;       /* atenção como texto em fundo claro (7,0:1) */
+  --sobre-media: #0b1d22;
+  --positivo: #15803d;
+  --andamento: #2563eb;
+  --chip-texto: #ffffff;
+  --critica-texto: #b91c1c; --critica-fundo: #fef2f2; --critica-borda: #fecaca;
+  --alta-texto: #c2410c;    --alta-fundo: #fff7ed;
+  --media-fundo: #fefce8;
+  --positivo-fundo: #f0fdf4;
+  --andamento-fundo: #eff6ff;
+  --ia-borda: #ddd6fe;
+  --conjunta: #3730a3;
+
+  /* Vidro dos painéis flutuantes sobre o mapa */
+  --vidro: rgba(255, 255, 255, 0.86);
+  --vidro-borda: rgba(255, 255, 255, 0.65);
+
+  /* Foco do teclado: Bronze no claro, nunca Chama */
+  --foco: #17262b;
+
+  /* Tipografia */
+  --fonte-titulo: 'Sora', 'Segoe UI', Helvetica, Arial, sans-serif;
+  --fonte-texto: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+/* ---------- Elevação e superfícies (css/premium.css) ----------
+   Anel finíssimo + sombra curta + sombra longa e difusa, tingidas de Titã. Quatro níveis só:
+   tile (dentro de um cartão), 1 (cartão), 2 (cartão em hover, painel flutuante), 3 (gaveta, modal). */
+:root {
+  --elev-anel: rgba(15, 76, 92, 0.07);
+  --elev-tile: 0 0 0 1px var(--elev-anel), 0 1px 1px rgba(15, 76, 92, 0.03);
+  --elev-1: 0 0 0 1px var(--elev-anel), 0 1px 2px rgba(15, 76, 92, 0.05), 0 6px 16px -8px rgba(15, 76, 92, 0.12);
+  --elev-2: 0 0 0 1px rgba(15, 76, 92, 0.1), 0 2px 4px rgba(15, 76, 92, 0.05), 0 16px 32px -12px rgba(15, 76, 92, 0.22);
+  --elev-3: 0 0 0 1px rgba(15, 76, 92, 0.1), 0 4px 8px rgba(15, 76, 92, 0.06), 0 28px 56px -16px rgba(15, 76, 92, 0.3);
+  --sup-tile: linear-gradient(180deg, var(--cartao) 0%, var(--sup-2) 100%);
+  --trilho: color-mix(in srgb, var(--borda) 70%, transparent);
+  --raio-tile: 12px;
+  --raio-cartao: 16px;
+  --raio-painel: 20px;
+}
+
+/* Titã noturno */
+[data-tema="escuro"] {
+  --elev-anel: rgba(255, 255, 255, 0.06);
+  --elev-tile: 0 0 0 1px var(--elev-anel), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --elev-1: 0 0 0 1px var(--elev-anel), inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 24px -14px rgba(0, 0, 0, 0.6);
+  --elev-2: 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 18px 36px -14px rgba(0, 0, 0, 0.7);
+  --elev-3: 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 30px 60px -16px rgba(0, 0, 0, 0.75);
+  --sup-tile: linear-gradient(180deg, var(--elevado) 0%, var(--cartao) 100%);
+
+  --primaria: #0f4c5c;
+  --secundaria: #2bb3b3;
+  --secundaria-texto: #5cc8c8;
+  --acao: #2bb3b3;
+  --acao-hover: #5cc8c8;
+  --sobre-acao: #062024;
+  --acento: #f58a4b;
+  --sobre-acento: #1a0e05;
+  --ia: #b19cfa;
+  --ia-fundo: #251f45;
+
+  --fundo: #0b1d22;
+  --cartao: #11292f;
+  --elevado: #17343c;
+  --texto: #e7eff1;
+  --suave: #9fb3b8;
+  --borda: #24454e;
+  --barra: #081519;
+  --primaria-escura: #081519;
+  --sup-2: #143038;
+  --sup-3: #17343c;
+  --borda-forte: #33575f;
+  --texto-2: #c9d6d9;
+  --titulo: #9fdadd;
+
+  --critica: #f87171;
+  --alta: #fb923c;
+  --media: #facc15;
+  --media-texto: #facc15;
+  --positivo: #4ade80;
+  --andamento: #60a5fa;
+  --chip-texto: #0b1d22;
+  --sobre-media: #0b1d22;
+  --critica-texto: #fca5a5; --critica-fundo: #2a1519; --critica-borda: #5b232a;
+  --alta-texto: #fdba74;    --alta-fundo: #2a1c11;
+  --media-fundo: #2a2611;
+  --positivo-fundo: #10281c;
+  --andamento-fundo: #142f40;
+  --ia-borda: #3b3170;
+  --conjunta: #a5b4fc;
+  --vidro: rgba(17, 41, 47, 0.9);
+  --vidro-borda: rgba(159, 179, 184, 0.18);
+  --foco: #e7eff1;
+  color-scheme: dark;
+}
+/* Troca de tema: crossfade curto das cores (movimento.md, item 15). */
+html.trocando-tema, html.trocando-tema * { transition: background-color var(--dur-media) var(--ease-move), color var(--dur-media) var(--ease-move), border-color var(--dur-media) var(--ease-move) !important; }
+
+/* ---------- Movimento ---------- */
+:root {
+  /* Duração */
+  --dur-micro: 120ms;   /* hover, toque, foco */
+  --dur-curta: 200ms;   /* chip, alternador, tooltip, menu */
+  --dur-media: 300ms;   /* gaveta, modal, troca de tema */
+  --dur-longa: 500ms;   /* entrada de tela, gráfico, primeira contagem */
+  --dur-foco: 600ms;    /* alvo de foco, número que mudou (uma vez) */
+  --dur-pulso: 1800ms;  /* o único pulso contínuo: alerta crítico */
+
+  /* Curva */
+  --ease-sai: cubic-bezier(.2, .7, .2, 1);     /* padrão: aparece e pousa */
+  --ease-move: cubic-bezier(.4, 0, .2, 1);     /* muda de lugar */
+  --ease-entra: cubic-bezier(.4, 0, 1, 1);     /* sai da tela */
+  --ease-alerta: cubic-bezier(.3, 1.4, .5, 1); /* mola: só símbolo e confirmações do cidadão */
+  --ease-maia: cubic-bezier(.6, 0, .3, 1);     /* só a estrela da Maia pensando */
+
+  /* Cascata */
+  --cascata-passo: 40ms; /* até 6 itens */
+}
+
+/* Portal do cidadão: um passo mais macio */
+.tema-cidadao {
+  --dur-micro: 160ms;
+  --dur-curta: 250ms;
+  --dur-media: 350ms;
+}
+
+/* Telão / projetor: mais lento, sem piscar rápido */
+.tema-telao {
+  --dur-curta: 300ms;
+  --dur-media: 500ms;
+  --dur-longa: 700ms;
+}
+
+/* ---------- Movimentos da marca ---------- */
+
+/* 1 · Pulso crítico (o único pulso do app) */
+@keyframes ga-pulso { from { transform: scale(1); opacity: .9; } to { transform: scale(1.7); opacity: 0; } }
+
+/* 2 · Alerta chega: eco da splash (cresce com mola e balança na ponta) */
+@keyframes ga-chega { 0% { opacity: 0; transform: scale(.35); } 55% { opacity: 1; transform: scale(1.12); } 75% { transform: scale(.96); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes ga-balanca { 0%, 100% { rotate: 0deg; } 20% { rotate: -7deg; } 45% { rotate: 6deg; } 70% { rotate: -3deg; } }
+
+/* 3 · Alvo de foco: anéis fecham sobre o alvo (cor em --alvo-cor) */
+@keyframes ga-alvo { from { transform: scale(2.4); opacity: 0; } 30% { opacity: 1; } to { transform: scale(1); opacity: 0; } }
+
+/* 4 · Carregando: hachura a 16° */
+@keyframes ga-hachura { from { background-position: 200% 0; } to { background-position: -100% 0; } }
+.ga-carregando {
+  background-color: #f3f6f6;
+  background-image: linear-gradient(106deg, transparent 35%, rgba(255, 255, 255, .75) 50%, transparent 65%);
+  background-size: 200% 100%;
+  animation: ga-hachura 1.4s linear infinite;
+}
+
+/* 6 · Equipe em campo: tracejado andando (stroke-dasharray no elemento) */
+@keyframes ga-rota { to { stroke-dashoffset: -24; } }
+
+/* 7 · Número mudou */
+@keyframes ga-mudou { from { background-color: rgba(0, 128, 128, .14); } to { background-color: transparent; } }
+
+/* 9 · Maia pensando */
+@keyframes ga-maia-gira { 0% { transform: rotate(0) scale(1); } 50% { transform: rotate(45deg) scale(.78); } 100% { transform: rotate(90deg) scale(1); } }
+@keyframes ga-maia-onda { from { opacity: .55; transform: scale(1); } to { opacity: 0; transform: scale(1.45); } }
+@keyframes ga-maia-pisca { 50% { opacity: .4; } }
+
+/* Fade genérico (também o substituto de "reduzir movimento") */
+@keyframes ga-aparece { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ga-sobe { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ga-carregando { animation: none; background-image: none; }
+}
+
+/* ---------- Gráficos (proposta, ver identidade-visual/dataviz.md) ---------- */
+:root {
+  /* Séries, sempre nesta ordem: Lagoa, Fundo, Vinho, Terra */
+  --viz-1: #2b98b0;
+  --viz-2: #085b87;
+  --viz-3: #931f5b;
+  --viz-4: #7a4800;
+  --viz-contexto: #b4c2c5; /* comparação: ano passado, média, "outros" */
+
+  /* Moldura */
+  --viz-fundo: #ffffff;
+  --viz-grade: #e8eeef;
+  --viz-base: #b4c2c5;
+  --viz-eixo: #5b6b70;
+  --viz-valor: #17262b;
+  --viz-meta: #17262b;      /* tracejada 4/3, 1,5 px */
+  --viz-zona-ruim: rgba(220, 38, 38, .08);
+
+  /* Quantidade: rampa Egeu (termina em Titã) */
+  --viz-seq-100: #e0f3f4; --viz-seq-200: #b3dee1; --viz-seq-300: #80c5cc; --viz-seq-400: #49a8b4;
+  --viz-seq-500: #198999; --viz-seq-600: #00697b; --viz-seq-700: #0f4d5d;
+
+  /* Acima × abaixo: Vinho ↔ Coluna ↔ Egeu */
+  --viz-div-v3: #761d4a; --viz-div-v2: #9d2964; --viz-div-v1: #bb4e80; --viz-div-v0: #e1a2bb;
+  --viz-div-centro: #dde5e6;
+  --viz-div-e0: #80c5cc; --viz-div-e1: #198999; --viz-div-e2: #00697b; --viz-div-e3: #0f4d5d;
+}
+
+/* Titã noturno */
+[data-tema="escuro"] {
+  --viz-1: #00aaac;
+  --viz-2: #3e70c7;
+  --viz-3: #ac5487;
+  --viz-4: #b17000;
+  --viz-contexto: #4b6870;
+
+  --viz-fundo: #11292f;
+  --viz-grade: #1c3a42;
+  --viz-base: #4b6870;
+  --viz-eixo: #9fb3b8;
+  --viz-valor: #e7eff1;
+  --viz-meta: #e7eff1;
+  --viz-zona-ruim: rgba(248, 113, 113, .14);
+
+  --viz-seq-100: #13323c; --viz-seq-200: #104a56; --viz-seq-300: #056774; --viz-seq-400: #058490;
+  --viz-seq-500: #2ca1ab; --viz-seq-600: #60bfc6; --viz-seq-700: #9fdadd;
+
+  --viz-div-v3: #edbed3; --viz-div-v2: #de94b7; --viz-div-v1: #ca6b97; --viz-div-v0: #8c395f;
+  --viz-div-centro: #24454e;
+  --viz-div-e0: #056774; --viz-div-e1: #2ca1ab; --viz-div-e2: #60bfc6; --viz-div-e3: #9fdadd;
+}
