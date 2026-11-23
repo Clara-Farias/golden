@@ -1,0 +1,12 @@
+/* Ícone da Maia (@maia): círculo com a estrela de quatro pontas, a mesma ideia do avatar
+   (identidade-visual/icones/maia.svg). Grade 24, traço 2, como os Tabler Icons, aplicado como máscara:
+   herda a cor (currentColor) e o tamanho da fonte, como um <i class="ti …">. Use <i class="ic-maia"></i>
+   ou o marcador 🛞 nos textos (js/icones.js troca pelo ícone). Substitui o volante do antigo Copiloto. */
+.ic-maia {
+  display: inline-block; flex: none; width: 1.12em; height: 1.12em; vertical-align: -0.14em;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 6.5C13.1 10.9 13.1 10.9 17.5 12C13.1 13.1 13.1 13.1 12 17.5C10.9 13.1 10.9 13.1 6.5 12C10.9 10.9 10.9 10.9 12 6.5Z' fill='black' stroke='none'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 6.5C13.1 10.9 13.1 10.9 17.5 12C13.1 13.1 13.1 13.1 12 17.5C10.9 13.1 10.9 13.1 6.5 12C10.9 10.9 10.9 10.9 12 6.5Z' fill='black' stroke='none'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* No botão do topo, um pouco maior: é a porta de entrada da Maia. */
+#chat-aba .ic-maia { width: 1.3em; height: 1.3em; vertical-align: -0.28em; }

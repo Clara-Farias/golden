@@ -1,0 +1,59 @@
+/* Domínio: habitacao (pino, popup e widget). Carrega logo depois de css/v3.css no index.html. */
+/* ---- Pinos: o círculo vazado de .marcador-equip (css/mapa-premium.css) na cor da situação ---- */
+/* Ocupação: vermelho = dentro de área de risco (selo com as famílias), amarelo = crescendo, cinza = estável. */
+.marcador-equip.marcador-habitacao.ok { --c: var(--suave); }
+.marcador-equip.marcador-habitacao b, .marcador-equip.marcador-reurb b { color: #fff; }
+/* Núcleo de REURB: vermelho = etapa atrasada, azul = no prazo, verde = concluído. Borda tracejada para não
+   confundir com a ocupação. */
+.marcador-equip.marcador-reurb { border-style: dashed; }
+
+/* ---- Popup ---- */
+.popup .sev.hab-critica { background: var(--critica); }
+.popup .sev.hab-atencao { background: var(--media); }
+.popup .sev.hab-ok { background: var(--positivo); }
+.popup .sev.hab-em_dia { background: var(--navy); }
+.popup-habitacao .hab-numeros { list-style: none; margin: 6px 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.popup-habitacao .hab-numeros b { display: block; font-size: 16px; color: var(--texto); font-variant-numeric: tabular-nums; }
+.popup-habitacao .hab-numeros small { font-size: 12px; color: var(--suave); }
+.popup-habitacao .hab-motivos { margin: 4px 0 0; padding-left: 16px; font-size: 12px; color: var(--media-texto); }
+.popup-habitacao .hab-motivos li.critico { color: var(--critica); font-weight: 600; }
+.popup-habitacao .hab-acao { margin: 6px 0 0; font-size: 12px; font-weight: 600; color: var(--texto); }
+.popup-habitacao .hab-nota { margin: 4px 0 0; font-size: 12px; color: var(--suave); }
+.popup-habitacao .hab-atraso { margin: 4px 0 0; font-size: 12px; font-weight: 600; color: var(--critica); }
+.popup-habitacao .hab-etapa { margin: 8px 0 2px; font-size: 12px; color: var(--texto); }
+.popup-habitacao .hab-etapa i, .w-hab-lista .hab-barra i {
+  display: block; height: 6px; margin-top: 3px; border-radius: 3px; background: var(--sup-2);
+  background-image: linear-gradient(var(--navy), var(--navy)); background-size: var(--p) 100%; background-repeat: no-repeat;
+}
+
+/* ---- Widget ---- */
+.w-hab { display: flex; flex-direction: column; gap: 12px; }
+.w-hab .w-num b { font-size: 20px; }
+.w-hab h4 { margin: 0 0 8px; font-size: 13px; }
+.w-hab h4 small { font-weight: 400; font-size: 12px; color: var(--suave); }
+.w-hab-alerta {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  background: var(--critica-fundo); border: 1px solid var(--critica-borda); border-left: 4px solid var(--critica); border-radius: 10px; padding: 10px 12px;
+}
+.w-hab-alerta b { display: block; color: var(--critica); font-size: 14px; }
+.w-hab-alerta small { font-size: 13px; color: var(--texto); }
+.w-hab-ok { margin: 0; font-size: 13px; color: var(--positivo); }
+.w-hab-lista { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-hab-lista button {
+  display: grid; grid-template-columns: 70px 1fr auto; align-items: center; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 5px 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-hab-fila button { grid-template-columns: 1fr auto; }
+.w-hab-lista button:hover { background: var(--sup-2); }
+.w-hab-lista .sit { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff; border-radius: 10px; padding: 1px 0; text-align: center; }
+.w-hab-lista .sit.critica { background: var(--critica); }
+.w-hab-lista .sit.atencao { background: var(--media); }
+.w-hab-lista .sit.ok { background: var(--positivo); }
+.w-hab-lista .sit.em_dia { background: var(--navy); }
+.w-hab-lista .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-hab-lista .num { font-size: 12px; color: var(--suave); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.w-hab-lista .num.longa { color: var(--critica); font-weight: 600; }
+.w-hab-lista .hab-barra { width: 56px; }
+.w-hab-prioridades { margin: -4px 0 12px; font-size: 12px; color: var(--suave); }
+.w-hab-prioridades b { color: var(--texto); }
+.w-hab-link { border: 0; background: none; padding: 0; font: inherit; font-size: 12px; color: var(--acao); cursor: pointer; text-decoration: underline; }

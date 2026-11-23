@@ -1,0 +1,256 @@
+/* Golden Atlas · aplicação da marca no app (painel e portal).
+   Carregado por último. Tokens em identidade-visual/tokens.css; regras no manual da marca
+   (paleta.md, tipografia.md, icones.md, movimento.md, dataviz.md). Aqui só o que é transversal. */
+
+/* ---------- Tipografia: Sora nos títulos, Inter no texto e nos números ---------- */
+h1, h2,
+.p-cab h1, .p-hero h1, .p-card h2, .p-dlg h2,
+.carregando-caixa b {
+  font-family: var(--fonte-titulo);
+  letter-spacing: -0.01em;
+}
+/* A fonte de títulos nunca abaixo de 16 px: títulos pequenos ficam em Inter. */
+.decisao-cabecalho h2, .rd-cab h2 { font-family: var(--fonte-texto); letter-spacing: 0; }
+/* Números de indicador: sempre tabulares (não "dançam" ao contar). */
+.kpi b, .faixa-num b, .w-num b, .ind-valor-curto, .w-ia-destaque b { font-variant-numeric: tabular-nums; }
+
+/* ---------- Logo no trilho do menu (versão reduzida, zona compacta 1x) ---------- */
+.menu-marca .logo-atlas {
+  display: block; width: auto; height: 30px; margin: 0; background: none; border-radius: 0; flex: none;
+}
+.app.menu-recolhido .menu-marca .logo-atlas { display: none; }
+
+/* Indicador da aba ativa: o traço é Chama (o único lugar fixo do laranja no painel). */
+.menu-item.ativo::before { background: var(--acento); }
+.menu .menu-item:focus-visible, .menu-alternar:focus-visible { outline-color: #fff; }
+
+/* ---------- Tela de abertura: fundo Titã, logo vertical que chega como um aviso ---------- */
+.carregando-logo { width: 136px; height: auto; margin-bottom: 8px; animation: ga-chega 500ms var(--ease-alerta) both; transform-origin: 50% 100%; }
+.carregando-caixa b { font-size: 16px; font-weight: 600; color: #dde5e6; }
+/* Veio do login: a mesma tela já foi mostrada lá, com o logo chegando (js/tela-entrar.js). */
+.carregando.vem-do-login .carregando-logo { animation: none; }
+
+/* ---------- Média (amarelo): texto escuro por cima, contorno Bronze no pino ---------- */
+.sev.media, .popup .sev.media, .gaveta .sev.media, .resumo-sev.media,
+.popup .sev.leito-atencao, .popup .sev.risco-medio, .popup .sev.escola-atencao,
+.popup .sev.frota-atencao, .popup .sev.linha-atencao, .popup .sev.coleta-em_andamento, .popup .sev.farmacia-atencao,
+.w-edu-lista .sit.atencao, .w-risco-areas .nivel.medio, .wx-feed .sev-media .wx-sev,
+.grupo-pinos.media, .grupo-pinos span.media {
+  color: var(--sobre-media);
+}
+.sev.media .ti, .popup .sev.media .ti, .grupo-pinos.media .ti { color: inherit; }
+.marcador.media, .bola.media, .sev-pt, .sev-ponto.media, .grupo-pinos.media {
+  box-shadow: 0 0 0 1.5px var(--texto);
+}
+.marcador.media .ti { color: var(--sobre-media); }
+
+/* ---------- Maia: Estrela é só dela ---------- */
+.w-ia-perguntar { border-color: color-mix(in srgb, var(--ia) 25%, transparent); background: var(--ia-fundo); }
+.w-ia-perguntar:hover { background: color-mix(in srgb, var(--ia) 14%, var(--cartao)); }
+
+/* ---------- Movimento: destaque é sempre o alvo (três anéis que fecham, uma vez) ---------- */
+.widget.w-ia-novo, .widgets > .widget.w-recem, .cr-pisca, .p-destacado { position: relative; animation: none; }
+.widget.w-ia-novo::after, .widgets > .widget.w-recem::after, .cr-pisca::after, .p-destacado::after {
+  content: ''; position: absolute; inset: -4px; border-radius: inherit; pointer-events: none; z-index: 3;
+  border: 2px solid var(--alvo-cor, var(--secundaria));
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--alvo-cor, var(--secundaria)) 25%, transparent);
+  animation: ga-alvo-borda var(--dur-foco) var(--ease-sai) both;
+}
+.widget.w-ia-novo { --alvo-cor: var(--ia); }
+.cr-pisca { --alvo-cor: var(--critica); }
+@keyframes ga-aparece { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ga-alvo-borda { from { opacity: 0; transform: scale(1.06); } 30% { opacity: 1; } to { opacity: 0; transform: scale(1); } }
+.sec-foco { animation: ga-aparece var(--dur-curta) var(--ease-sai); }
+
+/* CTA em Chama encolhe ao toque e nada mais. */
+.cta-chama { background: var(--acento); color: var(--sobre-acento); border-color: var(--acento); transition: transform var(--dur-micro) var(--ease-sai); }
+.cta-chama:active { transform: scale(0.97); }
+
+/* ---------- Portal: assinatura no rodapé ---------- */
+.p-assinatura { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; color: var(--suave); }
+.p-assinatura img { display: block; height: 24px; width: auto; }
+@media (prefers-color-scheme: dark) {
+  .p-assinatura img { filter: invert(1) brightness(1.6); }
+}
+.p-card h2 > .ti { color: var(--secundaria-texto); }
+
+/* ---------- Reduzir movimento ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .carregando-logo { animation: ga-aparece var(--dur-curta) linear both; }
+  /* Contorno de 2 px por 1,2 s, sem movimento. */
+  .widget.w-ia-novo::after, .widgets > .widget.w-recem::after, .cr-pisca::after, .p-destacado::after {
+    box-shadow: none; animation: ga-alvo-parado 1.2s step-end both;
+  }
+  .marcador.pulsar::after, .grupo-pinos.pulsar::after, .cr-pulso::after, .wx-ao-vivo i::after {
+    animation: none; transform: scale(1.35); opacity: 0.6;
+  }
+}
+@keyframes ga-alvo-parado { from { opacity: 1; transform: none; } to { opacity: 0; } }
+
+/* ---------- Pinos: nunca só cor (icones.md, seção 9) ----------
+   Cada gravidade tem a sua forma, além da cor e do ícone da secretaria:
+   Crítica = losango (o maior) · Alta = triângulo · Média = círculo cheio menor, com contorno Bronze.
+   A forma é desenhada num ::before; o ::after continua sendo o pulso do prazo estourado. */
+.marcador.critica, .marcador.alta, .marcador.media {
+  background: none !important; border: 0; box-shadow: none; isolation: isolate;
+}
+.marcador.critica::before, .marcador.alta::before, .marcador.media::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  filter: drop-shadow(0 2px 3px rgba(11, 29, 34, 0.35));
+}
+.marcador.critica { width: 38px; height: 38px; }
+.marcador.critica::before {
+  inset: 4px; border-radius: 5px; transform: rotate(45deg);
+  background: var(--critica); border: 2px solid #fff;
+}
+.marcador.alta { width: 36px; height: 34px; padding-top: 7px; }
+.marcador.alta .ti { font-size: 14px; }
+.marcador.alta::before {
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 34'%3E%3Cpath d='M18 2.5 34 31.5H2Z' fill='%23c2410c' stroke='%23fff' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.marcador.media { width: 26px; height: 26px; }
+.marcador.media .ti { font-size: 14px; color: var(--sobre-media); }
+.marcador.media::before { inset: 0; border-radius: 50%; background: var(--media); border: 1.5px solid var(--texto); }
+/* Equipe em campo: anel azul em volta da forma. O pulso do prazo estourado (styles.css) sai do centro.
+   Os dois têm a forma do pino: círculo na média, losango na crítica, triângulo na alta. */
+.marcador.em_campo { border: 0; }
+.marcador.em_campo::after { display: block; content: ''; position: absolute; inset: -4px; border-radius: 50%; border: 2.5px solid var(--andamento); animation: none; }
+/* Crítica: losango. "rotate" à parte do "transform", para somar com o scale da animação ga-pulso. */
+.marcador.critica.em_campo::after, .marcador.critica.pulsar::after { border-radius: 6px; rotate: 45deg; }
+.marcador.critica.em_campo::after { inset: 0; }
+.marcador.critica.pulsar::after { inset: 4px; }
+/* Alta: triângulo. Sem borda em CSS: a cor preenche e a máscara deixa só o contorno (o traçado do pino).
+   Cresce a partir do centro do triângulo, um pouco abaixo do meio da caixa. */
+.marcador.alta.em_campo::after, .marcador.alta.pulsar::after {
+  border: 0; border-radius: 0; transform-origin: 50% 64%;
+  -webkit-mask: var(--contorno-triangulo) center / 100% 100% no-repeat; mask: var(--contorno-triangulo) center / 100% 100% no-repeat;
+}
+.marcador.alta {
+  --contorno-triangulo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 34'%3E%3Cpath d='M18 2.5 34 31.5H2Z' fill='none' stroke='%23000' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.marcador.alta.pulsar::after { inset: 0; background: var(--critica); }
+/* O anel em campo envolve o triângulo com folga, com o mesmo centro (caixa 48 × 45). */
+.marcador.alta.em_campo::after { inset: -7px -6px -4px; background: var(--andamento); }
+
+/* Legenda e filtros: a bolinha também ganha a forma. */
+.bola.critica { border-radius: 2px; transform: rotate(45deg) scale(0.85); }
+.bola.alta { border-radius: 0; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.bola.media { width: 8px; height: 8px; }
+.marcador.critica:hover, .marcador.alta:hover, .marcador.media:hover { box-shadow: none; }
+.marcador.critica.em_campo, .marcador.alta.em_campo, .marcador.media.em_campo { box-shadow: none; border: 0; }
+
+/* ---------- Titã noturno: texto escuro sobre as cores de alerta clareadas (paleta.md, --chip-texto) ---------- */
+[data-tema="escuro"] :is(.grupo-pinos span, .alertas-contador, .chat-nao-lidas, .rd-n, .badge, .sev, .resumo-sev, .menu-item .badge),
+[data-tema="escuro"] .marcador.critica .ti, [data-tema="escuro"] .btn-acao.principal, [data-tema="escuro"] .btn-sec.principal {
+  color: var(--chip-texto);
+}
+[data-tema="escuro"] .menu.vidro { background: color-mix(in srgb, var(--barra) 92%, transparent); border-color: var(--vidro-borda); }
+[data-tema="escuro"] .carregando { background: var(--barra); }
+[data-tema="escuro"] .menu-item.ativo::before { background: var(--acento); }
+/* Profundidade sem sombra: no escuro, a sombra vira borda. */
+[data-tema="escuro"] .vidro, [data-tema="escuro"] .widget, [data-tema="escuro"] .gaveta-painel { box-shadow: 0 0 0 1px var(--vidro-borda); }
+[data-tema="escuro"] #tela-crise .cr-cab-acoes .btn-primario { color: var(--chip-texto); }
+[data-tema="escuro"] #tela-crise .cr-cab-acoes .btn-primario:hover { background: #fca5a5; }
+[data-tema="escuro"] .msg.ia { background: var(--ia-fundo); }
+
+/* ---------- Maia pensando (movimento.md, item 9) ---------- */
+.maia-pensando { display: inline-flex; align-items: center; gap: 8px; padding: 4px 0; color: var(--suave); font-size: 12px; }
+.mp-icone { position: relative; width: 20px; height: 20px; flex: none; color: var(--ia); }
+.mp-icone i { position: absolute; inset: 0; display: block; }
+.mp-anel { border: 2px solid currentColor; border-radius: 50%; }
+.mp-onda { border: 2px solid currentColor; border-radius: 50%; opacity: 0; animation: ga-maia-onda var(--dur-pulso) var(--ease-sai) infinite; }
+.mp-estrela {
+  inset: 4px !important; background: currentColor; transform-origin: 50% 50%;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 0C7.2 4.8 7.2 4.8 12 6C7.2 7.2 7.2 7.2 6 12C4.8 7.2 4.8 7.2 0 6C4.8 4.8 4.8 4.8 6 0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M6 0C7.2 4.8 7.2 4.8 12 6C7.2 7.2 7.2 7.2 6 12C4.8 7.2 4.8 7.2 0 6C4.8 4.8 4.8 4.8 6 0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  animation: ga-maia-gira var(--dur-pulso) var(--ease-maia) infinite;
+}
+.maia-pensando span:not(.mp-icone) { display: none; }
+
+/* ---------- Tudo calmo (movimento.md, item 14; manual, Aplicações · Estado vazio) ---------- */
+.ga-calmo { position: relative; overflow: hidden; isolation: isolate; display: flex; align-items: center; min-height: 96px; padding: 16px; border-radius: 12px; color: var(--secundaria); background: var(--sup-2); border: 1px solid var(--borda); }
+.ga-calmo > span { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 4px; color: var(--texto); }
+.ga-calmo-titulo { font-family: var(--fonte-titulo); font-size: 16px; font-weight: 700; color: var(--titulo); }
+.ga-calmo small { font-size: 12px; color: var(--suave); font-weight: 500; }
+.ga-calmo-curvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; animation: ga-aparece 1200ms var(--ease-sai) both; }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-onda { animation: none; }
+  .mp-estrela { animation: ga-maia-pisca 1.6s ease-in-out infinite; }
+  .ga-calmo-curvas { animation: none; }
+}
+
+/* ---------- Grafismo de fundo (js/grafismo.js): sempre atrás, nunca atrás de dado ---------- */
+.ga-grafismo, .ga-relevo { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.p-hero .ga-relevo { border-radius: inherit; overflow: hidden; }
+.p-hero > :not(.ga-relevo) { position: relative; z-index: 1; }
+.p-cab-relevo { position: relative; isolation: isolate; overflow: hidden; padding: 18px 18px 16px; margin: -4px -4px 0; border-radius: var(--raio, 18px); background: var(--sup-3, #eef3f3); }
+.p-cab-relevo > :not(.ga-relevo) { position: relative; z-index: 1; }
+.p-cab-relevo .ga-relevo { color: var(--secundaria); }
+@media (prefers-color-scheme: dark) { .p-cab-relevo .ga-relevo path, .p-cab-relevo .ga-relevo text { stroke: #5cc8c8; } .p-cab-relevo .ga-relevo text { fill: #5cc8c8; stroke: none; } }
+/* Régua cartográfica e perfil topográfico: divisórias. */
+.ga-regua { display: block; color: var(--primaria); height: 6px; width: 160px; margin: 6px 0 2px; }
+[data-tema="escuro"] .ga-regua { color: var(--secundaria-texto); }
+.ga-perfil { display: block; width: 100%; height: 28px; color: var(--secundaria); margin: 4px 0 0; }
+/* ---------- Maia: rosto (onde ela fala), estados e selos de confiança ---------- */
+/* Rosto: círculo cheio em Estrela com a estrela vazada; no botão ativo inverte (círculo branco, estrela Estrela).
+   A estrela é a do logo (identidade-visual/logo/svg/maia-branco.svg, viewBox 64): a máscara cobre o círculo inteiro
+   (inset 0), então a proporção não depende de arredondar uma margem em pixels. */
+.maia-rosto {
+  position: relative; display: inline-block; flex: none; width: 1.25em; height: 1.25em; vertical-align: -0.24em;
+  border-radius: 50%; background: var(--ia); --rosto-estrela: #fff;
+}
+.maia-rosto::after {
+  content: ''; position: absolute; inset: 0; background: var(--rosto-estrela);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 12C36 28 36 28 52 32C36 36 36 36 32 52C28 36 28 36 12 32C28 28 28 28 32 12Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 12C36 28 36 28 52 32C36 36 36 36 32 52C28 36 28 36 12 32C28 28 28 28 32 12Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+[data-tema="escuro"] .maia-rosto { --rosto-estrela: #0b1d22; }
+#chat-aba .maia-rosto { width: 18px; height: 18px; vertical-align: -4px; } /* px inteiro: em 1.3em (16,9 px) as pontas saíam desiguais */
+.btn-vidro.btn-ia.ativo .maia-rosto { background: var(--cartao); --rosto-estrela: var(--ia); }
+/* Pensando: só aqui há movimento (a estrela gira 90° encolhendo). */
+#chat-aba.maia-pensando-estado .maia-rosto::after { animation: ga-maia-gira var(--dur-pulso) var(--ease-maia) infinite; }
+/* Sem dado: disco tracejado. */
+.msg.maia-sem-dado .maia-rosto { background: transparent; border: 1.5px dashed var(--ia); --rosto-estrela: var(--ia); }
+/* Fora do ar: cinza e parada. */
+#chat-aba.maia-fora { color: var(--suave); }
+#chat-aba.maia-fora .maia-rosto { background: var(--suave); opacity: 0.45; }
+#chat-aba.maia-fora .maia-rosto::after { animation: none; }
+/* Novidade: selo Egeu sem número; alerta: selo na cor da severidade, com contagem. */
+.btn-vidro .chat-nao-lidas.maia-novidade { background: var(--secundaria); min-width: 10px; width: 10px; height: 10px; padding: 0; border: 2px solid var(--cartao); }
+.btn-vidro .chat-nao-lidas.maia-alerta { background: var(--critica); color: var(--chip-texto); border: 2px solid var(--cartao); }
+.msg.ia .autor .maia-rosto { width: 18px; height: 18px; vertical-align: -4px; }
+.chat-topo h2 .maia-rosto, .gaveta-cab h2 .maia-rosto { width: 22px; height: 22px; vertical-align: -5px; }
+
+/* Selos de confiança: Egeu informa; nunca Chama. Medido não tem selo. */
+.selo-maia {
+  display: inline-flex; align-items: center; gap: 5px; margin: 2px 0 6px; padding: 2px 9px 2px 7px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.01em; color: var(--secundaria-texto);
+  background: color-mix(in srgb, var(--secundaria) 10%, transparent); border: 1px solid color-mix(in srgb, var(--secundaria) 30%, transparent);
+}
+.selo-maia svg { width: 10px; height: 10px; flex: none; }
+
+/* Rodapé de fonte: "fonte · hora do dado · Ver dados". */
+.fontes { color: var(--suave); border-top-color: var(--borda); }
+.fontes > summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; font-weight: 500; opacity: 1; }
+.fontes > summary > * + *::before { content: '·'; margin-right: 6px; color: var(--suave); font-weight: 400; }
+.fontes > summary::after { content: none; }
+.fontes-org { color: var(--texto-2); }
+.fontes-hora { font-variant-numeric: tabular-nums; }
+b.fontes-hora { color: var(--texto); }
+.fontes-ver { color: var(--secundaria-texto); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.fontes[open] .fontes-ver { text-decoration: none; }
+
+/* ---------- Espera longa (movimento.md, item 5): o símbolo enche de baixo para cima ----------
+   Só aparece depois de 2 s de espera; sem progresso real, ciclo de 2,4 s. Classe reutilizável (.ga-espera). */
+.ga-espera { display: block; width: 34px; height: auto; margin-top: 10px; opacity: 0; animation: ga-aparece var(--dur-curta) var(--ease-sai) 2s forwards; overflow: visible; }
+.ga-espera-fundo { fill: var(--borda); }
+.ga-espera-nivel { fill: var(--primaria); transform-box: fill-box; transform-origin: 50% 100%; animation: ga-enche 2400ms var(--ease-move) 2s infinite; transform: scaleY(0); }
+.carregando .ga-espera-fundo { fill: rgba(255, 255, 255, 0.22); }
+.carregando .ga-espera-nivel { fill: #fff; }
+@keyframes ga-enche { 0% { transform: scaleY(0); } 80%, 100% { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .ga-espera-nivel { animation: none; transform: scaleY(0.6); }
+}

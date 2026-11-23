@@ -1,0 +1,43 @@
+/* Janela de confirmação e aviso "Desfazer" (js/desfazer-ui.js). */
+
+.cf-fundo {
+  position: fixed; inset: 0; z-index: 2000; display: grid; place-items: center; padding: 16px;
+  background: rgba(10, 20, 24, .45);
+}
+.cf-janela {
+  width: min(420px, 100%); padding: 18px 18px 14px; border-radius: 14px;
+  background: var(--cartao); color: var(--texto); border: 1px solid var(--borda);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .28);
+}
+.cf-janela h2 { margin: 0 0 8px; font-size: 17px; color: var(--titulo); }
+.cf-janela p { margin: 0 0 8px; font-size: 14px; line-height: 1.45; }
+.cf-janela .cf-nota { font-size: 12px; color: var(--suave); }
+.cf-botoes { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.cf-botoes button { font-size: 13px; padding: 7px 14px; }
+/* Base para páginas sem os botões do painel (privacidade.html); no painel, :where perde para .btn-sec e .btn-acao. */
+:where(.cf-botoes) :where(button) { font-family: inherit; font-weight: 600; border-radius: 8px; border: 1px solid var(--borda-forte); background: var(--cartao); color: var(--texto); cursor: pointer; }
+:where(.cf-botoes) :where([data-cf="sim"]) { background: var(--acao); border-color: var(--acao); color: var(--sobre-acao, #fff); }
+/* Ação que apaga ou descarta: vermelho, acima do .btn-acao.principal. */
+.cf-botoes .cf-perigo { background: var(--critica); border-color: var(--critica); color: #fff; }
+.cf-botoes .cf-perigo:hover { background: var(--critica-texto); border-color: var(--critica-texto); }
+
+.dz-aviso {
+  position: fixed; left: 50%; bottom: 72px; z-index: 1900; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px; max-width: calc(100vw - 32px);
+  padding: 9px 10px 9px 14px; border-radius: 12px;
+  background: var(--primaria-escura, #0a3a47); color: #fff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .25); font-size: 13px;
+  transition: opacity .2s, transform .2s;
+}
+.dz-aviso[hidden] { display: none; }
+.dz-aviso.saindo { opacity: 0; transform: translate(-50%, 6px); }
+.dz-texto { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dz-texto.dz-nao { white-space: normal; }
+.dz-botao {
+  flex: none; padding: 4px 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, .5);
+  background: transparent; color: #fff; font-weight: 700; cursor: pointer;
+}
+.dz-botao:hover, .dz-botao:focus-visible { background: rgba(255, 255, 255, .14); }
+.dz-dica { flex: none; opacity: .7; font-size: 11px; }
+.dz-x { flex: none; border: 0; background: transparent; color: #fff; opacity: .7; cursor: pointer; padding: 2px 4px; }
+@media (max-width: 560px) { .dz-dica { display: none; } .dz-aviso { bottom: 64px; } }

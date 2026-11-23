@@ -1,0 +1,26 @@
+/* Agenda de entregas (js/widgets/entregas.js, dados em js/data-entregas.js). Carrega logo depois de css/v3.css.
+   A etiqueta de situação (.w-ent-sit) também é usada na tela #/entregas (css/entregas.css). */
+.w-ent { display: flex; flex-direction: column; gap: 10px; }
+.w-ent h4 { margin: 4px 0 0; font-size: 13px; }
+.w-ent-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.w-ent-item {
+  width: 100%; display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 10px;
+  border: 0; background: none; border-radius: 8px; padding: 6px; font: inherit; color: var(--texto); text-align: left;
+}
+button.w-ent-item { cursor: pointer; }
+button.w-ent-item:hover { background: var(--sup-2); }
+.w-ent-item .nome { font-size: 13px; min-width: 0; }
+.w-ent-item .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-ent-data { display: flex; flex-direction: column; align-items: center; line-height: 1.05; border: 1px solid var(--borda); border-radius: 8px; padding: 3px 0; }
+.w-ent-data b { font-size: 15px; font-variant-numeric: tabular-nums; }
+.w-ent-data small { font-size: 10px; text-transform: uppercase; color: var(--suave); }
+.w-ent-vazio { margin: 0; font-size: 13px; color: var(--suave); }
+.w-ent-abrir { align-self: flex-start; font-size: 13px; font-weight: 600; color: var(--acao); text-decoration: none; }
+.w-ent-abrir:hover { text-decoration: underline; }
+
+/* Situação: entregue (positivo), no prazo (neutro), em risco (média), atrasada (alta), parada (crítica). */
+.w-ent-sit { display: inline-block; white-space: nowrap; font-size: 11px; font-weight: 700; border-radius: 999px; padding: 2px 8px; background: var(--sup-2); color: var(--suave); }
+.w-ent-sit.entregue { background: var(--positivo-fundo); color: var(--positivo); }
+.w-ent-sit.em_risco { background: var(--media-fundo); color: var(--media-texto); }
+.w-ent-sit.atrasada { background: var(--alta-fundo); color: var(--alta-texto); }
+.w-ent-sit.parada { background: var(--critica-fundo); color: var(--critica-texto); }

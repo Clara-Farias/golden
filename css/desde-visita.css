@@ -1,0 +1,26 @@
+/* Desde a sua última visita (js/desde-visita.js): mesmo cartão de vidro do Resumo do dia e da semana, na base
+   do mapa. Os números e as linhas reaproveitam .rs-num e .rs-item (css/resumo-semana.css). */
+.dv-numeros { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.rs-num.tom-info { border-left-color: var(--andamento); }
+.rs-item.tom-atencao { border-left-color: var(--alta); }
+.rs-item.tom-info { border-left-color: var(--andamento); }
+.dv-item em { color: var(--suave); font-size: 12px; font-weight: 600; }
+.dv-sem-clique { cursor: default; }
+.dv-sem-clique:hover { background: color-mix(in srgb, var(--cartao) 85%, transparent); }
+.dv-mais { font-weight: 500; text-transform: none; letter-spacing: 0; }
+
+.dv-vazio { margin: 2px 0 0; display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--suave); }
+.dv-vazio .ti { color: var(--positivo); font-size: 16px; }
+
+.dv-visto {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(143, 160, 164, 0.45);
+  background: transparent; color: var(--navy); border-radius: 14px; padding: 5px 12px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
+}
+.dv-visto:hover { background: color-mix(in srgb, var(--primaria) 8%, transparent); }
+
+/* O contador do botão é novidade, não alarme: azul de andamento, não o vermelho do Resumo do dia. */
+.rd-n.dv-n { background: var(--andamento); }
+
+@media (max-width: 720px) {
+  .dv-numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

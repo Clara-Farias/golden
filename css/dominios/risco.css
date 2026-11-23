@@ -1,0 +1,37 @@
+/* Domínio: risco (pino, popup e widget). Veio de css/v3.css; carrega logo depois dele no index.html. */
+/* ---- Risco climático (Fase 3 do workshop de 04/11): popup e widget ---- */
+.popup .sev.risco-alto { background: var(--critica); }
+.popup .sev.risco-medio { background: var(--media); }
+.popup .sev.risco-baixo { background: var(--suave); }
+.popup-risco .acao { font-weight: 600; color: var(--texto); }
+.popup-risco .risco-atingida { color: var(--critica); }
+.w-risco { display: flex; flex-direction: column; gap: 14px; }
+.w-risco-alerta {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  background: var(--critica-fundo); border: 1px solid var(--critica-borda); border-left: 4px solid var(--critica); border-radius: 10px; padding: 10px 12px;
+}
+.w-risco-alerta b { display: block; color: var(--critica); font-size: 14px; }
+.w-risco-alerta small { font-size: 13px; color: var(--texto); }
+.w-risco-ok { margin: 0; font-size: 13px; color: var(--positivo); }
+.w-risco-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.w-risco h4 { margin: 0 0 8px; font-size: 13px; }
+.w-risco h4 small { display: block; font-weight: 400; font-size: 12px; color: var(--suave); }
+.w-chuva { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; align-items: end; height: 110px; }
+.w-chuva li { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px; font-size: 12px; }
+.w-chuva i { display: block; width: 60%; height: var(--h); min-height: 4px; background: #3b82f6; border-radius: 4px 4px 0 0; opacity: 0.85; }
+.w-chuva b { font-variant-numeric: tabular-nums; }
+.w-chuva small { color: var(--suave); }
+.w-risco-resumo { margin: 8px 0 0; font-size: 13px; color: var(--suave); }
+.w-risco-resumo b { color: var(--texto); }
+.w-risco-areas { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.w-risco-areas button {
+  display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 5px 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-risco-areas button:hover { background: var(--sup-2); }
+.w-risco-areas .nivel { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff; border-radius: 10px; padding: 1px 0; text-align: center; }
+.w-risco-areas .nivel.alto { background: var(--critica); }
+.w-risco-areas .nivel.medio { background: var(--media); }
+.w-risco-areas .nivel.baixo { background: var(--suave); }
+.w-risco-areas .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-risco-areas .atingida { font-size: 12px; color: var(--critica); font-weight: 600; white-space: nowrap; }

@@ -1,0 +1,57 @@
+/* Expandir para a tela inteira (js/expandir.js): as telas sobre o mapa (#sobre) e as gavetas Alertas (com o
+   detalhe do alerta) e Maia. Expandidas, cobrem o cabeçalho e vão de ponta a ponta; o menu lateral continua.
+   Carregada depois de alertas.css: vale sobre v3.css, premium.css e alertas.css. */
+
+/* O botão: os dois ícones moram nele; o aria-pressed escolhe qual aparece. */
+.btn-expandir .ti-arrows-minimize, .btn-expandir[aria-pressed="true"] .ti-arrows-maximize { display: none; }
+.btn-expandir[aria-pressed="true"] .ti-arrows-minimize { display: inline-block; }
+.btn-expandir { cursor: pointer; }
+.btn-expandir:focus-visible { outline: 2px solid var(--foco, var(--acao)); outline-offset: 2px; }
+
+/* ---------- telas sobre o mapa ---------- */
+.sobre-expandir {
+  position: absolute; top: 12px; right: 58px; z-index: 6;
+  width: 36px; height: 36px; padding: 0; border-radius: 50%; display: inline-grid; place-items: center;
+  background: var(--cartao); box-shadow: 0 2px 8px rgba(11, 29, 34, 0.12);
+}
+.sobre-expandir .ti { font-size: 17px; margin: 0; }
+.sobre-expandir:hover { background: var(--sup-3); }
+.sobre .tela > :first-child { padding-right: 92px; } /* a largura dos dois botões */
+.sobre.expandida { top: 12px; bottom: 12px; right: 12px; width: auto; max-width: none; }
+
+/* ---------- gavetas da direita ---------- */
+.gavetas.expandida { top: 12px; left: var(--esq); width: auto; }
+.gaveta-cab-acoes { display: flex; align-items: center; gap: 6px; flex: none; }
+.gaveta-cab-acoes .btn-expandir { display: inline-grid; place-items: center; }
+
+/* Detalhe do alerta: o botão entre as setas e o ✕, no molde deles. */
+.gaveta-cabeca .gaveta-expandir {
+  width: 32px; height: 32px; display: inline-grid; place-items: center; border: 0; border-radius: 50%; margin-left: auto;
+  background: color-mix(in srgb, var(--borda-forte) 22%, transparent); color: var(--texto-2); font-size: 15px;
+}
+.gaveta-cabeca .gaveta-expandir:hover { background: color-mix(in srgb, var(--borda-forte) 40%, transparent); color: var(--texto); }
+.gaveta-nav + .gaveta-expandir, .gaveta-expandir + .gaveta-fechar { margin-left: 6px; }
+
+/* Alertas expandida: os cartões em colunas; títulos de grupo, avisos e divisores ocupam a linha inteira. */
+.gavetas.expandida .alertas-lista {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); align-content: start; align-items: start;
+}
+.gavetas.expandida .alertas-lista > :not(.alerta-item) { grid-column: 1 / -1; }
+.gavetas.expandida .alertas-esperar { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); align-items: start; }
+.gavetas.expandida .alertas-esperar > summary { grid-column: 1 / -1; }
+.gavetas.expandida .alertas-abas, .gavetas.expandida .alertas-contexto { max-width: 760px; }
+
+/* Detalhe e Maia expandidos: o texto numa coluna confortável, no meio. */
+.gavetas.expandida[data-aberta="alerta"] .gaveta { padding-left: max(18px, calc((100% - 820px) / 2)); padding-right: max(18px, calc((100% - 820px) / 2)); }
+.gavetas.expandida[data-aberta="copiloto"] .chat-mensagens,
+.gavetas.expandida[data-aberta="copiloto"] .chat-sugestoes,
+.gavetas.expandida[data-aberta="copiloto"] .chat-form { padding-left: max(14px, calc((100% - 860px) / 2)); padding-right: max(14px, calc((100% - 860px) / 2)); }
+
+/* Celular: as telas e as gavetas já ocupam a largura toda. */
+@media (max-width: 720px) {
+  .btn-expandir { display: none !important; }
+  .sobre .tela > :first-child { padding-right: 48px; }
+}
+
+/* Expandida, a gaveta ou a tela cobre o mapa inteiro: quase opaca, para os pinos não vazarem pelo vidro. */
+.sobre.expandida, .gavetas.expandida { background: color-mix(in srgb, var(--cartao) 96%, transparent); }

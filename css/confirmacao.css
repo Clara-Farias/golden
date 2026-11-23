@@ -1,0 +1,44 @@
+/* Confirmação com efeito (js/confirmacao.js): ✓ que se desenha e pulso verde no cartão da ação. */
+
+/* O ✓ desenhado: círculo e traço que se escrevem (pathLength=1 nos dois). */
+.ga-check { width: 1.1em; height: 1.1em; flex: none; vertical-align: -0.18em; overflow: visible; }
+.ga-check circle, .ga-check path { fill: none; stroke: var(--positivo); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; }
+.ga-check circle { animation: ga-check-traco 0.45s var(--ease-sai) both; }
+.ga-check path { stroke-width: 2.8; animation: ga-check-traco 0.35s var(--ease-sai) 0.3s both; }
+@keyframes ga-check-traco { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* No aviso de baixo: o ✓ ao lado do texto, e o aviso dá um pulinho ao chegar. */
+.dz-aviso .dz-texto { display: inline-flex; align-items: center; gap: 8px; }
+[data-tema="escuro"] .dz-aviso .ga-check circle, [data-tema="escuro"] .dz-aviso .ga-check path { stroke: var(--positivo); }
+.dz-aviso.dz-feito { animation: dz-chega 0.45s var(--ease-alerta); }
+@keyframes dz-chega { 0% { transform: translate(-50%, 10px) scale(0.96); } 60% { transform: translate(-50%, -2px) scale(1.01); } 100% { transform: translate(-50%, 0) scale(1); } }
+
+/* No botão clicado: um ✓ grande que surge com mola, se desenha e some subindo. */
+.ga-feito-selo {
+  position: fixed; z-index: 4000; width: 40px; height: 40px; margin: -20px 0 0 -20px; pointer-events: none;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--positivo-fundo); box-shadow: 0 0 0 4px color-mix(in srgb, var(--positivo) 18%, transparent), var(--elev-2);
+  animation: ga-feito-selo 1.05s var(--ease-alerta) both;
+}
+.ga-feito-selo .ga-check { width: 26px; height: 26px; }
+@keyframes ga-feito-selo {
+  0% { opacity: 0; transform: scale(0.4); }
+  25% { opacity: 1; transform: scale(1.08); }
+  40% { transform: scale(1); }
+  75% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-14px); }
+}
+
+/* No cartão: um anel verde que acende e se apaga uma vez. */
+.ga-feito { animation: ga-feito-cartao 1.2s var(--ease-sai); }
+@keyframes ga-feito-cartao {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--positivo) 55%, transparent); background-color: color-mix(in srgb, var(--positivo) 10%, transparent); }
+  100% { box-shadow: 0 0 0 14px color-mix(in srgb, var(--positivo) 0%, transparent); }
+}
+tr.ga-feito > td { animation: ga-feito-linha 1.2s var(--ease-sai); }
+@keyframes ga-feito-linha { from { background-color: color-mix(in srgb, var(--positivo) 14%, transparent); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ga-check circle, .ga-check path, .dz-aviso.dz-feito, .ga-feito, tr.ga-feito > td { animation: none; }
+  .ga-feito-selo { display: none; }
+}

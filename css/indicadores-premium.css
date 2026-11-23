@@ -1,0 +1,207 @@
+/* Indicadores · acabamento premium
+   Vale só dentro da gaveta de Indicadores (.dashboard: abas Painel e Fichas). Os widgets fixados no mapa
+   e as outras telas continuam como estão. Carregado por último, depois de css/cabecalho.css.
+   Ideia: menos borda e mais material. Elevação em camadas tingidas de Titã, números em Sora,
+   situação num filete curto (nunca uma borda grossa), trilhos finos e um único destaque por cartão. */
+
+.dashboard {
+  /* Elevação e superfícies: os tokens de identidade-visual/tokens.css (claro e escuro) */
+  --ip-anel: var(--elev-anel);
+  --ip-sombra-1: var(--elev-1);
+  --ip-sombra-2: var(--elev-2);
+  --ip-sombra-tile: var(--elev-tile);
+  --ip-tile: var(--sup-tile);
+  --ip-trilho: var(--trilho);
+  --ip-raio: var(--raio-cartao);
+  --ip-raio-tile: var(--raio-tile);
+  --ip-num: var(--fonte-titulo);
+
+  background:
+    radial-gradient(1200px 520px at 0% 0%, color-mix(in srgb, var(--acao) 7%, transparent), transparent 70%),
+    radial-gradient(900px 480px at 100% 0%, color-mix(in srgb, var(--primaria) 6%, transparent), transparent 70%),
+    var(--fundo);
+  background-attachment: local;
+}
+
+/* ---------- topo: vidro fosco, título em Sora ---------- */
+.dashboard .dash-topo {
+  background: color-mix(in srgb, var(--fundo) 78%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom: 1px solid var(--ip-anel);
+  padding-top: 12px; padding-bottom: 12px; margin-bottom: 18px;
+}
+.dashboard .dash-topo h2 { font-family: var(--fonte-titulo); font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+.dashboard .dash-abas { background: color-mix(in srgb, var(--texto) 6%, transparent); box-shadow: inset 0 0 0 1px var(--ip-anel); }
+.dashboard .dash-aba { transition: color var(--dur-micro) var(--ease-sai), background-color var(--dur-curta) var(--ease-sai), box-shadow var(--dur-curta) var(--ease-sai); }
+.dashboard .dash-aba.ativo { box-shadow: var(--ip-sombra-1); }
+[data-tema="escuro"] .dashboard .dash-aba.ativo { background: var(--elevado); }
+
+/* ---------- cartão do widget ----------
+   O vão entre cartões fica o de sempre (14 px): o encaixe de js/widgets.js conta com ele (VAO). */
+.dashboard .widget {
+  border-radius: var(--ip-raio);
+  padding: 16px 18px 18px;
+  box-shadow: var(--ip-sombra-1);
+  transition: box-shadow var(--dur-curta) var(--ease-sai);
+}
+.dashboard .widgets:not(.editando) > .widget:hover { box-shadow: var(--ip-sombra-2); }
+.dashboard .widget > header { margin-bottom: 14px; }
+.dashboard .widget h3 { font-family: var(--fonte-titulo); font-size: 15px; font-weight: 600; letter-spacing: -0.01em; gap: 10px; }
+.dashboard .widget h3 .w-ladrilho {
+  width: 30px; height: 30px; border-radius: 9px; font-size: 16px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--cor, var(--navy)) 16%, transparent), color-mix(in srgb, var(--cor, var(--navy)) 6%, transparent));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cor, var(--navy)) 14%, transparent);
+}
+[data-tema="escuro"] .dashboard .widget h3 .w-ladrilho { color: var(--titulo); }
+.dashboard .widget .w-legenda { color: var(--suave); }
+.dashboard .widget > .w-corpo > p.w-legenda:first-child { margin: 0 0 10px; font-size: 12.5px; }
+
+/* ---------- números: Sora, apertados, tabulares ---------- */
+.dashboard .pulso b,
+.dashboard .w-num b,
+.dashboard .ind-valor b,
+.dashboard .ind-ficha-valor b {
+  font-family: var(--ip-num); font-weight: 600; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+
+/* ---------- ladrilhos de número (Pulso e w-num de todos os domínios) ----------
+   Sai a borda grossa no topo; a situação vira um filete curto no canto, e o número leva a cor
+   só quando é crítico (a palavra ou a variação ao lado continuam dizendo o quê). */
+.dashboard .pulsos { gap: 10px; }
+.dashboard .pulso,
+.dashboard .w-num {
+  position: relative;
+  border: 0; border-radius: var(--ip-raio-tile);
+  background: var(--ip-tile);
+  box-shadow: var(--ip-sombra-tile);
+  --ip-sit: var(--borda-forte);
+  transition: box-shadow var(--dur-curta) var(--ease-sai), transform var(--dur-curta) var(--ease-sai);
+}
+.dashboard .pulso { padding: 12px 12px 10px; gap: 3px; }
+.dashboard .w-num { padding: 14px 14px 12px; }
+.dashboard .pulso::before,
+.dashboard .w-num::before {
+  content: ''; position: absolute; left: 12px; top: 0; width: 22px; height: 3px; border-radius: 0 0 3px 3px;
+  background: var(--ip-sit);
+}
+.dashboard .w-num { --ip-sit: var(--primaria); }
+.dashboard .pulso { --ip-sit: var(--positivo); }
+.dashboard .pulso.status-atencao, .dashboard .w-num.alerta { --ip-sit: var(--media); }
+.dashboard .pulso.status-critico, .dashboard .w-num.critica { --ip-sit: var(--critica); }
+.dashboard .w-num.andamento { --ip-sit: var(--andamento); }
+.dashboard .w-num.bom { --ip-sit: var(--positivo); }
+[data-tema="escuro"] .dashboard .w-num { --ip-sit: var(--titulo); }
+[data-tema="escuro"] .dashboard .w-num.alerta, [data-tema="escuro"] .dashboard .pulso.status-atencao { --ip-sit: var(--media); }
+[data-tema="escuro"] .dashboard .w-num.critica, [data-tema="escuro"] .dashboard .pulso.status-critico { --ip-sit: var(--critica); }
+[data-tema="escuro"] .dashboard .w-num.andamento { --ip-sit: var(--andamento); }
+[data-tema="escuro"] .dashboard .w-num.bom { --ip-sit: var(--positivo); }
+
+.dashboard .pulso:hover { transform: translateY(-1px); box-shadow: var(--ip-sombra-2); }
+.dashboard .w-num[data-destaque]:hover, .dashboard .w-num[data-camada]:hover { box-shadow: var(--ip-sombra-2); }
+
+.dashboard .pulso b { font-size: 22px; margin-top: 2px; }
+.dashboard .w-num b { font-size: 26px; margin-bottom: 4px; }
+.dashboard .w-num small { font-size: 12.5px; line-height: 1.4; display: block; }
+.dashboard .pulso-rotulo { font-size: 12px; font-weight: 500; color: var(--suave); display: flex; align-items: center; gap: 4px; }
+
+/* Variação como selo, não como texto solto */
+.dashboard .pulso-var {
+  align-self: flex-start; max-width: 100%; margin-top: 4px;
+  font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums;
+  padding: 1px 7px; border-radius: 999px; background: var(--sup-3);
+}
+.dashboard .pulso-var.melhor { background: var(--positivo-fundo); }
+.dashboard .pulso-var.pior { background: var(--critica-fundo); color: var(--critica-texto); }
+
+/* ---------- barras (satisfação, segurança): trilho fino, ponta arredondada ---------- */
+.dashboard .w-satisf i,
+.dashboard .w-barras i { height: 6px; border-radius: 999px; background: var(--ip-trilho); }
+.dashboard .w-satisf i::after,
+.dashboard .w-barras i::after { border-radius: 999px; }
+.dashboard .w-satisf b, .dashboard .w-barras b { font-weight: 600; color: var(--texto-2); }
+.dashboard .w-satisf .w-satisf-linha { border-radius: 8px; transition: background-color var(--dur-micro) var(--ease-sai); }
+
+/* ---------- cartões internos (frota e afins) ---------- */
+.dashboard .w-frota-cartao { border: 0; border-radius: var(--ip-raio-tile); background: var(--ip-tile); box-shadow: var(--ip-sombra-tile); padding: 12px 14px; }
+
+/* ---------- "Ver detalhes": botão discreto que se acende no hover ---------- */
+.dashboard .w-mais {
+  border: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--ip-anel);
+  color: var(--secundaria-texto); margin-top: 14px; border-radius: 10px;
+  transition: background-color var(--dur-micro) var(--ease-sai), box-shadow var(--dur-micro) var(--ease-sai);
+}
+.dashboard .w-mais:hover { background: color-mix(in srgb, var(--acao) 8%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--acao) 30%, transparent); }
+.dashboard .w-mais .ti { transition: transform var(--dur-curta) var(--ease-sai); }
+.dashboard .w-mais:hover .ti { transform: translate(2px, -2px); }
+
+/* ---------- aba Fichas ---------- */
+.dashboard .ind-barra {
+  background: color-mix(in srgb, var(--fundo) 78%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border-bottom-color: var(--ip-anel);
+}
+.dashboard .ind-p { border: 0; box-shadow: var(--ip-sombra-tile); }
+.dashboard .ind-p b { font-family: var(--ip-num); font-weight: 600; letter-spacing: -0.02em; }
+.dashboard .ind-p:hover { box-shadow: var(--ip-sombra-1); }
+.dashboard .ind-p.ativo { box-shadow: inset 0 0 0 1.5px currentColor; }
+.dashboard .ind-vistas { background: color-mix(in srgb, var(--texto) 6%, transparent); box-shadow: inset 0 0 0 1px var(--ip-anel); }
+.dashboard .ind-vistas button.ativo { box-shadow: var(--ip-sombra-1); }
+.dashboard .ind-filtros .chip-vista { border-color: transparent; box-shadow: var(--ip-sombra-tile); }
+.dashboard .ind-filtros .chip-vista.ativo { box-shadow: none; }
+
+.dashboard .ind-cartoes { gap: 14px; }
+.dashboard .ind-grupo { font-weight: 600; letter-spacing: 0.07em; font-size: 11.5px; }
+
+/* Cartão da ficha: sem a borda lateral grossa nem o fundo rosado; a situação vira um filete
+   interno à esquerda e o selo "Fora da meta" continua dizendo a palavra. */
+.dashboard .ind-cartao {
+  border: 0; border-radius: var(--ip-raio); padding: 14px 16px 14px 18px; gap: 6px;
+  background: var(--cartao); box-shadow: var(--ip-sombra-1);
+  transition: transform var(--dur-curta) var(--ease-sai), box-shadow var(--dur-curta) var(--ease-sai);
+}
+.dashboard .ind-cartao::before {
+  content: ''; position: absolute; left: 0; top: 16px; bottom: 16px; width: 3px; border-radius: 0 3px 3px 0; background: var(--c);
+}
+.dashboard .ind-cartao.sit-critico { background: var(--cartao); }
+.dashboard .ind-cartao:hover { transform: translateY(-2px); box-shadow: var(--ip-sombra-2); }
+.dashboard .ind-cartao:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+.dashboard .ind-cartao.ativo {
+  background: var(--cartao);
+  box-shadow: 0 0 0 2px var(--acao), 0 16px 32px -12px color-mix(in srgb, var(--acao) 35%, transparent);
+}
+.dashboard .ind-cartao.ativo::after { background: var(--cartao); border-color: var(--acao); }
+.dashboard .ind-area-ic { border-radius: 8px; background: color-mix(in srgb, var(--primaria) 8%, transparent); }
+[data-tema="escuro"] .dashboard .ind-area-ic { background: var(--sup-3); color: var(--titulo); }
+.dashboard .ind-nome { font-size: 13.5px; letter-spacing: -0.005em; }
+.dashboard .ind-valor b { font-size: 30px; }
+.dashboard .ind-spark polyline { stroke-width: 1.6; }
+.dashboard .ind-ate-meta .trilho { height: 5px; border-radius: 999px; background: var(--ip-trilho); }
+.dashboard .ind-ate-meta .trilho i { border-radius: 999px; }
+.dashboard .ind-ate-meta .trilho em { width: 2px; border-radius: 2px; box-shadow: 0 0 0 1.5px var(--cartao); }
+
+.dashboard .ind-linha-item { border: 0; box-shadow: var(--ip-sombra-tile); border-radius: 12px; }
+.dashboard .ind-linha-item.ativo { box-shadow: 0 0 0 2px var(--acao); }
+.dashboard .ind-calor { border-radius: var(--ip-raio); box-shadow: var(--ip-sombra-1); }
+.dashboard .ind-quadro.ativo { box-shadow: 0 0 0 3px var(--cartao), 0 0 0 5px var(--acao); }
+
+.dashboard .ind-ficha { border-radius: var(--ip-raio); box-shadow: var(--ip-sombra-2); }
+.dashboard .ind-ficha-cab h3 { font-family: var(--fonte-titulo); font-size: 18px; font-weight: 600; letter-spacing: -0.015em; }
+.dashboard .ind-ficha-valor b { font-size: 40px; }
+.dashboard .ind-ref { border: 0; box-shadow: var(--ip-sombra-tile); background: var(--ip-tile); border-radius: var(--ip-raio-tile); }
+.dashboard .ind-ref-barra { height: 5px; border-radius: 999px; background: var(--ip-trilho); }
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard .pulso:hover, .dashboard .ind-cartao:hover { transform: none; }
+}
+
+/* Celular: um pouco menos de respiro */
+@media (max-width: 720px) {
+  /* backdrop-filter prende os filhos com position: fixed; no celular o "Voltar ao mapa" é uma
+     pílula fixa no rodapé (v3.css), então aqui o topo fica opaco. */
+  .dashboard .dash-topo { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--fundo); padding-top: 8px; padding-bottom: 8px; margin-bottom: 14px; }
+  .dashboard .widget { padding: 14px 14px 16px; }
+  .dashboard .w-num b { font-size: 22px; }
+  .dashboard .ind-valor b { font-size: 26px; }
+}

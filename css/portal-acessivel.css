@@ -1,0 +1,66 @@
+/* Barra de acessibilidade do Portal do Cidadão (js/portal-acessivel.js), no padrão do gov.br. */
+.pa-barra { background: var(--navy-escuro, #0a3a47); color: #fff; font-size: 14px; }
+.pa-in { max-width: 1120px; margin: 0 auto; padding: 6px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.pa-rot { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; margin-right: auto; }
+.pa-rot i { font-size: 18px; }
+.pa-grupo { display: inline-flex; align-items: center; gap: 4px; }
+.pa-sub { opacity: .8; margin-right: 2px; }
+.pa-barra button { font: inherit; font-weight: 600; color: #fff; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px; min-height: 34px; padding: 4px 12px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.pa-barra button:hover { background: rgba(255, 255, 255, .18); }
+.pa-barra button[aria-pressed="true"] { background: #fff; color: var(--navy-escuro, #0a3a47); border-color: #fff; }
+.pa-barra button:focus-visible { outline: 3px solid #ffd400; outline-offset: 2px; }
+.pa-barra .pa-a1 { font-size: 16px; }
+.pa-barra .pa-a2 { font-size: 18px; }
+/* Celular: uma linha só (os botões de contraste e de ouvir ficam só com o ícone; o nome vai no aria-label). */
+@media (max-width: 560px) {
+  .pa-in { gap: 6px; padding: 6px 12px; flex-wrap: nowrap; }
+  .pa-rot span, .pa-sub, .pa-barra button[data-pa] span { display: none; }
+  .pa-rot i { font-size: 22px; }
+  .pa-barra button { min-height: 38px; min-width: 40px; padding: 4px 9px; justify-content: center; }
+  .pa-barra button[data-pa] i { font-size: 19px; }
+}
+/* Cabeçalho do portal no celular estreito: o nome da cidade não fica mais por baixo do botão do bairro
+   (já acontecia no staging). */
+@media (max-width: 420px) {
+  .p-topo-acoes { min-width: 0; flex-shrink: 1; }
+  #p-meu-bairro { max-width: 150px; min-width: 0; }
+  .p-marca b { font-size: 16px; }
+}
+
+/* Texto maior: zoom nas partes de texto. O mapa fica do mesmo tamanho (o zoom atrapalharia o arrastar). */
+.pa-texto-maior .p-topo-in,
+.pa-texto-maior .p-capa-texto,
+.pa-texto-maior .p-pagina,
+.pa-texto-maior .p-atendimento-in,
+.pa-texto-maior .p-rodape,
+.pa-texto-maior .p-folha-caixa,
+.pa-texto-maior .p-maia,
+.pa-texto-maior .p-dlg { zoom: var(--pa-zoom, 1); }
+
+/* Alto contraste: preto, branco e amarelo, como no gov.br. */
+html.pa-contraste {
+  --fundo: #000; --cartao: #000; --sup-2: #000; --sup-3: #0d0d0d;
+  --navy: #000; --navy-escuro: #000; --topo: #000; --titulo: #fff; --pino: #000;
+  --primaria: #ffd400; --primaria-hover: #ffe45c; --sobre-primaria: #000;
+  --ouro: #ffd400; --ouro-claro: #ffd400; --ouro-fundo: #000; --ouro-texto: #ffd400; --link: #ffd400;
+  --texto: #fff; --suave: #fff; --borda: #fff;
+  --urgente: #ff8080; --urgente-fundo: #000; --urgente-borda: #ff8080; --urgente-texto: #ff8080;
+  --atencao: #ffd400; --atencao-fundo: #000; --atencao-texto: #ffd400;
+  --info: #8fbaff; --info-fundo: #000; --ok: #6bff9a; --ok-fundo: #000; --positivo: #6bff9a; --foco: #ffd400; --acao: #ffd400;
+  --c-saude: #fff; --c-saude-fundo: #000; --c-escolas: #fff; --c-escolas-fundo: #000; --c-obras: #fff; --c-obras-fundo: #000;
+  --sombra: none; --sombra-alta: none;
+}
+html.pa-contraste body { background: #000; color: #fff; }
+html.pa-contraste .pa-barra { background: #000; border-bottom: 1px solid #fff; }
+html.pa-contraste a { color: #ffd400; text-decoration: underline; }
+html.pa-contraste .p-capa .ga-relevo, html.pa-contraste .p-postal .ga-relevo { display: none; }
+html.pa-contraste .p-btn, html.pa-contraste .p-chip-pedir { background: #ffd400; color: #000; border-color: #ffd400; text-decoration: none; }
+html.pa-contraste .p-chip-pedir i { color: #000; }
+html.pa-contraste .p-busca { border: 2px solid #fff; background: #000; }
+html.pa-contraste .p-busca input { color: #fff; background: #000; }
+html.pa-contraste .p-marca { text-decoration: none; }
+html.pa-contraste .p-btn-sec, html.pa-contraste .p-btn-claro { background: #000; color: #ffd400; border: 2px solid #ffd400; }
+html.pa-contraste .ps-zap { background: #000; color: #6bff9a; border: 2px solid #6bff9a; }
+html.pa-contraste :focus-visible { outline: 3px solid #ffd400 !important; outline-offset: 2px; }
+html.pa-contraste img { filter: grayscale(1) contrast(1.4); }

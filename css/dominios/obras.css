@@ -1,0 +1,53 @@
+/* Domínio: obras (pino, popup e widget). Veio de css/v3.css; carrega logo depois dele no index.html. */
+/* ---- Obras (Fase 4 do workshop de 04/11): pino, popup e widget ---- */
+.marcador-obra {
+  width: 26px; height: 26px; border-radius: 7px; display: grid; place-items: center; font-size: 14px; cursor: pointer;
+  background: var(--cartao); border: 2px solid var(--navy); box-shadow: 0 2px 6px rgba(11, 29, 34, 0.25); color: var(--navy);
+}
+.marcador-obra.atrasada { border-color: var(--critica); color: var(--critica); }
+.marcador-obra.paralisada { border-color: #7f1d1d; background: var(--critica-fundo); color: var(--critica-texto); }
+.marcador-obra.concluida { border-color: var(--positivo); color: var(--positivo); opacity: 0.85; }
+.popup .sev.obra-paralisada { background: #7f1d1d; }
+.popup .sev.obra-atrasada { background: var(--critica); }
+.popup .sev.obra-em_dia { background: var(--primaria); }
+.popup .sev.obra-concluida { background: var(--positivo); }
+.popup-obra .obra-atraso { color: var(--critica); }
+.popup-obra .obra-alerta { color: var(--critica); font-weight: 600; }
+.obra-barras { list-style: none; margin: 6px 0; padding: 0; display: grid; gap: 4px; }
+.obra-barras li { display: grid; grid-template-columns: 70px 1fr 38px; align-items: center; gap: 8px; font-size: 12px; }
+.obra-barras i, .duas-barras i { display: block; height: 7px; border-radius: 4px; background: var(--borda); position: relative; overflow: hidden; }
+.obra-barras i::after, .duas-barras i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--v); background: var(--primaria); }
+.obra-barras i.pago::after, .duas-barras i.pago::after { background: #eab308; }
+.obra-barras b { text-align: right; font-variant-numeric: tabular-nums; }
+.w-obras { display: flex; flex-direction: column; gap: 12px; }
+.w-obras .w-num b { font-size: 20px; }
+.w-obras-setores { display: flex; flex-wrap: wrap; gap: 6px; }
+.w-obras-setores .chip {
+  border: 1px solid var(--borda); background: var(--cartao); border-radius: 999px; padding: 4px 10px; font: inherit; font-size: 13px; cursor: pointer; color: var(--texto);
+}
+.w-obras-setores .chip:hover { background: var(--sup-2); }
+.w-obras-setores .chip.ativo { background: var(--primaria); border-color: var(--navy); color: #fff; }
+.w-obras-setores .chip small { opacity: 0.75; }
+.w-obras-setores .chip em { font-style: normal; color: var(--critica); }
+.w-obras-setores .chip.ativo em { color: #fecaca; }
+.w-obras-alertas { list-style: none; margin: 0; padding: 8px 12px; display: grid; gap: 4px; background: var(--critica-fundo); border: 1px solid var(--critica-borda); border-radius: 10px; font-size: 13px; }
+.w-obras-alertas li { cursor: pointer; }
+.w-obras-alertas li:hover b { text-decoration: underline; }
+.w-obras-legenda { display: flex; gap: 14px; font-size: 12px; color: var(--suave); }
+.w-obras-legenda i { display: inline-block; width: 14px; height: 7px; border-radius: 4px; background: var(--primaria); margin-right: 4px; vertical-align: middle; }
+.w-obras-legenda i.pago { background: #eab308; }
+.w-obras-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-obras-lista button {
+  display: grid; grid-template-columns: 76px 1fr 110px 38px; align-items: center; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 5px 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-obras-lista button:hover { background: var(--sup-2); }
+.w-obras-lista .sit { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff; border-radius: 10px; padding: 1px 0; text-align: center; }
+.w-obras-lista .sit.paralisada { background: #7f1d1d; }
+.w-obras-lista .sit.atrasada { background: var(--critica); }
+.w-obras-lista .sit.em_dia { background: var(--primaria); }
+.w-obras-lista .sit.concluida { background: var(--positivo); }
+.w-obras-lista .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-obras-lista .nome em { font-style: normal; color: var(--critica); }
+.duas-barras { display: grid; gap: 3px; }
+.w-obras-lista b { text-align: right; font-variant-numeric: tabular-nums; }

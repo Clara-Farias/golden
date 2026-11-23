@@ -1,0 +1,238 @@
+/* Telão · cenas entre os alertas (js/telao/cena-*.js) e o cartão rápido de resolvida.
+   O cartão-base, a faixa e os botões ficam em css/mapa-modos.css. No telão nada conta do zero
+   (identidade-visual/movimento.md): os números entram prontos, com o cartão. */
+
+.telao-cartao.cidade.cena { width: clamp(540px, 46vw, 960px); max-width: calc(100vw - 64px); }
+
+/* ---- Números grandes ---- */
+/* Curvas de nível no canto de cima do cartão de abertura (fundo Titã), atrás do título, nunca dos números. */
+.tn-relevo { position: absolute; top: 0; right: 0; width: 55%; height: 96px; z-index: 0; pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse at top right, #000 25%, transparent 72%); mask-image: radial-gradient(ellipse at top right, #000 25%, transparent 72%); }
+.telao-cartao.cena-numeros > .tc-topo, .telao-cartao.cena-numeros > .tc-titulo, .telao-cartao.cena-numeros > .tn-grade { position: relative; z-index: 1; }
+.tn-grade { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.tn-grade.tres { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tn-num {
+  display: flex; flex-direction: column; gap: 4px; min-width: 0;
+  padding: 14px 16px; border-radius: 14px; background: rgba(255, 255, 255, 0.06);
+}
+.tn-num b {
+  font-family: var(--fonte-titulo); font-size: clamp(34px, 3.3vw, 72px); font-weight: 800; line-height: 1;
+  font-variant-numeric: tabular-nums; color: #f7fafa; white-space: nowrap;
+}
+.tn-num span { font-size: var(--tv-apoio); font-weight: 600; color: var(--tv-apoio-cor); line-height: 1.25; }
+.tn-num.critica b { color: #fca5a5; }
+.tn-num.atrasada b { color: #fdba74; }
+.tn-num.campo b { color: #86efac; }
+.tn-num.zero b { color: #f7fafa; opacity: 0.55; }
+.tn-var { margin-top: 2px; font-size: var(--tv-rotulo); font-weight: 700; color: var(--tv-suave); }
+.tn-var.pior { color: #fca5a5; }
+.tn-var.melhor { color: #86efac; }
+
+/* ---- Secretarias por prazo ---- */
+.ts-lista { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 9px; }
+.ts-lista li {
+  display: grid; grid-template-columns: minmax(110px, 32%) 1fr 4.2em; align-items: center; gap: 16px;
+  font-size: var(--tv-apoio);
+}
+.ts-lista li.corte { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(255, 255, 255, 0.16); }
+.ts-nome { color: #e2eaeb; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ts-barra { position: relative; height: 14px; border-radius: 99px; background: rgba(255, 255, 255, 0.1); }
+.ts-barra i { position: absolute; inset: 0 auto 0 0; width: var(--v); border-radius: inherit; background: #4ade80; }
+.ts-barra::after { content: ''; position: absolute; top: -4px; bottom: -4px; left: var(--meta); width: 2px; border-radius: 1px; background: #f7fafa; opacity: 0.75; }
+.ts-lista b { text-align: right; font-weight: 800; font-variant-numeric: tabular-nums; color: #bbf7d0; }
+.ts-lista li.abaixo .ts-barra i { background: #fbbf24; }
+.ts-lista li.abaixo b { color: #fde68a; }
+.ts-legenda { display: flex; align-items: center; gap: 8px; margin: 12px 0 0; font-size: var(--tv-rotulo); color: var(--tv-suave); }
+.ts-legenda i { width: 2px; height: 14px; border-radius: 1px; background: #f7fafa; opacity: 0.75; }
+
+/* ---- Resolvidas ---- */
+.telao-cartao.resolvida, .telao-cartao.cena-resolvidas { --cor: #22c55e; border-left-color: #22c55e; }
+.telao-cartao.resolvida .tc-sev, .telao-cartao.cena-resolvidas .tc-sev { color: #052e16; }
+.telao-cartao.resolvida .tc-sev .ti { vertical-align: -2px; }
+.tc-no-prazo {
+  display: inline-block; margin-top: 12px; padding: 6px 12px; border-radius: 10px;
+  font-size: var(--tv-apoio); font-weight: 700;
+}
+.tc-no-prazo.sim { background: rgba(34, 197, 94, 0.16); color: #bbf7d0; }
+.tc-no-prazo.nao { background: rgba(251, 191, 36, 0.14); color: #fde68a; }
+.tr-lista { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 10px; }
+.tr-lista li { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; font-size: var(--tv-corpo); font-weight: 600; }
+.tr-lista li > span { min-width: 0; }
+.tr-lista .ti { font-size: 1.35em; color: #4ade80; }
+.tr-lista small { display: block; margin-top: 2px; font-size: var(--tv-rotulo); font-weight: 500; color: var(--tv-suave); }
+.tr-lista time { font-size: var(--tv-rotulo); color: var(--tv-suave); white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .tn-grade, .tn-grade.tres { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ts-lista li { grid-template-columns: minmax(90px, 34%) 1fr 48px; gap: 10px; }
+}
+
+/* ---- Últimas 24 horas ---- */
+.t24-barras { display: grid; grid-template-columns: repeat(24, 1fr); gap: 4px; align-items: end; height: clamp(110px, 14vh, 180px); margin-top: 16px; }
+.t24-barras span {
+  position: relative; height: max(4px, var(--h)); border-radius: 4px 4px 0 0; overflow: hidden;
+  background: rgba(255, 255, 255, 0.28);
+}
+.t24-barras span i { position: absolute; inset: auto 0 0 0; height: var(--c); background: #f87171; }
+.t24-barras span.pico { background: rgba(255, 255, 255, 0.6); box-shadow: 0 0 0 2px #fde68a; }
+.t24-barras span.agora { background: var(--ouro); }
+.t24-eixo { display: flex; justify-content: space-between; margin: 6px 0 0; font-size: var(--tv-rotulo); color: var(--tv-suave); font-variant-numeric: tabular-nums; }
+.t24-tendencia { margin: 12px 0 0; font-size: var(--tv-corpo); font-weight: 700; color: var(--tv-apoio-cor); }
+.t24-tendencia.pior { color: #fca5a5; }
+.t24-tendencia.melhor { color: #86efac; }
+.ts-legenda i.t24-crit { width: 12px; height: 10px; border-radius: 2px; background: #f87171; opacity: 1; }
+
+/* ---- Rodapé com as últimas ocorrências ---- */
+.telao-rodape {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 64px; display: flex; align-items: center; pointer-events: none;
+  background: rgba(11, 29, 34, 0.9); color: #f7fafa; border-top: 1px solid rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.telao-rodape[hidden] { display: none; }
+.trf-vivo {
+  flex: none; display: inline-flex; align-items: center; gap: 8px; height: 100%; padding: 0 18px 0 24px;
+  font-size: var(--tv-rotulo); font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #fca5a5;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+.trf-vivo .ponto { width: 10px; height: 10px; border-radius: 50%; background: var(--critica); animation: piscar 1.6s ease-in-out infinite; }
+.trf-trilho {
+  flex: 1; min-width: 0; height: 100%; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 40px, #000 calc(100% - 40px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 40px, #000 calc(100% - 40px), transparent);
+}
+.trf-fita { display: flex; width: max-content; height: 100%; animation: trf-corre var(--dur, 60s) linear infinite; }
+.trf-grupo { display: flex; align-items: center; }
+.trf-item { display: inline-flex; align-items: center; gap: 8px; padding: 0 32px; white-space: nowrap; font-size: var(--tv-apoio); border-right: 1px solid rgba(255, 255, 255, 0.08); }
+.trf-item time { font-size: var(--tv-rotulo); color: var(--tv-suave); font-variant-numeric: tabular-nums; }
+.trf-item b { font-weight: 650; }
+.trf-item small { font-size: var(--tv-rotulo); color: var(--tv-suave); }
+.trf-sev { width: 12px; height: 12px; border-radius: 50%; background: #8fa0a4; }
+.trf-item.sev-critica .trf-sev { background: var(--critica); }
+.trf-item.sev-alta .trf-sev { background: var(--alta); }
+.trf-item.sev-media .trf-sev { background: var(--media); }
+.trf-item.resolvida .ti { color: #4ade80; }
+.trf-item.resolvida b { color: #c6d3d5; }
+@keyframes trf-corre { to { transform: translateX(-50%); } }
+
+/* Com o rodapé, cartão e botões sobem para não ficar por cima dele. */
+.telao.com-rodape .telao-cartao { bottom: 88px; max-height: calc(100vh - 200px); }
+.telao.com-rodape .telao-botoes { bottom: 84px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .trf-fita { animation: none; }
+  .trf-grupo[aria-hidden] { display: none; }
+}
+
+/* ---- Gabinete de crise ---- */
+.telao-cartao.cena-crise { --cor: var(--critica); border-left-color: var(--critica); }
+.telao-cartao.cena-crise .tc-sev { color: #fff; }
+.tcr-progresso { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; margin-top: 14px; font-size: var(--tv-apoio); }
+.tcr-barra { position: relative; flex: 1 1 100%; height: 10px; border-radius: 99px; background: rgba(255, 255, 255, 0.12); overflow: hidden; }
+.tcr-barra i { position: absolute; inset: 0 auto 0 0; width: var(--v); border-radius: inherit; background: #4ade80; }
+.tcr-progresso b { font-weight: 750; }
+.tcr-progresso em { font-style: normal; font-weight: 750; color: #fca5a5; }
+.tcr-lista { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+.tcr-lista li {
+  display: grid; grid-template-columns: minmax(96px, 22%) 1fr auto; align-items: baseline; gap: 12px;
+  padding: 8px 12px; border-radius: 10px; background: rgba(255, 255, 255, 0.05); font-size: var(--tv-apoio);
+}
+.tcr-lista li.atrasada { background: rgba(220, 38, 38, 0.18); }
+.tcr-lista li.feita { opacity: 0.6; }
+.tcr-quem { font-weight: 700; color: #e2eaeb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tcr-texto { min-width: 0; color: #c6d3d5; line-height: 1.3; }
+.tcr-sit { font-size: var(--tv-rotulo); font-weight: 700; color: var(--tv-suave); white-space: nowrap; }
+.tcr-sit.atrasada { color: #fca5a5; }
+.tcr-sit.feita { color: #86efac; }
+
+/* Selo no canto enquanto houver gabinete ativo. */
+.telao-crise {
+  display: inline-flex; align-items: center; gap: 6px; max-width: 480px; padding: 5px 14px; border-radius: 999px;
+  background: var(--critica); color: #fff; font-size: var(--tv-rotulo); font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.telao-crise[hidden] { display: none; }
+
+/* ---- Ajustes antes de entrar ---- */
+.telao-ajustes { width: min(560px, calc(100vw - 32px)); padding: 0; }
+.ta-form { display: flex; flex-direction: column; min-height: 0; max-height: inherit; }
+.ta-grupo { border: 0; margin: 0 0 18px; padding: 0; }
+.ta-grupo:last-child { margin-bottom: 0; }
+.ta-grupo legend { padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--suave); }
+.ta-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.ta-chip input { position: absolute; opacity: 0; pointer-events: none; }
+.ta-chip span {
+  display: inline-block; min-width: 56px; padding: 8px 14px; border-radius: 10px; text-align: center; cursor: pointer;
+  border: 1px solid var(--borda-forte); font-weight: 700; font-variant-numeric: tabular-nums; color: var(--texto);
+}
+.ta-chip input:checked + span { background: var(--navy); border-color: var(--navy); color: #fff; }
+.ta-chip input:focus-visible + span { outline: 2px solid var(--acao); outline-offset: 2px; }
+.ta-dica { margin: 8px 0 0; font-size: 13px; color: var(--suave); }
+.ta-cenas { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.ta-cena { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--borda); cursor: pointer; }
+.ta-cena:hover { background: var(--sup-2); }
+.ta-cena.fixa { cursor: default; }
+.ta-cena input { margin-top: 3px; accent-color: var(--navy); }
+.ta-cena b { font-weight: 700; color: var(--texto); }
+.ta-cena small { display: block; margin-top: 2px; font-size: 13px; color: var(--suave); line-height: 1.35; }
+.ta-cena small.ta-sempre { display: inline-block; margin: 0 0 0 6px; padding: 1px 7px; border-radius: 99px; background: var(--sup-2); font-size: 11px; font-weight: 700; }
+.ta-rodape .btn-primario, .ta-rodape .btn-sec { width: auto; flex: none; }
+.ta-rodape { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-top: 1px solid var(--borda); background: var(--cartao); }
+.ta-salvo { margin-right: auto; font-size: 12px; color: var(--suave); }
+@media (max-width: 520px) { .ta-salvo { display: none; } .tcr-lista li { grid-template-columns: 1fr; gap: 2px; } }
+
+/* ---- Bairros mais carregados (o mapa pinta com as mesmas cores do calor: GRADIENTE_CALOR) ---- */
+.tb-lista { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+.tb-lista li { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; font-size: var(--tv-corpo); }
+.tb-nome { font-weight: 700; color: #f7fafa; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tb-conta { font-size: var(--tv-apoio); color: var(--tv-apoio-cor); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tb-conta b { color: #fca5a5; font-weight: 700; }
+.tb-nivel, .tb-legenda i { width: 16px; height: 16px; border-radius: 4px; }
+.tb-legenda i { width: 22px; height: 10px; border-radius: 2px; opacity: 1; }
+.tb-legenda { gap: 4px; }
+.tb-legenda span:last-child { margin-left: 4px; }
+.tb-legenda span:first-child { margin-right: 4px; }
+.telao .nivel-1 { background: #fcd34d; }
+.telao .nivel-2 { background: #f59e0b; }
+.telao .nivel-3 { background: #c2410c; }
+.telao .nivel-4 { background: #b91c1c; }
+
+/* ---- Ponto em foco (alerta e crise) ----
+   Anel em volta do ponto (marcador à parte, js/map.js marcarAlvo) e os outros pinos esmaecidos enquanto
+   o cartão está na tela: no meio de muitos pinos, fica claro qual é o do cartão.
+   O anel tem a forma do pino (css/marca.css): losango na crítica, triângulo na alta, círculo na média.
+   As medidas contam com o pino aceso, que cresce 30% (.marcador.acesa). */
+body.telao-focando .maplibregl-marker { transition: opacity 0.6s ease; }
+/* !important: o MapLibre escreve opacity inline em cada marcador. */
+body.telao-focando .maplibregl-marker:not(.telao-alvo):not(:has(.acesa)) { opacity: 0.28 !important; }
+/* No telão quem marca o pino é o anel: sai a sombra roxa redonda do pino aceso, que não tem a forma dele. */
+body.telao-ativo .marcador.acesa { box-shadow: none; }
+
+/* O contorno branco e o brilho vêm do filtro no elemento de fora: assim seguem qualquer forma. */
+.telao-alvo {
+  --cor-alvo: #8fa0a4; --giro: 0deg; width: 0; height: 0; pointer-events: none;
+  filter: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 10px var(--cor-alvo));
+}
+/* Anel fixo (::before) e duas ondas (i) que saem dele, todos com a mesma forma. Média: círculo. */
+.telao-alvo::before, .telao-alvo i {
+  content: ''; position: absolute; left: -28px; top: -28px; width: 56px; height: 56px; box-sizing: border-box;
+  border: 3px solid var(--cor-alvo); border-radius: 50%; transform: rotate(var(--giro));
+}
+.telao-alvo[data-sev="media"] { --cor-alvo: var(--media); }
+/* Crítica: losango (quadrado de cantos arredondados girado 45°, como o pino). */
+.telao-alvo[data-sev="critica"] { --cor-alvo: var(--critica); --giro: 45deg; }
+.telao-alvo[data-sev="critica"]::before, .telao-alvo[data-sev="critica"] i { left: -26px; top: -26px; width: 52px; height: 52px; border-radius: 8px; }
+/* Alta: triângulo. Sem borda em CSS: a cor preenche e a máscara recorta só o contorno (o mesmo traçado
+   do pino, em escala). O centro do giro e das ondas é o centro do triângulo, um pouco abaixo do meio. */
+.telao-alvo[data-sev="alta"] { --cor-alvo: var(--alta); }
+.telao-alvo[data-sev="alta"]::before, .telao-alvo[data-sev="alta"] i {
+  left: -38px; top: -40px; width: 76px; height: 72px; border: 0; border-radius: 0; background: var(--cor-alvo);
+  transform-origin: 50% 64%;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 34'%3E%3Cpath d='M18 2.5 34 31.5H2Z' fill='none' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 34'%3E%3Cpath d='M18 2.5 34 31.5H2Z' fill='none' stroke='%23000' stroke-width='1.5' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.telao-alvo i { opacity: 0; animation: telao-alvo-onda 2.4s ease-out infinite; }
+.telao-alvo i + i { animation-delay: 1.2s; }
+@keyframes telao-alvo-onda {
+  from { transform: rotate(var(--giro)) scale(1); opacity: 0.9; }
+  to { transform: rotate(var(--giro)) scale(2.1); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .telao-alvo i { animation: none; } }

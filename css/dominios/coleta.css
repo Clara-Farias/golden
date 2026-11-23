@@ -1,0 +1,26 @@
+/* Domínio: coleta (pino, popup e widget). Veio de css/v3.css; carrega logo depois dele no index.html. */
+/* ---- Coleta de lixo (pedido do workshop de 04/11): caminhão, popup e widget ---- */
+.marcador-caminhao {
+  width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 16px; cursor: pointer;
+  background: var(--cartao); border: 2px solid var(--media); color: var(--media-texto); box-shadow: 0 2px 6px rgba(11, 29, 34, 0.3);
+}
+.marcador-caminhao.atrasada { border-color: var(--critica); color: var(--critica); background: var(--critica-fundo); }
+.popup .sev.coleta-atrasada { background: var(--critica); }
+.popup .sev.coleta-em_andamento { background: var(--media); }
+.popup .sev.coleta-agendada, .popup .sev.coleta-concluida { background: var(--positivo); }
+.popup .sev.coleta-sem_coleta_hoje { background: var(--suave); }
+.w-coleta { display: flex; flex-direction: column; gap: 12px; }
+.w-coleta .w-num b { font-size: 20px; }
+.w-coleta h4 { margin: 0 0 8px; font-size: 13px; }
+.w-coleta h4 small { font-weight: 400; color: var(--suave); margin-left: 6px; }
+.w-coleta-rotas button { grid-template-columns: 76px 1fr; }
+.w-edu-lista .sit.neutro { background: var(--borda-forte); color: var(--texto-2); }
+.w-coleta-cal { width: 100%; border-collapse: collapse; font-size: 13px; }
+.w-coleta-cal th, .w-coleta-cal td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+.w-coleta-cal thead th { font-size: 12px; color: var(--suave); font-weight: 600; }
+.w-coleta-cal td small { display: block; color: var(--suave); font-size: 12px; }
+.w-coleta-cal tbody th button { border: 0; background: none; padding: 0; font: inherit; font-weight: 600; color: var(--navy); cursor: pointer; text-align: left; }
+.w-coleta-cal tbody th button:hover { text-decoration: underline; }
+.w-coleta-cal .prox { font-weight: 600; white-space: nowrap; }
+.w-coleta-cal tr.atrasada { background: var(--critica-fundo); }
+.w-coleta-cal tr.atrasada .prox { color: var(--critica); }

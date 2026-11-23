@@ -1,0 +1,66 @@
+/* Calendário sazonal (js/widgets/sazonal.js, dados em js/data-sazonal.js). Carrega logo depois de css/v3.css. */
+.w-saz { display: flex; flex-direction: column; gap: 14px; }
+.w-saz .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.w-saz-mes { margin: 0; font-size: 13px; color: var(--suave); }
+.w-saz-mes b { color: var(--texto); font-size: 14px; }
+
+.w-saz-alerta {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--critica-fundo); border: 1px solid var(--critica-borda); border-left: 4px solid var(--critica); border-radius: 10px; padding: 10px 12px;
+}
+.w-saz-alerta b { display: block; color: var(--critica-texto); font-size: 14px; }
+.w-saz-alerta small { font-size: 13px; color: var(--texto); }
+
+/* Faixa: uma linha por temporada, 12 colunas a partir do mês de hoje */
+.w-saz-faixa { --rotulo: minmax(120px, 34%); overflow-x: auto; }
+.w-saz-faixa ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.w-saz-faixa li, .w-saz-cab { display: grid; grid-template-columns: var(--rotulo) 1fr; align-items: center; gap: 8px; min-width: 320px; }
+.w-saz-faixa .nome { font-size: 12px; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.w-saz-faixa .cel { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
+.w-saz-cab .cel span { font-size: 11px; color: var(--suave); text-align: center; }
+.w-saz-cab .cel span.hoje { color: var(--texto); font-weight: 700; }
+.w-saz-faixa .cel i { display: block; height: 14px; border-radius: 3px; background: var(--sup-2); }
+.w-saz-faixa .cel i.em { background: var(--primaria); opacity: calc(0.35 + var(--i, 1) * 0.65); }
+.w-saz-faixa .cel i.pico { box-shadow: inset 0 0 0 2px var(--texto); opacity: 1; }
+.w-saz-faixa .cel i.prep { background: repeating-linear-gradient(135deg, var(--acao) 0 3px, transparent 3px 6px); opacity: 0.7; }
+.w-saz-faixa .cel i.hoje { outline: 1px solid var(--borda-forte); outline-offset: 1px; }
+.w-saz-legenda { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin: 6px 0 0; font-size: 11px; color: var(--suave); }
+.w-saz-legenda i { display: inline-block; width: 14px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: middle; }
+.w-saz-legenda i.em { background: var(--primaria); opacity: 0.75; }
+.w-saz-legenda i.pico { opacity: 1; box-shadow: inset 0 0 0 2px var(--texto); }
+.w-saz-legenda i.prep { background: repeating-linear-gradient(135deg, var(--acao) 0 3px, transparent 3px 6px); }
+
+/* Em curso / Preparar agora */
+.w-saz-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.w-saz-colunas h4 { margin: 0 0 8px; font-size: 13px; }
+.w-saz-colunas section { display: flex; flex-direction: column; gap: 8px; }
+.w-saz-item { border: 1px solid var(--borda); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.w-saz-item header b { display: block; font-size: 14px; }
+.w-saz-item header small { display: block; font-size: 12px; color: var(--suave); }
+.w-saz-tag { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; color: var(--suave); }
+.w-saz-item.pico .w-saz-tag, .w-saz-item.temporada .w-saz-tag { color: var(--primaria); }
+.w-saz-item.preparo .w-saz-tag { color: var(--acao); }
+.w-saz-acoes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 13px; width: 100%; }
+.w-saz-acoes li { display: flex; align-items: baseline; gap: 8px; }
+.w-saz-acoes li::before { content: '•'; color: var(--suave); margin-right: -2px; }
+.w-saz-meta { margin-left: auto; font-size: 12px; color: var(--suave); white-space: nowrap; }
+.w-saz-meta b { color: var(--texto); font-variant-numeric: tabular-nums; }
+.w-saz-meta.atrasada, .w-saz-meta.atrasada b { color: var(--critica-texto); }
+.w-saz-meta.ok, .w-saz-meta.ok b { color: var(--positivo); }
+.w-saz-depois { margin: 0; font-size: 13px; color: var(--suave); }
+.w-saz-depois b { color: var(--texto); }
+.w-saz-vazio { margin: 0; font-size: 13px; color: var(--suave); }
+/* Cena "Época do ano" do telão (js/telao/cena-sazonal.js): fundo escuro, mesmas listas do telão (.tr-lista) */
+.tz-lista .ti { color: #93c5fd; }
+.tz-lista li.tz-curso .ti { color: #60a5fa; }
+.tz-atrasadas { margin-top: 18px; padding-top: 12px; border-top: 1px dashed rgba(255, 255, 255, 0.16); }
+.tz-atrasadas .ti { color: #fdba74; }
+.tz-atrasadas time { color: #fdba74; font-weight: 800; font-size: var(--tv-rotulo); }
+
+/* Linha "Época do ano" no Resumo da semana (js/resumo-semana.js) */
+.rs-epoca { margin: 4px 0 0; font-size: 13px; color: var(--texto); line-height: 1.45; }
+.rs-epoca-atraso { color: var(--critica-texto); }
+a.rd-link { text-decoration: none; }
+
+.w-saz-abrir { align-self: flex-start; font-size: 13px; font-weight: 600; color: var(--acao); text-decoration: none; }
+.w-saz-abrir:hover { text-decoration: underline; }

@@ -1,0 +1,88 @@
+/* Maia no Portal do Cidadão (js/portal-maia.js): botão flutuante e a conversa para pedir um reparo.
+   A cor é a da assistente (--ia, que a Personalização troca); o resto segue as variáveis do portal. */
+@media (prefers-color-scheme: dark) {
+  :root { --ia: #b19cfa; --ia-fundo: #251f45; --ia-borda: #3b3170; }
+}
+
+/* ---------- botão flutuante (celular e computador) ---------- */
+.p-fab.p-fab-maia { display: inline-flex; border: 0; cursor: pointer; font: inherit; font-weight: 700; padding: 0 20px 0 10px;
+  background: var(--ia); color: #fff; }
+.p-fab.p-fab-maia:hover { background: var(--ia); filter: brightness(1.08); }
+.p-fab-maia .maia-rosto { width: 34px; height: 34px; background: #fff; --rosto-estrela: var(--ia); }
+@media (prefers-color-scheme: dark) {
+  .p-fab.p-fab-maia { color: #1a1433; }
+  .p-fab-maia .maia-rosto { background: #1a1433; }
+  .p-maia .maia-rosto { --rosto-estrela: #1a1433; }
+}
+/* Novidade num pedido feito pela conversa, com ela fechada. */
+.p-fab-maia.pm-novidade::after { content: ''; position: absolute; top: 2px; right: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--urgente); border: 2px solid var(--cartao); }
+body.p-com-maia .p-fab.p-fab-maia, body.p-com-folha .p-fab.p-fab-maia, body.p-com-mapa .p-fab.p-fab-maia { display: none; }
+body.p-com-maia .p-toast { z-index: 90; }
+
+/* ---------- conversa ---------- */
+.p-maia { position: fixed; z-index: 80; inset: auto 0 0 0; height: min(88vh, calc(100dvh - 24px)); display: flex; flex-direction: column;
+  background: var(--fundo); color: var(--texto); border-radius: 22px 22px 0 0; box-shadow: 0 -10px 40px rgba(11, 29, 34, 0.35);
+  padding-bottom: env(safe-area-inset-bottom, 0px); animation: p-sobe 0.25s var(--ease); }
+.p-maia[hidden] { display: none; }
+.p-maia-topo { display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 16px; background: var(--cartao); border-bottom: 1px solid var(--borda); border-radius: inherit; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.p-maia-topo > .maia-rosto { width: 40px; height: 40px; }
+.p-maia-topo > div { flex: 1 1 auto; min-width: 0; }
+.p-maia-topo h2 { margin: 0; font-family: var(--fonte-titulo); font-size: 18px; color: var(--titulo); }
+.p-maia-topo small { color: var(--suave); font-size: 13px; }
+
+.p-maia-log { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; list-style: none; margin: 0; padding: 16px 12px; display: flex; flex-direction: column; gap: 12px; }
+.pm-msg { display: flex; gap: 8px; align-items: flex-end; max-width: 100%; }
+.pm-msg > .maia-rosto { width: 28px; height: 28px; margin-bottom: 2px; }
+.pm-balao { min-width: 0; padding: 10px 14px; border-radius: 18px; font-size: 15px; line-height: 1.45; }
+.pm-balao p { margin: 0; }
+.pm-balao p + p { margin-top: 6px; }
+.pm-dela .pm-balao { flex: 1 1 auto; max-width: 92%; background: var(--cartao); border: 1px solid var(--borda); border-bottom-left-radius: 6px; }
+.pm-dela .pm-balao a:not(.pm-opcao):not(.pm-pedido) { color: var(--link); }
+.pm-minha { justify-content: flex-end; }
+.pm-minha .pm-balao { max-width: 82%; background: var(--primaria); color: var(--sobre-primaria); border-bottom-right-radius: 6px; overflow-wrap: anywhere; }
+.pm-minha img { display: block; max-width: 180px; border-radius: 12px; }
+.pm-dica { color: var(--suave); font-size: 14px; }
+.pm-balao .ti { vertical-align: -2px; }
+
+/* Botões de resposta (somem depois do toque). */
+.pm-opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.pm-opcao { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border-radius: 999px; font: inherit; font-size: 14px; font-weight: 600;
+  cursor: pointer; text-decoration: none; background: var(--primaria); color: var(--sobre-primaria); border: 1px solid var(--primaria); }
+.pm-opcao.sec { background: var(--cartao); color: var(--link); border-color: var(--borda); }
+.pm-opcao:hover { filter: brightness(1.06); }
+.pm-opcao:focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
+
+/* Mapa dentro do balão (o mesmo do formulário). */
+.pm-mapa { height: 220px; margin: 10px -4px 6px; border-radius: 12px; overflow: hidden; border: 1px solid var(--borda); background: var(--sup-3); }
+.pm-mapa.pm-mapa-feito { height: auto; padding: 8px 12px; color: var(--suave); font-size: 14px; }
+.pm-onde { font-weight: 600; color: var(--titulo); }
+
+.pm-resumo { margin: 10px 0 0; display: grid; gap: 6px; }
+.pm-resumo > div { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; }
+.pm-resumo dt { color: var(--suave); font-size: 13px; padding-top: 2px; }
+.pm-resumo dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+.pm-resumo img { max-width: 140px; border-radius: 10px; display: block; }
+.pm-protocolo { margin: 10px 0 6px !important; padding: 10px 12px; border-radius: 12px; background: var(--ouro-fundo); display: flex; flex-direction: column; }
+.pm-protocolo small { color: var(--suave); font-size: 13px; }
+.pm-protocolo b { font-family: var(--fonte-titulo); font-size: 24px; letter-spacing: 0.02em; color: var(--titulo); }
+
+.pm-pedidos { display: grid; gap: 6px; margin-top: 8px; }
+.pm-pedido { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; border: 1px solid var(--borda); background: var(--sup-2); color: var(--texto); text-decoration: none; margin-top: 8px; }
+.pm-pedidos .pm-pedido { margin-top: 0; }
+.pm-pedido > .ti { font-size: 20px; color: var(--titulo); }
+.pm-pedido > span:not(.pp-chip) { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.pm-pedido small { color: var(--suave); font-size: 13px; }
+
+.p-maia-form { display: flex; gap: 8px; padding: 10px 12px 12px; background: var(--cartao); border-top: 1px solid var(--borda); }
+.p-maia-form input[type="text"] { flex: 1 1 auto; min-width: 0; min-height: 46px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--borda); background: var(--fundo); color: var(--texto); font: inherit; font-size: 16px; }
+.p-maia-form input[type="text"]:focus { outline: 2px solid var(--primaria); outline-offset: 1px; }
+.p-maia-enviar { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--primaria); color: var(--sobre-primaria); font-size: 20px; cursor: pointer; display: grid; place-items: center; }
+
+/* Computador: janela no canto, acima do botão. */
+@media (min-width: 760px) {
+  .p-fab.p-fab-maia { right: 24px; bottom: 24px; }
+  .p-maia { inset: auto 24px 24px auto; width: 400px; height: min(640px, calc(100vh - 48px)); border-radius: 22px; border: 1px solid var(--borda); box-shadow: 0 30px 80px rgba(11, 29, 34, 0.35); }
+  .p-maia-topo { border-radius: 22px 22px 0 0; }
+  .p-maia-form { border-radius: 0 0 22px 22px; }
+}
+@media (prefers-reduced-motion: reduce) { .p-maia { animation: none; } }

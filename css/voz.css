@@ -1,0 +1,13 @@
+/* Microfone da Maia (js/voz.js): ao lado do enviar, no painel, no Portal do Cidadão e no portal do servidor. */
+.btn-voz, .chat-form .btn-voz, .p-maia-form .btn-voz, .sv-maia-form .btn-voz { flex: none; display: grid; place-items: center; border-radius: 50%; cursor: pointer; font-size: 18px;
+  background: var(--ia-fundo); color: var(--ia); border: 1px solid var(--ia-borda, var(--borda)); }
+.chat-form .btn-voz { width: 38px; height: 38px; }
+.p-maia-form .btn-voz, .sv-maia-form .btn-voz { width: 46px; height: 46px; font-size: 20px; }
+.btn-voz:hover { border-color: var(--ia); }
+.btn-voz:focus-visible { outline: 2px solid var(--ia); outline-offset: 2px; }
+.btn-voz.ouvindo, .chat-form .btn-voz.ouvindo { background: var(--critica); color: #fff; border-color: var(--critica); animation: voz-pulso 1.2s ease-in-out infinite; }
+@keyframes voz-pulso { 0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, .45); } 50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); } }
+@media (prefers-reduced-motion: reduce) { .btn-voz.ouvindo { animation: none; } }
+/* Ouvir as respostas (js/voz.js): ligado, o alto-falante fica na cor da Maia. */
+.btn-ouvir[aria-pressed="true"], .chat-form .btn-ouvir[aria-pressed="true"] { color: var(--ia, #7c3aed); border-color: var(--ia, #7c3aed); background: color-mix(in srgb, var(--ia, #7c3aed) 10%, transparent); }
+.btn-ouvir[aria-pressed="false"] { background: transparent; color: var(--texto-2, #5b6b70); }

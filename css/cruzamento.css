@@ -1,0 +1,219 @@
+/* Cruzamento de dados (js/tela-cruzamento.js): dispersão por bairro, mapa dos bairros e linha do tempo.
+   As 4 cores dos grupos valem para o ponto, o bairro no mapa, a legenda e as listas (cor sempre com palavra).
+   As mesmas cores estão em ML.GRUPOS (js/mapa-logica.js), no mapa principal. */
+#tela-cruzamento {
+  --cz-ambos: var(--critica);
+  --cz-soA: #2b98b0;   /* Lagoa */
+  --cz-soB: #b46a00;   /* Terra clara (contraste com o fundo do cartão) */
+  --cz-nenhum: #a9c9b6; /* verde acinzentado: "em dia", sem competir com os outros e sem parecer "sem dado" */
+  --cz-sem: var(--sup-3);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.cz-topo { flex-wrap: wrap; }
+.cz-acoes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: flex-end; }
+.cz-acoes .btn-primario { width: auto; padding: 7px 14px; display: inline-flex; align-items: center; gap: 6px; }
+.cz-topo > div { flex: 1 1 320px; min-width: 0; }
+
+/* Escolha dos indicadores e atalhos prontos, num bloco só. */
+.cz-escolha { display: flex; flex-direction: column; gap: 8px; }
+.cz-controles { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; }
+/* Campo de indicador com busca (combobox): botão com o atual e, aberto, a busca e a lista agrupada. */
+.cz-combo { position: relative; display: flex; flex-direction: column; gap: 4px; flex: 1 1 220px; min-width: 0; }
+.cz-combo-rotulo { font-size: 12px; color: var(--suave); }
+.cz-combo-botao {
+  display: flex; align-items: center; gap: 8px; width: 100%; min-height: 38px; padding: 7px 10px; text-align: left; cursor: pointer;
+  font: inherit; font-size: 14px; color: var(--texto); background: var(--cartao); border: 1px solid var(--borda-forte); border-radius: 8px;
+}
+.cz-combo-botao span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cz-combo-botao i { color: var(--suave); transition: transform 0.15s; }
+.cz-combo-botao:hover { border-color: var(--acao); }
+.cz-combo.aberto .cz-combo-botao { border-color: var(--acao); box-shadow: 0 0 0 3px color-mix(in srgb, var(--acao) 18%, transparent); }
+.cz-combo.aberto .cz-combo-botao i { transform: rotate(180deg); }
+.cz-combo-pop {
+  position: absolute; top: 100%; left: 0; right: 0; z-index: 20; margin-top: 4px; min-width: 260px;
+  background: var(--elevado, var(--cartao)); border: 1px solid var(--borda); border-radius: 10px; box-shadow: 0 10px 28px rgba(15, 40, 46, 0.18);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.cz-combo-campo { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid var(--borda); color: var(--suave); }
+.cz-combo-busca { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font: inherit; font-size: 14px; color: var(--texto); padding: 2px 0; }
+.cz-combo-lista { list-style: none; margin: 0; padding: 4px 0; max-height: min(320px, 50vh); overflow-y: auto; overscroll-behavior: contain; }
+.cz-combo-lista li[role="option"] {
+  display: flex; align-items: center; gap: 8px; padding: 7px 12px; font-size: 13.5px; color: var(--texto); cursor: pointer;
+}
+.cz-combo-lista li[role="option"] .cz-combo-nome { flex: 1; min-width: 0; }
+.cz-combo-lista li[role="option"] i { color: var(--acao); }
+.cz-combo-lista li[role="option"] small { color: var(--suave); font-size: 11.5px; white-space: nowrap; }
+.cz-combo-lista li[role="option"]:hover, .cz-combo-lista li.ativo { background: color-mix(in srgb, var(--acao) 10%, transparent); }
+.cz-combo-lista li.ativo { box-shadow: inset 3px 0 0 var(--acao); }
+.cz-combo-lista li[aria-selected="true"] { font-weight: 600; }
+.cz-combo-lista li[aria-disabled="true"] { color: var(--suave); cursor: not-allowed; background: none; }
+.cz-combo-lista mark { background: color-mix(in srgb, var(--acento) 28%, transparent); color: inherit; border-radius: 2px; padding: 0 1px; }
+.cz-combo-grupo { padding: 8px 12px 3px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--suave); }
+.cz-combo-vazio { padding: 12px; font-size: 13px; color: var(--suave); }
+.cz-trocar {
+  width: 38px; height: 38px; flex: none; border: 1px solid var(--borda-forte); border-radius: 8px; background: var(--cartao);
+  color: var(--suave); font-size: 18px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+}
+.cz-trocar:hover { color: var(--acao); border-color: var(--acao); }
+
+.cz-prontos { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.cz-prontos-rotulo { font-size: 12px; color: var(--suave); margin-right: 2px; }
+.cz-prontos button {
+  border: 1px solid var(--borda); background: var(--cartao); border-radius: 999px; padding: 5px 12px; font-size: 12.5px; color: var(--texto-2, var(--texto)); cursor: pointer;
+}
+.cz-prontos button:hover { border-color: var(--acao); color: var(--acao); }
+.cz-prontos button.ativo { border-color: var(--acao); background: color-mix(in srgb, var(--acao) 10%, var(--cartao)); color: var(--acao); font-weight: 600; }
+
+/* Números do topo: uma faixa só, baixa, para o gráfico aparecer sem rolar. */
+.cz-kpis {
+  display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
+  background: var(--cartao); border-radius: 10px; box-shadow: var(--sombra);
+}
+.cz-kpi { padding: 10px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.cz-kpi + .cz-kpi { border-left: 1px solid var(--borda); }
+.cz-kpi small { font-size: 12px; color: var(--suave); }
+.cz-kpi b { font-size: 17px; color: var(--titulo, var(--texto)); line-height: 1.25; }
+.cz-kpi span { font-size: 12px; color: var(--suave); }
+.cz-forca { display: inline-flex !important; align-items: center; gap: 6px; margin-top: 2px; cursor: help; }
+.cz-forca-barra { width: 56px; height: 5px; border-radius: 3px; background: var(--sup-3); overflow: hidden; flex: none; }
+.cz-forca-barra i { display: block; height: 100%; background: var(--suave); border-radius: inherit; }
+@media (max-width: 700px) {
+  .cz-kpis { grid-template-columns: 1fr 1fr; }
+  .cz-kpi-rel { grid-column: 1 / -1; }
+  .cz-kpi + .cz-kpi { border-left: 0; border-top: 1px solid var(--borda); }
+  .cz-kpi:last-child { border-left: 1px solid var(--borda); }
+  .cz-kpi { padding: 8px 12px; }
+}
+
+.cz-grade-principal { position: relative; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+@media (max-width: 900px) { .cz-grade-principal { grid-template-columns: minmax(0, 1fr); } }
+.cz-cartao h3 small, .cz-leitura h3 small, .cz-tempo h3 small { font-weight: 400; color: var(--suave); font-size: 12px; margin-left: 6px; }
+.cz-legenda { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 0 0 6px; font-size: 12px; color: var(--suave); }
+.cz-legenda span { display: inline-flex; align-items: center; gap: 5px; }
+.cz-cor { display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--cz-nenhum); flex: none; }
+.cz-cor.cz-ambos { background: var(--cz-ambos); }
+.cz-cor.cz-soA { background: var(--cz-soA); }
+.cz-cor.cz-soB { background: var(--cz-soB); }
+.cz-cor.cz-linha-a { background: var(--cz-soA); height: 3px; }
+.cz-cor.cz-linha-b { background: var(--cz-soB); height: 3px; }
+
+/* Dispersão e linha do tempo */
+.cz-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.cz-grade { stroke: var(--borda); stroke-width: 1; }
+.cz-mediana { stroke: var(--suave); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.cz-quad { fill: var(--cz-ambos); fill-opacity: 0.06; }
+.cz-eixo { font-size: 11px; fill: var(--suave); }
+.cz-titulo-eixo { font-size: 12px; fill: var(--texto-2, var(--texto)); font-weight: 600; }
+.cz-p { cursor: pointer; outline: none; }
+/* Área de toque maior que o ponto (no celular o ponto tem poucos px). */
+.cz-p .cz-alvo { fill: transparent; stroke: none; }
+.cz-p .cz-ponto { stroke: var(--cartao); stroke-width: 2; fill: var(--cz-nenhum); transition: r 0.15s, opacity 0.15s; }
+.cz-p.cz-ambos .cz-ponto { fill: var(--cz-ambos); }
+.cz-p.cz-soA .cz-ponto { fill: var(--cz-soA); }
+.cz-p.cz-soB .cz-ponto { fill: var(--cz-soB); }
+/* Colado na mediana: o mesmo grupo, mas sem o peso visual dos extremos. */
+.cz-p.perto .cz-ponto { opacity: 0.45; }
+.cz-p:hover .cz-ponto, .cz-p.hl .cz-ponto, .cz-p:focus-visible .cz-ponto { stroke: var(--texto); opacity: 1; }
+.cz-p:focus-visible .cz-alvo { stroke: var(--foco); stroke-width: 2; stroke-dasharray: 3 2; }
+.cz-p.sel .cz-ponto { stroke: var(--texto); stroke-width: 3; opacity: 1; }
+.cz-p text { font-size: 11.5px; fill: var(--texto-2, var(--texto)); font-weight: 600; paint-order: stroke; stroke: var(--cartao); stroke-width: 3px; pointer-events: none; }
+.cz-svg.compacto .cz-eixo { font-size: 12px; }
+.cz-svg.compacto .cz-titulo-eixo { font-size: 12.5px; }
+.cz-svg.compacto .cz-p text { font-size: 12.5px; }
+.cz-linha { fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.cz-linha.a { stroke: var(--cz-soA); }
+.cz-linha.b { stroke: var(--cz-soB); stroke-dasharray: 7 4; }
+.cz-nota-grafico { margin-top: 4px; }
+
+/* Dica ao passar o mouse (gráfico e mapa). */
+.cz-dica {
+  position: absolute; z-index: 5; transform: translate(-50%, -100%); pointer-events: none;
+  background: var(--elevado, var(--cartao)); color: var(--texto); border: 1px solid var(--borda); border-radius: 8px;
+  box-shadow: var(--sombra); padding: 6px 10px; font-size: 12px; display: flex; flex-direction: column; gap: 2px; white-space: nowrap;
+}
+.cz-dica[hidden] { display: none; }
+.cz-dica .cz-tag { margin: 2px 0 2px; align-self: flex-start; }
+.cz-dica span { color: var(--suave); }
+.cz-dica strong { color: var(--texto); }
+
+/* Mapa dos bairros */
+.cz-mapa { width: 100%; height: auto; display: block; max-height: 340px; }
+.cz-b { stroke: var(--cartao); stroke-width: 1.2; fill: var(--cz-nenhum); cursor: pointer; transition: fill-opacity 0.12s; }
+.cz-b.cz-ambos { fill: var(--cz-ambos); }
+.cz-b.cz-soA { fill: var(--cz-soA); }
+.cz-b.cz-soB { fill: var(--cz-soB); }
+.cz-b.cz-sem { fill: var(--cz-sem); stroke: var(--borda-forte); stroke-dasharray: 3 2; }
+.cz-b:hover, .cz-b.hl { fill-opacity: 0.75; stroke: var(--texto); stroke-width: 2; }
+.cz-b.sel { stroke: var(--texto); stroke-width: 2.5; }
+.cz-mapa-nome { font-size: 12px; font-weight: 700; fill: var(--texto); paint-order: stroke; stroke: var(--cartao); stroke-width: 3px; pointer-events: none; }
+
+.cz-bairro { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--borda); font-size: 13px; }
+.cz-bairro p, .cz-folha p { margin: 0; color: var(--suave); }
+.cz-ficha-topo { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
+.cz-bairro dl, .cz-folha dl { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 10px; margin: 8px 0; }
+.cz-bairro dt, .cz-folha dt { color: var(--suave); }
+.cz-bairro dd, .cz-folha dd { margin: 0; font-weight: 600; text-align: right; }
+.cz-bairro dd small, .cz-folha dd small { display: block; font-weight: 400; color: var(--suave); font-size: 11.5px; }
+.cz-bairro-acoes { display: flex; flex-wrap: wrap; gap: 6px; }
+.cz-tag { display: inline-block; font-size: 11.5px; font-weight: 600; border-radius: 999px; padding: 1px 8px; color: #fff; background: var(--cz-nenhum); margin-left: 4px; }
+.cz-tag.cz-ambos { background: var(--cz-ambos); }
+.cz-tag.cz-soA { background: #1d7287; }
+.cz-tag.cz-soB { background: #8a5100; }
+.cz-tag.cz-nenhum { color: #17262b; }
+
+/* Sem bairro escolhido: por onde começar. */
+.cz-olhar-titulo { margin: 0 0 6px; font-size: 12.5px; color: var(--texto-2, var(--texto)); }
+.cz-olhar { list-style: none; margin: 0 0 6px; padding: 0; display: flex; flex-direction: column; gap: 4px; counter-reset: cz-olhar; }
+.cz-olhar li { counter-increment: cz-olhar; }
+.cz-olhar-item {
+  width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; text-align: left;
+  font: inherit; font-size: 13px; color: var(--texto); background: var(--sup-2); border: 1px solid var(--borda); border-radius: 8px; padding: 7px 10px; cursor: pointer;
+}
+.cz-olhar-item::before {
+  content: counter(cz-olhar); width: 20px; height: 20px; border-radius: 50%; background: var(--cz-ambos); color: #fff;
+  font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;
+}
+.cz-olhar-item span { color: var(--suave); font-size: 12px; white-space: nowrap; }
+.cz-olhar-item:hover, .cz-olhar-item.hl { border-color: var(--texto); }
+.cz-dica-texto { font-size: 12px; }
+
+/* Leitura e grupos */
+.cz-leitura ul { margin: 0 0 10px; padding-left: 18px; font-size: 13.5px; line-height: 1.55; }
+.cz-grupos { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.cz-grupos h4 { margin: 0 0 6px; font-size: 12.5px; display: flex; align-items: center; gap: 6px; }
+.cz-grupos h4 small { color: var(--suave); font-weight: 400; }
+.cz-grupos p { margin: 0; display: flex; flex-wrap: wrap; gap: 4px; }
+.cz-chip { border: 1px solid var(--borda); background: var(--sup-2); border-radius: 999px; padding: 2px 9px; font-size: 12px; cursor: pointer; color: inherit; }
+.cz-chip:hover, .cz-chip.hl, .cz-chip.sel { border-color: var(--texto); }
+.cz-chip.sel { font-weight: 600; }
+.cz-nada { font-size: 12px; color: var(--suave); }
+.cz-fontes, .cz-nota { margin: 10px 0 0; font-size: 12px; color: var(--suave); }
+
+/* Folha do bairro no celular: sobe do pé da tela, em vez de a ficha ficar lá embaixo do mapa. */
+.cz-folha { display: none; }
+.cz-folha-fechar {
+  margin-left: auto; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--sup-3); color: var(--texto);
+  display: inline-flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px;
+}
+@media (max-width: 620px) {
+  .cz-folha {
+    display: block; position: sticky; bottom: 0; z-index: 6; margin: 0 -4px; padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: var(--elevado, var(--cartao)); border: 1px solid var(--borda); border-radius: 14px 14px 0 0;
+    box-shadow: 0 -6px 20px rgba(15, 40, 46, 0.18); font-size: 13px; animation: cz-sobe 0.18s ease-out;
+  }
+  .cz-bairro.com-sel { display: none; }
+  .cz-bairro-acoes .btn-sec { flex: 1 1 auto; min-height: 40px; }
+  .cz-prontos { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .cz-prontos button { flex: none; }
+}
+@keyframes cz-sobe { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .cz-folha { animation: none; } .cz-p .cz-ponto, .cz-b { transition: none; } }
+
+/* Legenda do mapa principal com os bairros pintados pelo cruzamento (ML.htmlGrupos em js/mapa-logica.js). */
+.legenda-grupos { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 3px; font-size: 12px; font-weight: 400; }
+.legenda-grupos li { display: flex; align-items: center; gap: 6px; }
+.legenda-grupos i { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+.legenda-grupos small { color: var(--suave); margin-left: auto; padding-left: 8px; }
+/* A legenda dos grupos é estreita: com a Maia aberta, a barra do mapa quebra em duas linhas e uma legenda larga
+   cobriria "Limpar camada" e "Filtros". O título quebra em vez de crescer para o lado. */
+.mapa-legenda:has(.legenda-grupos) { max-width: 230px; }

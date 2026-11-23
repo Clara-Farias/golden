@@ -1,0 +1,77 @@
+/* Modelos de gabinete de crise (js/tela-modelos-crise.js), a revisão antes de convocar e as questões da sala
+   (js/tela-crise.js). A tela dos modelos usa o mesmo #tela-crise e as mesmas peças (sec-topo, painel-card). */
+
+/* ---------- lista de modelos ---------- */
+.mc-sobre { color: var(--navy) !important; }
+#tela-crise .sec-acoes .btn-primario, #tela-crise .sec-acoes .btn-sec { width: auto; white-space: nowrap; }
+.mc-lista { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.mc-cartao { display: flex; flex-direction: column; gap: 8px; }
+.mc-cartao-topo { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 15px; color: var(--navy); }
+.mc-selo { flex: none; padding: 2px 8px; border-radius: 99px; background: var(--sup-3); color: var(--suave); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.mc-selo.alterado { background: var(--media-fundo); color: var(--media-texto, #92400e); }
+.mc-selo.criado { background: var(--positivo-fundo); color: var(--positivo); }
+.mc-tipos { display: flex; flex-wrap: wrap; gap: 4px; }
+.mc-nota { font-size: 12px; color: var(--suave); }
+.mc-numeros { margin: 0; font-size: 12px; color: var(--suave); }
+.mc-cartao-acoes { display: flex; align-items: center; gap: 12px; margin-top: auto; }
+.mc-cartao-acoes .btn-sec { width: auto; margin: 0; }
+.mc-removidos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.mc-removidos li { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; }
+
+/* ---------- editor do modelo ---------- */
+.mc-form { display: flex; flex-direction: column; gap: 14px; }
+.mc-grade { align-items: start; }
+.mc-campo { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; font-size: 12px; font-weight: 600; color: var(--suave); }
+.mc-campo input, .mc-campo textarea { font: inherit; font-size: 14px; font-weight: 400; color: var(--texto); padding: 8px 10px; border: 1px solid var(--borda); border-radius: 8px; background: var(--cartao); resize: vertical; }
+.mc-tipos-escolha { display: flex; flex-wrap: wrap; gap: 6px; }
+.mc-tipo { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid var(--borda); border-radius: 99px; font-size: 13px; cursor: pointer; background: var(--cartao); }
+.mc-tipo.marcado { border-color: var(--primaria); background: color-mix(in srgb, var(--primaria) 8%, var(--cartao)); }
+.mc-tipo small { color: var(--suave); font-size: 11px; }
+.mc-dica { margin: 0 0 8px; font-size: 12px; color: var(--suave); }
+.mc-botoes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.mc-botoes .btn-primario, .mc-botoes .btn-sec { width: auto; margin: 0; }
+.mc-espaco { flex: 1; }
+.mc-perigo { color: var(--critica) !important; }
+
+/* ---------- editor de tarefas e questões (modelo e revisão antes de convocar) ---------- */
+.mc-editor h4 { margin: 4px 0 8px; font-size: 12px; color: var(--suave); text-transform: uppercase; letter-spacing: 0.05em; }
+.mc-editor h4 ~ h4 { margin-top: 16px; }
+.mc-tarefas, .mc-perguntas { list-style: none; margin: 0 0 8px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.mc-tarefa { display: grid; grid-template-columns: minmax(140px, 1fr) minmax(0, 2.4fr) 100px auto auto; gap: 8px; align-items: end; padding: 8px; border: 1px solid var(--borda); border-radius: 10px; background: var(--sup-2); }
+.mc-tarefa label { display: flex; flex-direction: column; gap: 3px; font-size: 11px; font-weight: 600; color: var(--suave); min-width: 0; }
+.mc-tarefa select, .mc-tarefa input:not([type="checkbox"]), .mc-pergunta input { font: inherit; font-size: 13px; color: var(--texto); padding: 6px 8px; border: 1px solid var(--borda); border-radius: 6px; background: var(--cartao); min-width: 0; width: 100%; box-sizing: border-box; }
+.mc-tarefa .mc-sempre { flex-direction: row; align-items: center; gap: 4px; white-space: nowrap; padding-bottom: 6px; font-size: 12px; color: var(--texto); font-weight: 400; }
+.mc-pergunta { display: flex; gap: 6px; align-items: center; }
+.mc-tirar { flex: none; width: 30px; height: 30px; border: 1px solid var(--borda); border-radius: 6px; background: var(--cartao); color: var(--suave); cursor: pointer; font: inherit; }
+.mc-tirar:hover { color: var(--critica); border-color: var(--critica); }
+.mc-mais { border: 1px dashed var(--borda-forte); border-radius: 8px; background: transparent; padding: 5px 10px; font: inherit; font-size: 13px; font-weight: 600; color: var(--navy); cursor: pointer; }
+.mc-mais:hover { background: var(--sup-2); }
+.mc-tirar:disabled, .mc-mais:disabled { display: none; }
+
+/* ---------- revisão antes de convocar (janela) ---------- */
+.cr-dialogo.cr-preparar { width: min(860px, calc(100vw - 32px)); }
+.cr-preparar .cr-dialogo-form { max-height: calc(100vh - 64px); overflow-y: auto; }
+.cr-preparar select#cr-modelo { font: inherit; font-size: 14px; padding: 7px 10px; border: 1px solid var(--borda); border-radius: 8px; background: var(--cartao); color: var(--texto); }
+.cr-preparar .cr-nota { margin: 0; }
+.cr-modelo-chip { display: block; margin-top: 4px; font-size: 12px; color: var(--suave); }
+
+/* ---------- questões da sala ---------- */
+.cr-modelo-nome { font-size: 12px; color: var(--suave); }
+.cr-questoes-conta { margin: -4px 0 8px; font-size: 12px; color: var(--suave); }
+.cr-questoes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.cr-questoes li { padding: 8px 10px; border: 1px solid var(--borda); border-left: 3px solid var(--media); border-radius: 8px; background: var(--cartao); }
+.cr-questoes li.respondida { border-left-color: var(--positivo); }
+.cr-questao-topo { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 13px; }
+.cr-questao-resposta { margin: 4px 0 0; font-size: 13px; }
+.cr-questao-resposta small { display: block; margin-top: 2px; font-size: 11px; color: var(--suave); }
+.cr-form-questao, .cr-form-questao-nova { display: flex; gap: 6px; margin-top: 6px; }
+.cr-form-questao[hidden] { display: none; }
+.cr-form-questao input, .cr-form-questao-nova input { flex: 1; min-width: 0; font: inherit; font-size: 13px; padding: 6px 8px; border: 1px solid var(--borda); border-radius: 6px; background: var(--cartao); color: var(--texto); }
+.cr-form-questao .btn-sec, .cr-form-questao-nova .btn-primario { width: auto; margin: 0; padding: 6px 12px; }
+.cr-form-questao-nova { margin-top: 8px; }
+
+@media (max-width: 720px) {
+  .mc-tarefa { grid-template-columns: 1fr 1fr; }
+  .mc-tarefa .mc-tarefa-texto { grid-column: 1 / -1; order: -1; }
+  .mc-lista { grid-template-columns: 1fr; }
+}

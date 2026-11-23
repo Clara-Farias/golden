@@ -1,0 +1,177 @@
+/* Aviso de algo novo no mapa (js/app/simulacao.js). Alerta novo vira cartão (.aviso-alerta); os outros avisos
+   (cobrança respondida, relatos, prazo) continuam numa linha só. Movimento pelo identidade-visual/movimento.md:
+   o ícone chega como o pino (item 2), o alvo fecha sobre ele uma vez (item 3) e o contador do botão Alertas
+   acende (item 7). Nada pulsa em loop, a câmera não se mexe e a barra do tempo só anda (transform). */
+
+.aviso-novo {
+  position: absolute; left: 50%; bottom: 44px; transform: translateX(-50%); z-index: 6;
+  max-width: min(560px, calc(100vw - 120px)); overflow: hidden;
+  border-radius: 14px; padding: 9px 40px 11px 14px; font-size: 13px; color: var(--texto);
+  display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+  transition: opacity var(--dur-curta, 200ms) var(--ease-entra, ease-in), transform var(--dur-curta, 200ms) var(--ease-entra, ease-in);
+}
+.aviso-novo[hidden] { display: none; }
+.aviso-novo.clicavel { cursor: pointer; }
+.aviso-novo.entrando { animation: aviso-entra 260ms var(--ease-sai, ease-out) both; }
+.aviso-novo.saindo { opacity: 0; transform: translate(-50%, 6px); }
+.aviso-novo .aviso-texto { display: contents; }
+.aviso-novo .aviso-meta { color: var(--suave); font-size: 12px; }
+.aviso-novo u { color: var(--andamento); font-weight: 600; font-size: 13px; }
+@keyframes aviso-entra { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+body.compacto .aviso-novo, body.tela-aberta .aviso-novo { display: none; }
+
+/* Fechar e tempo que falta (parar o mouse em cima ou o foco do teclado seguram o aviso). */
+.aviso-fechar {
+  position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border: 0; border-radius: 8px;
+  background: transparent; color: var(--suave); cursor: pointer; display: grid; place-items: center; font-size: 14px;
+  transition: background var(--dur-micro, 120ms), color var(--dur-micro, 120ms);
+}
+.aviso-fechar:hover { background: color-mix(in srgb, var(--suave) 14%, transparent); color: var(--texto); }
+.aviso-fechar:focus-visible, .aviso-btn:focus-visible, .aviso-mais:focus-visible { outline: 2px solid var(--foco, var(--andamento)); outline-offset: 2px; }
+.aviso-tempo {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 3px; transform-origin: left center;
+  background: color-mix(in srgb, var(--sev, var(--primaria)) 70%, transparent);
+  animation: aviso-tempo var(--aviso-ms, 8000ms) linear forwards;
+}
+.aviso-novo:hover .aviso-tempo, .aviso-novo:focus-within .aviso-tempo { animation-play-state: paused; }
+@keyframes aviso-tempo { from { transform: scaleX(1); } to { transform: scaleX(0); } }
+
+/* ---------- alerta novo: o cartão ---------- */
+.aviso-alerta { --sev: var(--andamento); --sev-texto: var(--andamento); --sev-tinta: #fff; }
+.aviso-alerta.critica { --sev: var(--critica); --sev-texto: var(--critica-texto); }
+.aviso-alerta.alta { --sev: var(--alta); --sev-texto: var(--alta-texto); }
+.aviso-alerta.media { --sev: var(--media); --sev-texto: var(--media-texto); --sev-tinta: #1c1a0b; }
+
+.aviso-novo.aviso-alerta {
+  align-items: flex-start; flex-wrap: nowrap; gap: 14px; width: min(500px, calc(100vw - 120px));
+  padding: 14px 42px 16px 18px; border-radius: 16px;
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--sev) 11%, transparent) 0, transparent 46%),
+    color-mix(in srgb, var(--cartao) 94%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--sev) 25%, transparent) inset, 0 22px 48px -18px rgba(8, 24, 30, 0.45), 0 4px 12px -4px rgba(8, 24, 30, 0.18);
+}
+
+/* Ícone da secretaria na cor da gravidade: chega como o pino (item 2) e o alvo fecha sobre ele (item 3). */
+.aviso-icone { position: relative; flex: none; width: 46px; height: 46px; margin-top: 2px; }
+.aviso-icone-tile {
+  position: absolute; inset: 0; border-radius: 13px; display: grid; place-items: center;
+  background: var(--sev); color: var(--sev-tinta); font-size: 23px;
+  box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--sev) 70%, transparent);
+  transform-origin: 50% 100%;
+}
+.aviso-icone-tile i { color: inherit; }
+.aviso-alerta.critica .aviso-icone-tile { border-radius: 13px; }
+.aviso-icone-alvo { position: absolute; inset: 0; border-radius: 13px; pointer-events: none; }
+.aviso-alerta.entrando .aviso-icone-tile { animation: aviso-chega 500ms var(--ease-alerta, ease-out) 80ms both; }
+.aviso-alerta.entrando .aviso-icone-alvo { animation: aviso-alvo var(--dur-foco, 600ms) var(--ease-sai, ease-out) 420ms both; }
+@keyframes aviso-chega {
+  0% { opacity: 0; transform: scale(0.35); }
+  45% { opacity: 1; transform: scale(1) rotate(-7deg); }
+  65% { transform: scale(1) rotate(6deg); }
+  82% { transform: scale(1) rotate(-3deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
+}
+@keyframes aviso-alvo {
+  from { box-shadow: 0 0 0 2px transparent, 0 0 0 18px transparent, 0 0 0 32px transparent; }
+  35% { box-shadow: 0 0 0 2px var(--sev), 0 0 0 9px color-mix(in srgb, var(--sev) 32%, transparent), 0 0 0 17px color-mix(in srgb, var(--sev) 14%, transparent); }
+  to { box-shadow: 0 0 0 2px transparent, 0 0 0 2px transparent, 0 0 0 2px transparent; }
+}
+
+/* Texto: o quê, onde, quantas pessoas. Entra logo depois do ícone. */
+.aviso-corpo { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex: 1; }
+.aviso-alerta.entrando .aviso-corpo > * { animation: aviso-linha 260ms var(--ease-sai, ease-out) both; }
+.aviso-alerta.entrando .aviso-corpo > :nth-child(2) { animation-delay: 40ms; }
+.aviso-alerta.entrando .aviso-corpo > :nth-child(3) { animation-delay: 80ms; }
+.aviso-alerta.entrando .aviso-corpo > :nth-child(4) { animation-delay: 120ms; }
+@keyframes aviso-linha { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+.aviso-topo { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; line-height: 1.2; }
+.aviso-rotulo { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--suave); }
+.aviso-sev {
+  font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+  color: var(--sev-texto); background: color-mix(in srgb, var(--sev) 15%, transparent);
+}
+.aviso-agora { font-size: 11px; color: var(--suave); }
+.aviso-agora::before { content: '· '; }
+.aviso-mais {
+  margin-left: auto; border: 1px solid var(--borda); background: var(--cartao); color: var(--texto);
+  font: 600 11px/1 var(--fonte-texto); padding: 4px 9px; border-radius: 999px; cursor: pointer;
+}
+.aviso-mais:hover { border-color: var(--suave); }
+.aviso-titulo { font-family: var(--fonte-titulo); font-size: 16px; font-weight: 700; line-height: 1.3; color: var(--texto); }
+.aviso-alerta .aviso-meta { font-size: 12.5px; line-height: 1.4; }
+
+.aviso-acoes { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.aviso-btn {
+  border: 1px solid var(--borda); background: var(--cartao); color: var(--texto); cursor: pointer;
+  font: 600 12.5px/1 var(--fonte-texto); padding: 8px 12px; border-radius: 9px;
+  transition: background var(--dur-micro, 120ms), border-color var(--dur-micro, 120ms), transform var(--dur-micro, 120ms);
+}
+.aviso-btn:hover { border-color: var(--suave); }
+.aviso-btn.primario { background: var(--primaria); border-color: var(--primaria); color: #fff; }
+.aviso-btn.primario:hover { background: color-mix(in srgb, var(--primaria) 86%, #000); }
+.aviso-btn:active { transform: scale(0.97); }
+
+/* Número mudou (item 7): o contador do botão Alertas cresce um instante e o alvo fecha sobre ele. */
+.alertas-contador.num-mudou { animation: aviso-contador var(--dur-foco, 600ms) var(--ease-sai, ease-out); }
+@keyframes aviso-contador {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 transparent; }
+  30% { transform: scale(1.18); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ia) 30%, transparent); }
+  100% { transform: scale(1); box-shadow: 0 0 0 10px transparent; }
+}
+
+/* Gaveta aberta à direita (detalhe, Maia, Alertas): o aviso centra no pedaço do mapa que sobra. */
+@media (min-width: 721px) {
+  body[data-gaveta] .aviso-novo {
+    left: calc(var(--esq, 76px) + (100% - var(--esq, 76px) - var(--gaveta-w, 400px) - 24px) / 2);
+    max-width: calc(100% - var(--esq, 76px) - var(--gaveta-w, 400px) - 48px);
+  }
+}
+
+/* ---------- linha do tempo aberta: uma linha discreta embaixo do cabeçalho ----------
+   A base é da barra do tempo e o mapa mostra outro instante: nada de cartão disputando espaço. Sem ícone,
+   sem botões; o clique abre o detalhe. Um cartão grande que já estava à vista some ao abrir a barra. */
+body.com-linha-tempo .aviso-novo:not(.aviso-discreto) { display: none; }
+.aviso-novo.aviso-discreto {
+  top: calc(20px + var(--topo-h, 56px) + 46px); bottom: auto;
+  left: calc(var(--esq, 76px) + (100% - var(--esq, 76px) - 12px) / 2);
+  width: auto; max-width: min(460px, calc(100vw - var(--esq, 76px) - 40px));
+  flex-wrap: nowrap; align-items: center; gap: 8px;
+  padding: 6px 32px 7px 12px; border-radius: 999px; font-size: 12.5px; line-height: 1.3;
+  box-shadow: var(--vidro-sombra, 0 6px 18px -8px rgba(8, 24, 30, 0.35));
+  background: color-mix(in srgb, var(--cartao) 92%, transparent);
+}
+.aviso-discreto .aviso-texto { display: block; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aviso-discreto .aviso-texto b { font-weight: 600; }
+.aviso-discreto .aviso-ponto { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--sev, var(--andamento)); }
+.aviso-discreto .aviso-sev { flex: none; padding: 1px 7px; font-size: 10.5px; }
+.aviso-discreto .aviso-mais { flex: none; margin-left: 0; padding: 3px 8px; font-size: 10.5px; }
+.aviso-discreto .aviso-fechar { top: 50%; right: 4px; width: 22px; height: 22px; margin-top: -11px; font-size: 12px; border-radius: 50%; }
+.aviso-discreto .aviso-tempo { height: 2px; opacity: 0.7; }
+.aviso-novo.aviso-discreto.entrando { animation: aviso-desce 220ms var(--ease-sai, ease-out) both; }
+.aviso-novo.aviso-discreto.saindo { transform: translate(-50%, -4px); }
+@keyframes aviso-desce { from { opacity: 0; transform: translate(-50%, -6px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@media (min-width: 721px) {
+  body[data-gaveta] .aviso-novo.aviso-discreto { max-width: calc(100% - var(--esq, 76px) - var(--gaveta-w, 400px) - 48px); }
+}
+
+/* ---------- celular ---------- */
+@media (max-width: 720px) {
+  .aviso-novo { bottom: 76px; max-width: calc(100vw - 24px); }
+  .aviso-novo.aviso-alerta { width: calc(100vw - 24px); gap: 11px; padding: 12px 38px 14px 14px; }
+  .aviso-icone { width: 40px; height: 40px; }
+  .aviso-icone-tile { font-size: 20px; }
+  .aviso-titulo { font-size: 15px; }
+  .aviso-novo.aviso-alerta.aviso-discreto, .aviso-novo.aviso-discreto { left: 50%; width: auto; max-width: calc(100vw - 24px); padding: 6px 32px 7px 12px; }
+}
+
+/* ---------- reduzir movimento: fade curto, nada gira, a barra some (o tempo continua contando) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .aviso-novo.entrando { animation: aviso-fade 200ms linear both; }
+  .aviso-alerta.entrando .aviso-icone-tile, .aviso-alerta.entrando .aviso-corpo > * { animation: none; }
+  .aviso-alerta.entrando .aviso-icone-alvo { animation: none; box-shadow: 0 0 0 2px var(--sev); }
+  .aviso-tempo { opacity: 0; }
+  .alertas-contador.num-mudou { animation: none; }
+  .aviso-novo.saindo { transform: translateX(-50%); }
+}
+@keyframes aviso-fade { from { opacity: 0; } to { opacity: 1; } }

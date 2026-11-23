@@ -1,0 +1,15 @@
+/* Visão simples (js/visao-simples.js): menos botões, o mapa e o essencial. */
+.visao-simples #btn-filtros, .visao-simples #btn-camadas, .visao-simples #vistas,
+.visao-simples #btn-resumo-dia, .visao-simples #resumo-dia, .visao-simples #btn-resumo-semana, .visao-simples #btn-desde-visita, .visao-simples #desde-visita,
+.visao-simples #widgets-mapa,
+.visao-simples #btn-telao, .visao-simples #btn-dados, .visao-simples #btn-historico-cobrancas, .visao-simples #btn-regras,
+.visao-simples #btn-prazos, .visao-simples #btn-usuarios, .visao-simples #btn-auditoria, .visao-simples #btn-personalizar { display: none !important; }
+/* Troca de visão no pé do menu */
+.menu-visao { margin-top: auto; cursor: pointer; font: inherit; }
+.menu-visao .menu-emoji i { font-size: 20px; }
+.visao-simples .menu-visao { color: var(--acento); }
+
+/* O botão do Resumo de hoje só existe na visão resumida. */
+html:not(.visao-simples) .so-visao-simples { display: none !important; }
+/* Menu ⋯ na visão resumida: os grupos Painel e Administração ficam vazios (os itens saem acima), então saem também. */
+.visao-simples #menu-mais .mais-grupo:not(.mais-demo):not(.mais-leitura-grupo) { display: none; }

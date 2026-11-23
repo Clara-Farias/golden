@@ -1,0 +1,273 @@
+/* Tela Personalização (#tela-personalizar, js/tela-personalizar.js). Usa as peças comuns das telas
+   (sec-topo, rel-cartao, btn-sec, btn-primario) e algumas de css/conta.css (ct-campo, ct-sub, ct-link, ct-msg-*). */
+#tela-personalizar { display: flex; flex-direction: column; gap: 14px; }
+#tela-personalizar h3 { margin: 0; font: 700 15px/1.3 var(--fonte-titulo); color: var(--titulo); }
+[data-tema="escuro"] #tela-personalizar h3 { color: var(--texto); }
+
+/* ---- Para quem vale ---- */
+.pz-niveis { display: flex; flex-wrap: wrap; gap: 8px; }
+.pz-nivel {
+  flex: 1 1 220px; display: flex; align-items: flex-start; gap: 10px; text-align: left; cursor: pointer;
+  padding: 10px 12px; border-radius: 10px; border: 1px solid var(--borda-forte); background: var(--cartao); color: var(--texto);
+  font: inherit; transition: border-color var(--dur-micro) var(--ease-sai), box-shadow var(--dur-micro) var(--ease-sai);
+}
+.pz-nivel > i { font-size: 20px; color: var(--suave); margin-top: 1px; }
+.pz-nivel span { display: flex; flex-direction: column; gap: 2px; }
+.pz-nivel b { font-size: 14px; }
+.pz-nivel small { font-size: 12px; color: var(--suave); line-height: 1.35; }
+.pz-nivel:hover { border-color: var(--acao); }
+.pz-nivel[aria-checked="true"] { border-color: var(--acao); box-shadow: inset 0 0 0 1px var(--acao); background: color-mix(in srgb, var(--acao) 6%, var(--cartao)); }
+.pz-nivel[aria-checked="true"] > i { color: var(--secundaria-texto); }
+
+.pz-origem, .pz-trava { margin: 0; display: flex; gap: 8px; align-items: flex-start; font-size: 13px; color: var(--suave); }
+.pz-trava { padding: 10px 12px; border-radius: 8px; background: var(--sup-3); color: var(--texto); }
+.pz-trava-marca { font-size: 13px; }
+
+/* ---- Grade: ajustes à esquerda, prévia presa à direita ---- */
+.pz-grade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 14px; align-items: start; }
+.pz-col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.pz-cartao { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; }
+/* top: deixa o botão de fechar da tela (canto de cima) livre sobre o seletor Claro/Noturno. */
+.pz-previa-col { position: sticky; top: 52px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.pz-previa-cab { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+
+/* ---- Modelos ---- */
+/* Cartões baixos: faixa de cores, nome e uma descrição de até duas linhas; o modelo em uso leva um ✓. */
+.pz-modelos { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 8px; }
+.pz-modelo {
+  position: relative; display: flex; flex-direction: column; gap: 3px; text-align: left; cursor: pointer; padding: 8px 9px 9px;
+  border-radius: 10px; border: 1px solid var(--borda); background: var(--cartao); color: var(--texto); font: inherit;
+  transition: border-color var(--dur-micro) var(--ease-sai), transform var(--dur-micro) var(--ease-sai);
+}
+.pz-modelo:hover:not(:disabled) { border-color: var(--acao); }
+.pz-modelo[aria-pressed="true"] { border-color: var(--acao); box-shadow: inset 0 0 0 1px var(--acao); background: color-mix(in srgb, var(--acao) 5%, var(--cartao)); }
+.pz-modelo:disabled { opacity: .55; cursor: not-allowed; }
+.pz-modelo b { font-size: 13px; padding-right: 18px; }
+.pz-modelo small { font-size: 11.5px; color: var(--suave); line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.pz-modelo-ok { position: absolute; right: 8px; top: 30px; font-size: 16px; color: var(--acao); display: none; }
+.pz-modelo[aria-pressed="true"] .pz-modelo-ok { display: block; }
+.pz-amostras { display: flex; height: 16px; border-radius: 5px; overflow: hidden; margin-bottom: 4px; border: 1px solid var(--borda); }
+.pz-amostras i { flex: 2; }
+.pz-amostras i:nth-child(3) { flex: 1; }
+
+/* ---- Avançada ---- */
+.pz-avancado summary { display: flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; }
+.pz-avancado summary::-webkit-details-marker { display: none; }
+.pz-avancado summary::before { content: ''; width: 8px; height: 8px; border-right: 2px solid var(--suave); border-bottom: 2px solid var(--suave); transform: rotate(-45deg); transition: transform var(--dur-curta) var(--ease-sai); flex: none; }
+.pz-avancado[open] summary::before { transform: rotate(45deg); }
+.pz-avancado[open] summary { margin-bottom: 4px; }
+.pz-ajustado { font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--sup-3); color: var(--suave); }
+.pz-ajustado[hidden] { display: none; }
+.pz-cores { display: grid; gap: 10px; }
+.pz-cor { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.pz-cor label { display: flex; flex-direction: column; gap: 1px; font-size: 13px; }
+.pz-cor small, .pz-dica { font-size: 12px; color: var(--suave); font-weight: 400; }
+.pz-cor-campos { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+.pz-cor input[type="color"] { width: 38px; height: 34px; padding: 2px; border: 1px solid var(--borda-forte); border-radius: 8px; background: var(--cartao); cursor: pointer; }
+.pz-hex { width: 86px; font: 500 13px var(--fonte-texto); font-variant-numeric: tabular-nums; text-transform: lowercase; color: var(--texto); background: var(--cartao); border: 1px solid var(--borda-forte); border-radius: 8px; padding: 6px 8px; min-height: 34px; }
+.pz-hex[aria-invalid="true"] { border-color: var(--critica); outline-color: var(--critica); }
+.pz-cor input:disabled, .pz-fonte select:disabled { opacity: .55; cursor: not-allowed; }
+.pz-fonte select { font: 400 14px var(--fonte-texto); color: var(--texto); background: var(--cartao); border: 1px solid var(--borda-forte); border-radius: 8px; padding: 7px 8px; min-height: 38px; }
+.pz-contraste h4 { margin: 4px 0 6px; font-size: 13px; }
+.pz-contraste ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.pz-contraste li { display: grid; grid-template-columns: 18px 1fr auto; gap: 6px; align-items: baseline; font-size: 12.5px; }
+.pz-contraste li b { font-variant-numeric: tabular-nums; font-weight: 600; }
+.pz-contraste li.ok i { color: var(--positivo); }
+.pz-contraste li.baixo { color: var(--media-texto); }
+
+/* ---- Nome e logo ---- */
+.pz-marca .ct-campo input { font: 400 14px var(--fonte-texto); color: var(--texto); background: var(--cartao); border: 1px solid var(--borda-forte); border-radius: 8px; padding: 8px 10px; min-height: 38px; }
+.pz-marca .pz-dica { margin-top: -6px; }
+.pz-logo { display: flex; gap: 12px; align-items: flex-start; }
+.pz-logo-amostra { flex: none; width: 140px; height: 64px; border-radius: 10px; display: grid; place-items: center; background: var(--primaria); padding: 8px; }
+.pz-logo-amostra img { max-width: 100%; max-height: 36px; object-fit: contain; }
+.pz-logo-acoes { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.pz-enviar { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; position: relative; }
+.pz-enviar:focus-within { outline: 2px solid var(--foco); outline-offset: 2px; }
+.pz-check { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; font-weight: 600; cursor: pointer; }
+.pz-check input { margin-top: 2px; accent-color: var(--acao); }
+.pz-check span { display: flex; flex-direction: column; gap: 2px; }
+.pz-check small { font-weight: 400; color: var(--suave); }
+.pz-marca-original { align-self: flex-start; }
+
+/* ---- Barra de ações (presa embaixo da tela) ---- */
+.pz-barra {
+  position: sticky; bottom: -1px; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 14px; border-radius: 12px; background: var(--vidro); border: 1px solid var(--borda); backdrop-filter: blur(10px);
+}
+.pz-msg { margin: 0; font-size: 13px; color: var(--suave); padding: 4px 8px; border-radius: 8px; display: flex; gap: 6px; align-items: center; }
+.pz-msg:empty { padding: 0; }
+/* Com mudança por aplicar, a barra chama a atenção: borda e ponto na cor de destaque. */
+.pz-barra { transition: border-color var(--dur-curta) var(--ease-sai), box-shadow var(--dur-curta) var(--ease-sai); }
+.pz-barra-pendente { border-color: var(--acento); box-shadow: 0 -4px 18px rgba(11, 29, 34, .10); }
+.pz-msg-pendente { color: var(--texto); font-weight: 600; }
+.pz-msg-pendente::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--acento); }
+.pz-botoes { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.pz-botoes .btn-primario, .pz-botoes .btn-sec { width: auto; margin: 0; padding: 8px 14px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.pz-botoes button:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ---- Modo da prévia ---- */
+.pz-modos { display: inline-flex; border: 1px solid var(--borda-forte); border-radius: 8px; overflow: hidden; }
+.pz-modos button { border: 0; background: var(--cartao); color: var(--suave); font: 600 12px var(--fonte-texto); padding: 5px 10px; cursor: pointer; display: inline-flex; gap: 4px; align-items: center; }
+.pz-modos button[aria-checked="true"] { background: var(--sup-3); color: var(--texto); }
+
+/* ---- A prévia: um painel em miniatura que lê as variáveis postas no próprio elemento ---- */
+.pz-previa { border-radius: 12px; overflow: hidden; border: 1px solid var(--borda); background: var(--fundo); color: var(--texto); font-family: var(--fonte-texto); box-shadow: 0 6px 20px rgba(11, 29, 34, .12); }
+.pz-m-aba { display: flex; align-items: center; gap: 6px; padding: 6px 10px; font-size: 11px; color: var(--suave); background: var(--sup-3); border-bottom: 1px solid var(--borda); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pz-m { display: grid; grid-template-columns: 112px 1fr; min-height: 300px; }
+.pz-m-menu { background: var(--barra); padding: 12px 8px; display: flex; flex-direction: column; gap: 4px; }
+.pz-m-logo { display: block; max-width: 96px; max-height: 24px; object-fit: contain; margin: 0 4px 10px; align-self: flex-start; }
+.pz-m-item { position: relative; display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 6px; font-size: 11.5px; color: #dde5e6; }
+.pz-m-item.ativo { background: rgba(255, 255, 255, .12); color: #fff; font-weight: 600; }
+.pz-m-item.ativo::before { content: ''; position: absolute; left: -8px; top: 6px; bottom: 6px; width: 3px; border-radius: 0 3px 3px 0; background: var(--acento); }
+.pz-m-corpo { padding: 10px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.pz-m-topo { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 8px 10px; border-radius: 10px; background: var(--cartao); border: 1px solid var(--borda); font-size: 11px; }
+.pz-m-nome { font: 700 13px var(--fonte-titulo); color: var(--titulo); }
+.pz-m-chip { padding: 1px 7px; border-radius: 999px; background: var(--sup-3); color: var(--suave); font-size: 10px; font-weight: 600; }
+.pz-m-kpi { color: var(--suave); }
+.pz-m-kpi b { color: var(--texto); font-variant-numeric: tabular-nums; }
+.pz-m-bt { margin-left: auto; padding: 3px 8px; border-radius: 7px; border: 1px solid var(--borda); display: inline-flex; gap: 4px; align-items: center; }
+.pz-m-cartoes { display: grid; grid-template-columns: 1fr 1.3fr; gap: 8px; }
+.pz-m-cartao { background: var(--cartao); border: 1px solid var(--borda); border-radius: 10px; padding: 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.pz-m-cartao h4 { margin: 0; font: 600 12px var(--fonte-titulo); color: var(--titulo); display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pz-m-cartao p { margin: 0; font-size: 11px; color: var(--suave); line-height: 1.4; }
+.pz-m-num { font-size: 22px; font-variant-numeric: tabular-nums; }
+.pz-m-barra { height: 6px; border-radius: 3px; background: var(--sup-3); overflow: hidden; }
+.pz-m-barra i { display: block; height: 100%; background: var(--acao); }
+.pz-m-link { font-size: 11px; font-weight: 600; color: var(--secundaria-texto); display: inline-flex; gap: 3px; align-items: center; }
+.pz-m-sev { font: 600 10px var(--fonte-texto); padding: 1px 6px; border-radius: 999px; background: var(--critica-fundo); color: var(--critica-texto); display: inline-flex; gap: 3px; align-items: center; }
+.pz-m-botoes { display: flex; gap: 6px; flex-wrap: wrap; }
+.pz-m-prim, .pz-m-sec { font-size: 11px; font-weight: 600; padding: 5px 9px; border-radius: 7px; }
+.pz-m-prim { background: var(--acao); color: var(--sobre-acao); }
+.pz-m-sec { border: 1px solid var(--borda); color: var(--texto); background: var(--cartao); }
+.pz-m-cta { align-self: flex-start; font-size: 11px; font-weight: 700; padding: 6px 10px; border-radius: 8px; background: var(--acento); color: var(--sobre-acento); display: inline-flex; gap: 4px; align-items: center; }
+.pz-previa-escuro .pz-m-item.ativo { background: rgba(255, 255, 255, .08); }
+
+/* ---- Painel ou Portal (só no padrão de todos) ---- */
+.pz-alvos-linha { display: flex; align-items: flex-end; gap: 12px; margin-top: -4px; border-bottom: 1px solid var(--borda); }
+.pz-alvos-linha .pz-alvos { border-bottom: 0; flex: 1; min-width: 0; }
+.pz-alvos-linha .pz-ver-portal { flex: none; display: inline-flex; align-items: center; gap: 4px; padding: 8px 2px; font-size: 13px; }
+.pz-segue { flex-direction: row; cursor: pointer; }
+.pz-dica.pz-erro { color: var(--critica-texto); }
+.pz-marca .ct-campo input[aria-invalid="true"] { border-color: var(--critica); }
+.pz-ver-portal { text-decoration: none; }
+
+/* ---- Prévia do portal: um celular com o topo, um aviso, o atendimento e as abas da base ---- */
+.pz-previa-portal { background: none; border: 0; box-shadow: none; display: grid; place-items: center; padding: 4px 0; }
+.pz-c { width: 300px; max-width: 100%; border-radius: 28px; border: 8px solid #17262b; overflow: hidden; background: var(--fundo); color: var(--texto); box-shadow: 0 10px 28px rgba(11, 29, 34, .22); display: flex; flex-direction: column; min-height: 470px; }
+.pz-previa-escuro .pz-c { border-color: #2c3e43; }
+.pz-c-topo { background: var(--topo); color: #fff; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 3px solid var(--acento); }
+.pz-c-marca { flex: none; min-width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .22); font-size: 17px; }
+.pz-c-marca:has(img) { background: none; border: 0; border-radius: 0; }
+.pz-c-marca img { display: block; max-height: 28px; max-width: 100px; object-fit: contain; }
+.pz-c-nome { display: flex; flex-direction: column; min-width: 0; margin-right: auto; line-height: 1.15; }
+.pz-c-nome small { font-size: 10px; opacity: .75; }
+.pz-c-nome b { font: 700 14px var(--fonte-titulo); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pz-c-chip { flex: none; font-size: 10.5px; font-weight: 600; padding: 4px 8px; border-radius: 999px; background: rgba(255, 255, 255, .14); display: inline-flex; gap: 3px; align-items: center; }
+.pz-c-corpo { flex: 1; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.pz-c-corpo h4 { margin: 0; font: 700 15px var(--fonte-titulo); color: var(--titulo); }
+.pz-c-cartao { background: var(--cartao); border: 1px solid var(--borda); border-radius: 14px; padding: 10px 12px; display: flex; flex-direction: column; gap: 5px; align-items: flex-start; font-size: 12px; }
+.pz-c-cartao > b { font-size: 13px; }
+.pz-c-cartao p { margin: 0; color: var(--suave); line-height: 1.4; }
+.pz-c-cartao p b { color: var(--texto); }
+.pz-c-urg { font-size: 10.5px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--critica-fundo); color: var(--critica-texto); display: inline-flex; gap: 3px; align-items: center; }
+.pz-c-link { font-weight: 600; color: var(--link); display: inline-flex; gap: 3px; align-items: center; }
+.pz-c-botao { margin-top: 2px; font-weight: 600; padding: 7px 12px; border-radius: 10px; background: var(--primaria); color: var(--sobre-primaria); display: inline-flex; gap: 5px; align-items: center; }
+.pz-c-canais { display: flex; gap: 6px; flex-wrap: wrap; }
+.pz-c-canais span { font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--borda); color: var(--link); display: inline-flex; gap: 4px; align-items: center; }
+.pz-c-assina { margin: auto 0 0; font-size: 10.5px; color: var(--suave); text-align: center; }
+.pz-c-abas { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--cartao); border-top: 1px solid var(--borda); }
+.pz-c-abas span { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 0 9px; font-size: 10px; color: var(--suave); position: relative; }
+.pz-c-abas span .ti { font-size: 17px; }
+.pz-c-abas span.ativo { color: var(--ouro-texto); font-weight: 700; }
+.pz-c-abas span.ativo::before { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: var(--acento); }
+
+/* Logo próprio: até o painel montar, o lugar do logo (tela de abertura e menu) fica vazio em vez de mostrar o original. */
+.vd-marca-pendente .carregando-logo, .vd-marca-pendente .logo-atlas { visibility: hidden; }
+.carregando-logo.logo-propria { width: auto; height: auto; max-width: 240px; max-height: 96px; object-fit: contain; }
+
+/* Logo enviado pelo gestor geral, no trilho do menu: sem distorcer, na altura do original. */
+.menu-marca .logo-atlas.logo-propria { height: 30px; width: auto; max-width: 140px; object-fit: contain; }
+
+@media (max-width: 960px) {
+  .pz-grade { grid-template-columns: 1fr; }
+  .pz-previa-col { position: static; order: -1; }
+}
+@media (max-width: 520px) {
+  .pz-m { grid-template-columns: 1fr; }
+  .pz-m-menu { flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .pz-m-logo { margin: 0 6px 0 0; }
+  .pz-m-item.ativo::before { display: none; }
+  .pz-m-cartoes { grid-template-columns: 1fr; }
+  .pz-logo { flex-direction: column; }
+}
+
+/* ---- Slogan da gestão nas prévias ---- */
+.pz-m-tit { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.pz-m-slogan { font-size: 10px; color: var(--suave); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pz-c-slogan { margin: auto 0 0; font-size: 11px; font-weight: 600; color: var(--titulo); text-align: center; }
+.pz-c-slogan + .pz-c-assina { margin-top: 2px; }
+
+/* ---- Rosto da assistente nas prévias (cor e máscara em linha: é o rascunho, não o que já vale) ---- */
+.pz-rosto { position: relative; display: inline-block; flex: none; width: 22px; height: 22px; border-radius: 50%; vertical-align: -6px; }
+.pz-rosto i { position: absolute; inset: 0; background: #fff; }
+.pz-m-ia { display: inline-flex; align-items: center; gap: 5px; margin-left: 4px; color: var(--texto); }
+.pz-m-ia .pz-rosto { width: 15px; height: 15px; vertical-align: 0; }
+
+/* ---- Cartão "Assistente (IA)" ---- */
+.pz-escolha-linha { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; border: 0; font-size: 13px; }
+.pz-escolha-linha legend { width: 100%; padding: 0; margin-bottom: 4px; font-size: 13px; font-weight: 600; color: var(--texto); }
+.pz-escolha-linha label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.pz-ia-rosto { display: flex; flex-direction: column; gap: 10px; }
+.pz-ia-rosto-tit { display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+.pz-ia-rosto-tit small { color: var(--suave); font-size: 12px; }
+.pz-formas { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 6px; }
+.pz-forma {
+  display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 8px 4px; border-radius: 10px; cursor: pointer;
+  border: 1px solid var(--borda); background: var(--cartao); color: var(--texto); font: inherit; font-size: 11.5px; line-height: 1.2; text-align: center;
+}
+.pz-forma .pz-rosto { width: 30px; height: 30px; }
+.pz-forma:hover { border-color: var(--acao); }
+.pz-forma[aria-checked="true"] { border-color: var(--acao); box-shadow: inset 0 0 0 1px var(--acao); background: color-mix(in srgb, var(--acao) 6%, var(--cartao)); }
+.pz-ia-amostra { display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border-radius: 12px; background: var(--ia-fundo); border: 1px solid var(--ia-borda); font-size: 13px; }
+.pz-ia-amostra p { margin: 0; line-height: 1.45; }
+.pz-ia-balao-autor { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; }
+.pz-ia-padrao[hidden] { display: none; }
+
+/* ---- Cartão "Entrada do painel" ---- */
+.pz-en-grade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 200px); gap: 14px; align-items: start; }
+.pz-en-campos { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.pz-opcoes { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; border: 0; }
+.pz-opcoes legend { padding: 0; margin-bottom: 4px; font-size: 13px; font-weight: 600; color: var(--texto); }
+.pz-opcao { display: flex; align-items: flex-start; gap: 8px; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--borda); cursor: pointer; font-size: 13px; }
+.pz-opcao:has(input:checked) { border-color: var(--acao); background: color-mix(in srgb, var(--acao) 6%, var(--cartao)); }
+.pz-opcao input { margin-top: 3px; }
+.pz-opcao span { display: flex; flex-direction: column; gap: 1px; }
+.pz-opcao small { color: var(--suave); font-size: 12px; }
+.pz-en-imagem { display: flex; flex-direction: column; gap: 8px; }
+.pz-en-imagem[hidden] { display: none; }
+.pz-en-veu output { font-weight: 600; color: var(--secundaria-texto); margin-left: 4px; }
+.pz-en-veu input[type="range"] { width: 100%; accent-color: var(--acao); }
+.pz-en-previa-col { position: sticky; top: 8px; display: flex; flex-direction: column; gap: 8px; }
+/* Miniatura do login: o lado da marca à esquerda (fundo escolhido) e o cartão de entrar à direita. */
+.pz-en-previa {
+  position: relative; overflow: hidden; aspect-ratio: 4 / 5; border-radius: 12px; border: 1px solid var(--borda);
+  display: flex; flex-direction: column; justify-content: space-between; padding: 12px; color: #fff;
+}
+.pz-en-previa.pz-en-grafismo { background-image: radial-gradient(circle at 12px 12px, rgba(255, 255, 255, 0.13) 3.5px, transparent 4px) !important; background-size: 22px 22px !important; }
+.pz-en-logo img { height: 24px; width: auto; max-width: 110px; object-fit: contain; }
+.pz-en-txt { display: flex; flex-direction: column; gap: 2px; }
+.pz-en-txt b { font: 800 14px/1.15 var(--fonte-titulo); }
+.pz-en-txt small { font-size: 10px; color: var(--acento); font-weight: 600; }
+.pz-en-form { position: absolute; right: 10px; top: 22%; width: 36%; height: 30%; border-radius: 8px; background: rgba(255, 255, 255, 0.92); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); }
+.pz-en-capa { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; transition: transform 550ms var(--ease-move), opacity 600ms var(--ease-sai); }
+.pz-en-capa img { width: 44px; height: auto; max-height: 48px; object-fit: contain; }
+.pz-en-capa-abrir { transform: translateX(-100%); }
+.pz-en-capa-esmaecer { opacity: 0; }
+.pz-en-capa.aberta { transform: none; opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .pz-en-capa { transition: none; } }
+@media (max-width: 720px) { .pz-en-grade { grid-template-columns: 1fr; } .pz-en-previa-col { position: static; max-width: 220px; } }
+
+/* Abertura do painel com fundo próprio (Personalização → Entrada do painel): o texto do meio ganha um fundo
+   escuro e desfocado, para ler sobre qualquer foto. A capa de saída do login tem o mesmo em css/entrar.css. */
+.carregando.vd-fundo-proprio .carregando-caixa { border-radius: 18px; background: rgba(8, 20, 30, 0.38); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }

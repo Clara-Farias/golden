@@ -1,0 +1,80 @@
+/* ---- Perfis de acesso: aba da tela Usuários (js/tela-perfis.js) ---- */
+.pf-bloco { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+.pf-bloco + .pf-bloco { margin-top: 14px; }
+.pf-bloco-cab { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.pf-bloco-cab h3 { margin: 0 0 4px; font: 700 16px var(--fonte-titulo); color: var(--titulo); }
+[data-tema="escuro"] .pf-bloco-cab h3 { color: var(--texto); }
+.pf-bloco-cab .btn-primario { width: auto; margin: 0; padding: 8px 14px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.pf-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.pf-cartao { border: 1px solid var(--borda); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 6px; background: var(--cartao); }
+.pf-criado { border-color: color-mix(in srgb, var(--primaria) 30%, var(--borda)); }
+.pf-cartao-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.pf-cartao h3 { margin: 0; font: 600 15px var(--fonte-texto); }
+.pf-cartao h3 a { color: var(--texto); text-decoration: none; }
+.pf-cartao h3 a:hover { text-decoration: underline; }
+.pf-visao, .pf-desc, .pf-numeros { margin: 0; font-size: 13px; color: var(--suave); }
+.pf-visao { display: flex; align-items: center; gap: 6px; color: var(--secundaria-texto); font-weight: 600; }
+.pf-desc { color: var(--texto-2); }
+[data-tema="escuro"] .pf-desc { color: var(--texto); }
+.pf-cartao-pe { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; padding-top: 4px; }
+a.us-acao { text-decoration: none; }
+.us-acao:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* editor */
+.pf-voltar { margin: 0; font-size: 13px; }
+.pf-voltar a { color: var(--secundaria-texto); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+.pf-voltar a:hover { text-decoration: underline; }
+.pf-editor { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.pf-editor textarea { font: 400 14px var(--fonte-texto); color: var(--texto); background: var(--cartao); border: 1px solid var(--borda-forte); border-radius: 8px; padding: 8px 10px; resize: vertical; }
+.pf-visoes { border: 0; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; }
+.pf-visoes legend { font-size: 13px; font-weight: 600; margin-bottom: 6px; padding: 0; }
+.pf-visao-op { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--borda); border-radius: 10px; padding: 10px 12px; cursor: pointer; }
+.pf-visao-op:has(input:checked) { border-color: var(--acento); background: color-mix(in srgb, var(--primaria) 6%, transparent); }
+.pf-visao-op b { display: flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14px; }
+.pf-visao-op small { display: block; color: var(--suave); font-size: 12px; margin-top: 2px; }
+.pf-visoes:disabled .pf-visao-op { cursor: default; opacity: 0.75; }
+.pf-comparar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 13px; }
+.pf-comparar select, .pf-linha select { font: 400 13px var(--fonte-texto); color: var(--texto); background: var(--cartao); border: 1px solid var(--borda-forte); border-radius: 8px; padding: 4px 8px; margin-left: 4px; }
+.pf-legenda { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.pf-legenda[hidden] { display: none; }
+.pf-marca { padding: 1px 8px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+.pf-marca-mais, .pf-mais { background: var(--positivo-fundo); }
+.pf-marca-menos, .pf-menos { background: var(--critica-fundo); }
+.pf-marca-outro, .pf-outro { background: var(--media-fundo); }
+[data-tema="escuro"] .pf-mais, [data-tema="escuro"] .pf-menos, [data-tema="escuro"] .pf-outro { background: var(--sup-3); }
+.pf-permissoes { display: flex; flex-direction: column; gap: 10px; }
+.pf-conta { margin: 0; font-size: 13px; color: var(--suave); }
+.pf-grupo { border: 1px solid var(--borda); border-radius: 10px; margin: 0; padding: 8px 12px 10px; }
+.pf-grupo legend { font-size: 13px; font-weight: 700; padding: 0 4px; }
+.pf-grupo legend small { font-weight: 400; color: var(--suave); margin-left: 4px; }
+.pf-linha { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; padding: 5px 6px; border-radius: 6px; font-size: 13px; }
+.pf-linha label { display: flex; align-items: center; gap: 8px; flex: 1 1 220px; cursor: pointer; }
+.pf-grupo:disabled .pf-linha label { cursor: default; }
+.pf-alcance { color: var(--suave); font-size: 12px; }
+.pf-dif { flex-basis: 100%; color: var(--texto-2); font-size: 11px; padding-left: 26px; }
+[data-tema="escuro"] .pf-dif { color: var(--texto); }
+.pf-editor .cr-dialogo-botoes .btn-primario { width: auto; margin: 0; padding: 8px 14px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; }
+
+/* Perfil do sistema ajustado: aviso no editor e borda no cartão. */
+.pf-ajustado { border-color: color-mix(in srgb, var(--media-texto) 35%, var(--borda)); }
+.pf-ajustado-aviso { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 12px; border-radius: 8px; background: var(--media-fundo); color: var(--media-texto); font-size: 13px; }
+.pf-ajustado-aviso > span { flex: 1 1 240px; }
+.pf-ajustado-aviso .us-acao { color: var(--media-texto); font-weight: 600; background: var(--cartao); border-color: var(--borda); }
+[data-tema="escuro"] .pf-ajustado-aviso { background: var(--sup-3); color: #fde047; }
+.pf-trava { font-size: 13px; color: var(--suave); vertical-align: -1px; }
+.pf-editor .cr-dialogo-botoes { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pf-espaco { flex: 1; }
+.pf-nota { margin: 2px 4px 0; display: flex; gap: 6px; align-items: center; font-size: 12.5px; color: var(--suave); }
+
+/* "Ver o painel como" no cabeçalho */
+.perfil-chip-vendo { background: var(--media-fundo) !important; color: var(--media-texto) !important; }
+
+@media (max-width: 720px) {
+  .pf-grade { grid-template-columns: 1fr; }
+  .pf-linha select { margin-left: 26px; }
+}
+
+/* Como o painel abre (completa, resumida, só resumida) */
+.pf-exibicao { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; padding: 1px 8px; border-radius: 999px; background: var(--sup-3); color: var(--texto-2); font-weight: 600; font-size: 12px; }
+.pf-exibicoes { margin-top: 4px; }
+.pf-exibicoes .pf-visao-op:has(input:disabled) { opacity: 0.55; cursor: not-allowed; }

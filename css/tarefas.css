@@ -1,0 +1,234 @@
+/* Tarefas (js/tarefas-ui.js e js/tela-tarefas.js): cartão, bloco no detalhe do alerta e da temporada, formulário
+   "Passar tarefa" (folha lateral na tela #/demandas, no lugar nos blocos) e a tela #/tarefas. Os formulários e o
+   bloco reaproveitam css/cobrancas.css (cb-form, cb-bloco).
+   Cores: vermelho só para atrasada; cobrada (falta responder) e "vence hoje" em laranja (--alta). */
+.tf-bloco { border-left-color: var(--primaria); }
+.tf-bloco .cb-bloco-cab h3 { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.tf-bloco .cb-bloco-cab .btn-sec { font-size: 12px; padding: 4px 10px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.tf-lista { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.tf-vazio { margin: 8px 0 0; font-size: 13px; color: var(--suave); }
+.tf-vazio.grande { text-align: center; padding: 28px 16px; background: var(--cartao); border: 1px dashed var(--borda-forte); border-radius: 12px; }
+.tf-vazio.grande .ti { font-size: 32px; color: var(--suave); }
+.tf-vazio.grande p { margin: 4px 0; }
+.tf-fechadas { margin-top: 8px; font-size: 13px; }
+.tf-fechadas summary { cursor: pointer; color: var(--suave); }
+
+/* Cartão */
+.tf-cartao { position: relative; min-width: 0; display: flex; flex-direction: column; border: 1px solid var(--borda); border-left: 4px solid var(--borda-forte); border-radius: 10px; padding: 10px 12px; background: var(--cartao); }
+.tf-cartao.fazendo { border-left-color: var(--andamento, var(--acao)); }
+.tf-cartao.atrasada { border-left-color: var(--critica); }
+.tf-cartao.cobrada { border-left-color: var(--alta, var(--critica)); }
+.tf-cartao.feita { border-left-color: var(--positivo); }
+.tf-cartao.cancelada { opacity: 0.65; }
+.tf-cartao.destaque { box-shadow: 0 0 0 2px var(--acao); }
+.tf-cartao-topo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; min-height: 26px; }
+.tf-topo-dir { display: inline-flex; align-items: center; gap: 8px; margin-left: auto; }
+.tf-sit .ti { font-size: 13px; margin-right: 3px; }
+.tf-sit { display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; border-radius: 999px; padding: 1px 8px; background: var(--sup-3); color: var(--texto); white-space: nowrap; }
+.tf-sit.fazendo { background: var(--andamento-fundo); color: var(--andamento, var(--acao)); }
+.tf-sit.atrasada { background: var(--critica-fundo); color: var(--critica-texto); }
+.tf-sit.cobrada { background: var(--alta-fundo, var(--critica-fundo)); color: var(--alta-texto, var(--critica-texto)); }
+.tf-sit.feita { background: var(--positivo-fundo); color: var(--positivo); }
+
+/* Selo do prazo: a mesma urgência dos grupos da tela (GC.urgenciaTarefa). */
+.tf-prazo { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 600; color: var(--suave); white-space: nowrap; }
+.tf-prazo .ti { font-size: 14px; }
+.tf-prazo.atrasada { color: var(--critica-texto); }
+.tf-prazo.hoje { color: var(--alta-texto, var(--critica-texto)); }
+.tf-prazo.semana { color: var(--texto); }
+.tf-prazo.fechada { font-weight: 400; }
+
+.tf-ctx { display: inline-flex; align-items: center; gap: 4px; max-width: 100%; min-width: 0; font: inherit; font-size: 12px; color: var(--texto); background: var(--sup-2); border: 1px solid var(--borda); border-radius: 999px; padding: 1px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tf-ctx .ti { flex: none; }
+button.tf-ctx { cursor: pointer; display: inline-block; text-align: left; }
+button.tf-ctx:hover { border-color: var(--acao); color: var(--acao); }
+button.tf-ctx:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+.tf-ctx.temporada .ti { color: var(--viz-seq-600, var(--primaria)); }
+.tf-ctx.alerta .ti { color: var(--critica-texto); }
+.tf-ctx.gabinete .ti { color: var(--primaria); }
+.tf-cartao-ctx { margin-top: 6px; display: flex; min-width: 0; }
+.tf-texto { margin: 6px 0 2px; font-size: 14px; font-weight: 600; color: var(--texto); line-height: 1.35; overflow-wrap: anywhere; }
+/* Quem faz: iniciais (pessoa) ou prédio (a secretaria toda), o nome e a pasta. */
+.tf-meta { margin: 6px 0 0; font-size: 12px; color: var(--suave); display: flex; align-items: center; gap: 6px; min-width: 0; }
+.tf-meta b { font-weight: 600; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.tf-meta > span:not(.tf-avatar)::before { content: '·'; margin-right: 6px; }
+.tf-avatar { flex: none; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; letter-spacing: 0.02em; background: color-mix(in srgb, var(--primaria) 14%, var(--cartao)); color: var(--primaria); }
+.tf-avatar.pasta { background: var(--sup-3); color: var(--suave); }
+.tf-avatar .ti { font-size: 13px; }
+/* Pé do cartão: os botões e o histórico, colados embaixo. */
+.tf-pe { margin-top: auto; padding-top: 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.tf-pe .cb-botoes { margin-top: 0; flex: 1 1 auto; }
+.tf-pe .tf-hist { margin: 0 0 0 auto; }
+.tf-pe .tf-hist[open] { flex-basis: 100%; margin-left: 0; }
+.tf-evidencia { margin: 6px 0 0; font-size: 13px; color: var(--positivo); }
+/* Portal do servidor: a última notícia de quem faz, a dúvida esperando resposta e o pedido de notícia. */
+.tf-ultima { margin: 6px 0 0; font-size: 13px; color: var(--texto); }
+.tf-ultima span { color: var(--suave); }
+.tf-ultima .ti, .tf-duvida .ti { font-size: 14px; vertical-align: -2px; }
+.tf-duvida { margin: 6px 0 0; padding: 6px 8px; font-size: 13px; color: var(--texto); background: var(--sup-2); border-left: 3px solid var(--acao); border-radius: 4px; }
+.tf-pedida { display: inline-flex; align-items: center; gap: 3px; margin-left: 8px; font-size: 12px; font-weight: 600; color: var(--acao); white-space: nowrap; }
+.tf-cartao .cb-botoes { align-items: center; }
+.tf-cartao .cb-botoes button { display: inline-flex; align-items: center; gap: 4px; }
+.tf-perigo { color: var(--critica-texto); }
+.tf-hist { margin-top: 8px; font-size: 12px; }
+.tf-hist summary { cursor: pointer; color: var(--suave); display: inline-flex; align-items: center; gap: 4px; list-style: none; border-radius: 6px; padding: 2px 4px; }
+.tf-hist summary::-webkit-details-marker { display: none; }
+.tf-hist summary:hover { color: var(--texto); background: var(--sup-2); }
+.tf-hist summary small { font-size: 11px; }
+.tf-hist .cb-historico { margin-top: 6px; }
+
+/* Menu "⋯" do cartão (pedir notícia, mudar prazo, cancelar), no canto de cima */
+.tf-mais { position: relative; }
+.tf-mais summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; margin: -3px -4px -3px 0; border-radius: 6px; color: var(--suave); }
+.tf-mais summary .ti { font-size: 16px; }
+.tf-mais summary:hover { background: var(--sup-2); color: var(--texto); }
+.tf-mais summary::-webkit-details-marker { display: none; }
+.tf-mais summary:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+.tf-mais[open] summary { background: var(--sup-3); color: var(--texto); }
+.tf-mais-menu { position: absolute; right: 0; top: calc(100% + 4px); z-index: 5; min-width: 180px; display: flex; flex-direction: column; padding: 4px; background: var(--cartao); border: 1px solid var(--borda-forte); border-radius: 10px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14); }
+.tf-mais-menu button { border: 0; background: none; font: inherit; font-size: 13px; text-align: left; padding: 7px 10px; border-radius: 6px; cursor: pointer; color: var(--texto); display: flex; align-items: center; gap: 6px; }
+.tf-mais-menu button:hover, .tf-mais-menu button:focus-visible { background: var(--sup-2); outline: none; }
+.tf-mais-menu .tf-perigo { color: var(--critica-texto); }
+
+/* Formulário */
+.tf-linha { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.tf-linha .cb-campo[hidden] { display: none; }
+.tf-ligada { margin: 0 0 8px; font-size: 12px; color: var(--suave); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; }
+.tf-ligar { display: contents; }
+/* Rótulo com "opcional" na mesma linha, mais claro. */
+.tf-rot { display: inline-flex; align-items: baseline; gap: 6px; }
+.tf-opcional { font-weight: 400; font-size: 11px; color: var(--suave); opacity: 0.85; }
+/* Prazo em botões (radios) */
+.tf-prazos { border: 0; margin: 0 0 8px; padding: 0; min-width: 0; }
+.tf-prazos legend { padding: 0; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: var(--suave); }
+.tf-prazo-ops { display: flex; flex-wrap: wrap; gap: 6px; }
+.tf-prazo-op { position: relative; display: inline-flex; cursor: pointer; }
+.tf-prazo-op input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.tf-prazo-op span { font-size: 13px; padding: 4px 11px; border: 1px solid var(--borda-forte); border-radius: 999px; background: var(--cartao); color: var(--texto); white-space: nowrap; }
+.tf-prazo-op:hover span { background: var(--sup-3); }
+.tf-prazo-op input:checked + span { background: var(--acao); border-color: var(--acao); color: var(--sobre-acao, #fff); font-weight: 600; }
+.tf-prazo-op input:focus-visible + span { outline: 2px solid var(--acao); outline-offset: 2px; }
+.tf-prazos [data-tf-data] { margin: 8px 0 0; max-width: 220px; }
+/* Lugar e detalhes, recolhidos */
+.tf-extra { margin: 0 0 8px; }
+.tf-extra[hidden] { display: none; }
+.tf-extra > summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: var(--acao); padding: 2px 0; }
+.tf-extra > summary::-webkit-details-marker { display: none; }
+.tf-extra > summary:hover { text-decoration: underline; }
+.tf-extra > summary:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; border-radius: 4px; }
+.tf-extra[open] > summary .ti { transform: rotate(45deg); }
+.tf-extra[open] > summary { margin-bottom: 8px; }
+/* Pé: o botão principal à direita e maior; "Voltar" ao lado. */
+.tf-passar .tf-pe-form { flex-direction: row-reverse; justify-content: flex-start; align-items: center; gap: 8px; }
+.tf-passar .tf-pe-form .btn-acao { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px; }
+.tf-passar .tf-pe-form .btn-sec { font-size: 13px; padding: 7px 12px; border-radius: 8px; }
+
+/* Folha lateral da tela #/demandas: véu sobre a tela e a folha à direita (no celular, de baixo). */
+.tf-passar.tf-em-folha { position: fixed; inset: 0; z-index: 40; margin: 0; padding: 0; border: 0; border-radius: inherit; background: rgba(15, 23, 32, 0.32); display: flex; justify-content: flex-end; max-width: none; animation: tf-veu 0.18s ease-out; }
+.tf-passar.tf-em-folha[hidden] { display: none; }
+.tf-folha { width: min(460px, 100%); height: 100%; display: flex; flex-direction: column; background: var(--cartao); border-left: 1px solid var(--borda); box-shadow: -12px 0 32px rgba(0, 0, 0, 0.16); border-radius: 14px 0 0 14px; animation: tf-folha 0.22s ease-out; }
+.tf-folha-cab { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 16px 18px 10px; border-bottom: 1px solid var(--borda); }
+.tf-folha-cab h3 { margin: 0; font-family: var(--fonte-titulo); font-size: 18px; color: var(--titulo); }
+.tf-folha-x { border: 0; background: none; width: 32px; height: 32px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--suave); }
+.tf-folha-x:hover { background: var(--sup-2); color: var(--texto); }
+.tf-folha-x:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+.tf-folha-x .ti { font-size: 18px; }
+.tf-folha-corpo { flex: 1; min-height: 0; overflow-y: auto; padding: 14px 18px 6px; }
+.tf-folha .tf-pe-form { padding: 12px 18px; border-top: 1px solid var(--borda); background: var(--cartao); border-radius: 0 0 0 14px; }
+@keyframes tf-veu { from { opacity: 0; } }
+@keyframes tf-folha { from { transform: translateX(24px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .tf-passar.tf-em-folha, .tf-folha { animation: none; } }
+/* Cartão com formulário aberto: ocupa a linha inteira da grade, sem desalinhar os vizinhos. */
+.tf-grupo .tf-cartao:has(.cb-form:not([hidden])) { grid-column: 1 / -1; }
+.tf-cartao .tf-form { margin-top: 10px; max-width: 640px; }
+
+/* "Passar" ao lado de uma ação do "O que fazer" (detalhe da temporada) */
+.tf-prefill { margin-left: 6px; border: 0; background: none; padding: 0; font: inherit; font-size: 12px; font-weight: 600; color: var(--acao); cursor: pointer; white-space: nowrap; }
+.tf-prefill:hover { text-decoration: underline; }
+
+/* Tela #/tarefas */
+#tela-tarefas .sec-topo > div { min-width: 0; }
+#tela-tarefas .sec-acoes { display: flex; gap: 6px; justify-content: flex-end; align-items: center; }
+#tela-tarefas .btn-primario { white-space: nowrap; width: auto; margin: 0; padding: 8px 14px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+#tela-tarefas .btn-primario[aria-expanded="true"] { filter: brightness(0.92); }
+
+/* Abas de situação com os números: baixas, rótulo e número na mesma linha */
+.tf-kpis { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.tf-kpi { position: relative; flex: 1 1 0; background: var(--cartao); border: 1px solid var(--borda); border-radius: 10px; padding: 7px 12px; display: flex; align-items: baseline; gap: 8px; text-align: left; font: inherit; color: var(--texto); cursor: pointer; min-width: 0; white-space: nowrap; }
+.tf-kpi:hover { border-color: var(--borda-forte); background: var(--sup-2); }
+.tf-kpi small { font-size: 13px; color: var(--suave); overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.tf-kpi b { font-size: 20px; line-height: 1.1; font-family: var(--fonte-titulo); margin-left: auto; }
+.tf-kpi span { font-size: 11px; color: var(--suave); order: 3; }
+.tf-kpi.ruim b { color: var(--critica-texto); }
+.tf-kpi.alerta b { color: var(--alta-texto, var(--critica-texto)); }
+.tf-kpi.discreta { flex: 0 1 auto; background: none; }
+.tf-kpi.discreta b { font-size: 16px; }
+.tf-kpi.ativo { border-color: var(--acao); background: var(--andamento-fundo, var(--sup-2)); box-shadow: inset 0 -3px 0 var(--acao); }
+.tf-kpi.ativo small { color: var(--texto); font-weight: 600; }
+
+/* Busca e filtros: uma faixa só, sem cartão */
+.tf-filtros { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 6px; }
+.tf-filtros-topo { display: flex; gap: 8px; align-items: center; flex: 0 1 300px; min-width: 220px; }
+.tf-busca { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; border: 1px solid var(--borda-forte); border-radius: 8px; padding: 0 10px; background: var(--cartao); }
+.tf-busca:focus-within { border-color: var(--acao); box-shadow: 0 0 0 2px color-mix(in srgb, var(--acao) 25%, transparent); }
+.tf-busca .ti { color: var(--suave); font-size: 16px; }
+.tf-busca input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; font-size: 13px; padding: 7px 0; color: var(--texto); }
+.tf-filtros-botao { display: none; align-items: center; gap: 4px; white-space: nowrap; }
+.tf-filtros-botao b { background: var(--acao); color: var(--sobre-acao, #fff); border-radius: 999px; font-size: 11px; padding: 0 6px; }
+.tf-filtros-corpo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; flex: 1 1 auto; min-width: 0; }
+.tf-filtro-linha { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.tf-filtro-linha:last-child { flex: 1 1 auto; }
+.tf-filtro-linha > span { font-size: 12px; font-weight: 600; color: var(--suave); }
+.tf-chip { display: inline-flex; align-items: center; gap: 4px; font: inherit; font-size: 13px; border: 1px solid var(--borda-forte); background: var(--cartao); color: var(--texto); border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+.tf-chip b { font-size: 11px; color: var(--suave); }
+.tf-chip:hover:not(:disabled) { background: var(--sup-3); }
+.tf-chip.ativo { background: var(--acao); border-color: var(--acao); color: var(--sobre-acao, #fff); }
+.tf-chip.ativo b { color: inherit; }
+.tf-chip.vazio { opacity: 0.5; cursor: default; }
+.tf-chip:focus-visible, .tf-kpi:focus-visible, .tf-limpar:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+.tf-sel { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--suave); }
+.tf-sel select { font: inherit; font-size: 13px; padding: 4px 8px; border: 1px solid var(--borda-forte); border-radius: 8px; background: var(--cartao); color: var(--texto); max-width: 100%; }
+.tf-limpar { border: 0; background: none; padding: 3px 4px; font: inherit; font-size: 13px; font-weight: 600; color: var(--acao); cursor: pointer; margin-left: auto; }
+.tf-limpar:hover { text-decoration: underline; }
+.tf-vazio .tf-limpar { margin: 0; }
+.tf-resumo { margin: 0 0 10px; font-size: 12px; color: var(--suave); }
+
+/* Grupos por urgência */
+.tf-grupo { margin: 0 0 18px; }
+.tf-grupo h3 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--suave); }
+.tf-grupo.atrasada h3 { color: var(--critica-texto); }
+.tf-grupo.hoje h3 { color: var(--alta-texto, var(--texto)); }
+.tf-grupo h3 small { font-size: 12px; margin-left: 4px; }
+.tf-grupo .tf-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr)); gap: 10px; }
+
+@media (max-width: 720px) {
+  #tela-tarefas .sec-topo { flex-direction: column; align-items: stretch; }
+  #tela-tarefas .sec-acoes { justify-content: flex-start; }
+  /* Abas numa faixa que rola de lado, sem empurrar a lista para baixo */
+  .tf-kpis { flex-wrap: nowrap; flex-shrink: 0; overflow-x: auto; scroll-snap-type: x proximity; margin-inline: -4px; padding: 2px 4px 4px; }
+  .tf-kpi { flex: 0 0 auto; scroll-snap-align: start; }
+  .tf-kpi b { font-size: 18px; }
+  .tf-filtros-topo { flex: 1 1 100%; }
+  .tf-filtros-botao { display: inline-flex; }
+  .tf-filtros-corpo { flex-direction: column; align-items: flex-start; }
+  .tf-filtros-corpo:not(.aberto) { display: none; }
+  .tf-linha { grid-template-columns: minmax(0, 1fr); }
+  .tf-grupo .tf-lista { grid-template-columns: minmax(0, 1fr); }
+  /* O botão ☰ flutuante não cobre o último cartão. */
+  #tela-tarefas { padding-bottom: 72px; }
+  /* A folha sobe de baixo. */
+  .tf-passar.tf-em-folha { align-items: flex-end; }
+  .tf-folha { width: 100%; height: auto; max-height: 92%; border-left: 0; border-top: 1px solid var(--borda); border-radius: 16px 16px 0 0; box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.18); animation-name: tf-folha-baixo; }
+  .tf-folha .tf-pe-form { border-radius: 0; }
+  .tf-prazo-op span { padding: 6px 12px; }
+}
+@keyframes tf-folha-baixo { from { transform: translateY(32px); opacity: 0; } }
+
+/* Onde e mais detalhes (opcionais): o portal do servidor mostra com "Como chegar". */
+.tf-onde { display: grid; gap: 8px; }
+.tf-onde[hidden] { display: none; }
+.tf-onde input { width: 100%; }
+.tf-dica { margin: -2px 0 0; font-size: 12px; color: var(--suave); }
+.tf-local { margin: 2px 0; font-size: 13px; color: var(--texto); display: flex; align-items: center; gap: 4px; overflow-wrap: anywhere; }
+.tf-local .ti { color: var(--acao); flex: none; }
+.tf-detalhe { margin: 2px 0 4px; font-size: 13px; color: var(--suave); overflow-wrap: anywhere; }

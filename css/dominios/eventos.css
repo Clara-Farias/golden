@@ -1,0 +1,50 @@
+/* Domínio: eventos (pino, popup e widget). Grandes eventos: plano de operação, público previsto e real. */
+/* ---- Pino: o círculo vazado de .marcador-equip (css/mapa-premium.css); aqui só a cor de "realizado" ---- */
+.marcador-equip.marcador-evento.realizado { --c: var(--suave); opacity: 0.85; }
+.marcador-equip.marcador-evento b { color: #fff; }
+
+/* ---- Popup ---- */
+.popup .sev.evento-critica { background: var(--critica); }
+.popup .sev.evento-atencao { background: var(--media); color: var(--texto); }
+.popup .sev.evento-ok { background: var(--positivo); }
+.popup .sev.evento-realizado { background: var(--suave); }
+.evento-numeros { list-style: none; margin: 6px 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.evento-numeros b { display: block; font-size: 16px; color: var(--texto); font-variant-numeric: tabular-nums; }
+.evento-numeros small { font-size: 12px; color: var(--suave); }
+.evento-numeros li.acima b { color: var(--critica); }
+.evento-frentes { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.evento-frentes li { border-left: 3px solid var(--positivo); padding-left: 8px; }
+.evento-frentes li.pendente { border-left-color: var(--media); }
+.evento-frentes li.atrasado { border-left-color: var(--critica); }
+.evento-frentes small { display: block; font-size: 12px; color: var(--suave); }
+.ev-sit { font-style: normal; font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--positivo); }
+.ev-sit.pendente { color: var(--media-texto); }
+.ev-sit.atrasado { color: var(--critica); }
+
+/* ---- Widget ---- */
+.w-eventos { display: flex; flex-direction: column; gap: 12px; }
+.w-eventos .w-num b { font-size: 20px; }
+.w-eventos h4 { margin: 0 0 8px; font-size: 13px; }
+.w-eventos h4 small { font-weight: 400; color: var(--suave); }
+.w-ev-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-ev-lista button {
+  display: grid; grid-template-columns: 72px 1fr; align-items: start; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-ev-lista button:hover { background: var(--sup-2); }
+.w-ev-lista .sit { margin-top: 2px; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff; border-radius: 10px; padding: 1px 0; text-align: center; }
+.w-ev-lista .sit.critica { background: var(--critica); }
+.w-ev-lista .sit.atencao { background: var(--media); color: var(--texto); }
+.w-ev-lista .sit.ok { background: var(--positivo); }
+.w-ev-lista .sit.realizado { background: var(--suave); }
+.w-ev-lista .nome small { display: block; font-size: 12px; color: var(--suave); }
+.ev-desvio { font-weight: 700; color: var(--texto); }
+.ev-desvio.acima { color: var(--critica); }
+.ev-desvio.abaixo { color: var(--suave); }
+.ev-frentes { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.ev-frente {
+  font-size: 11px; line-height: 18px; padding: 0 7px; border-radius: 9px; white-space: nowrap;
+  border: 1px solid var(--positivo); color: var(--positivo); background: var(--positivo-fundo);
+}
+.ev-frente.pendente { border-color: var(--media); color: var(--media-texto); background: var(--media-fundo); }
+.ev-frente.atrasado { border-color: var(--critica); color: var(--critica-texto); background: var(--critica-fundo); }

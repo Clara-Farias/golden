@@ -1,0 +1,46 @@
+/* Gráficos mais ricos: linhas que se desenham, área suave, ponto final com halo e dica que segue o mouse
+   (js/grafico-dica.js). Vale para a ficha do indicador, os cartões das Fichas e os minigráficos dos widgets. */
+
+/* ---------- linhas que se desenham ao aparecer ---------- */
+@keyframes graf-desenha { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes graf-area { from { opacity: 0; } }
+.ind-linha, .ind-spark polyline {
+  stroke-dasharray: 1; stroke-dashoffset: 0;
+  animation: graf-desenha 0.9s var(--ease-sai) both;
+}
+.ind-grafico polygon, .ind-spark .area { animation: graf-area 0.9s var(--ease-sai) 0.2s both; }
+@media (prefers-reduced-motion: reduce) {
+  .ind-linha, .ind-spark polyline, .ind-grafico polygon, .ind-spark .area { animation: none; }
+}
+
+/* ---------- minigráfico dos cartões: área e ponto de agora com halo ---------- */
+.ind-spark .area { fill: var(--c); opacity: 0.12; stroke: none; }
+.ind-spark .halo { fill: var(--c); opacity: 0.18; }
+.wx-spark .area { opacity: 0.12; }
+.spark .spark-fim { filter: drop-shadow(0 0 3px color-mix(in srgb, var(--acao) 60%, transparent)); }
+
+/* ---------- ficha: linha mais firme, gradiente na cor da situação ---------- */
+.ind-grafico { position: relative; }
+.ind-grafico .ind-linha { stroke: var(--c, var(--navy)); stroke-width: 2.4; filter: drop-shadow(0 3px 4px color-mix(in srgb, var(--c, var(--navy)) 30%, transparent)); }
+.ind-grafico .ind-grad-a { stop-color: var(--c, var(--navy)); stop-opacity: 0.28; }
+.ind-grafico .ind-grad-b { stop-color: var(--c, var(--navy)); stop-opacity: 0; }
+.ind-grafico .ind-ponto { opacity: 0; transition: opacity var(--dur-curta) var(--ease-sai); }
+.ind-grafico .ind-ponto.atual { opacity: 1; }
+.ind-grafico:hover .ind-ponto { opacity: 1; }
+
+/* ---------- dica que segue o mouse ---------- */
+.ind-mira { stroke: var(--suave); stroke-width: 1; stroke-dasharray: 3 3; opacity: 0; pointer-events: none; }
+.ind-mira-ponto { fill: var(--cartao); stroke: var(--c, var(--navy)); stroke-width: 2.5; opacity: 0; pointer-events: none; }
+.ind-bolha {
+  position: absolute; left: 0; top: 0; z-index: 2; pointer-events: none; opacity: 0;
+  display: flex; flex-direction: column; gap: 1px; min-width: 84px; padding: 6px 10px; border-radius: 10px;
+  background: var(--elevado); box-shadow: var(--elev-2); font-size: 12px; white-space: nowrap;
+  transition: opacity var(--dur-micro) var(--ease-sai);
+}
+.ind-bolha small { color: var(--suave); font-size: 11px; }
+.ind-bolha b { font-family: var(--fonte-titulo); font-size: 16px; font-weight: 600; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--texto); }
+.ind-bolha em { font-style: normal; font-size: 11px; font-weight: 600; }
+.ind-bolha em.ok { color: var(--positivo); }
+.ind-bolha em.fora { color: var(--critica-texto); }
+.ind-grafico.com-dica .ind-mira, .ind-grafico.com-dica .ind-mira-ponto, .ind-grafico.com-dica .ind-bolha { opacity: 1; }
+@media (hover: none) { .ind-mira, .ind-mira-ponto, .ind-bolha { display: none; } }

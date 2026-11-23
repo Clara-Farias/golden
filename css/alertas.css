@@ -1,0 +1,222 @@
+/* Gaveta Alertas (js/decisao.js) e detalhe do alerta (js/gaveta.js): acabamento da revisão de UI de 17/11/2026.
+   Carregada depois de styles.css, v3.css, prazos.css e acoes-prefeito.css (e das folhas premium): vale sobre elas.
+   Princípios: a gravidade fica na borda do cartão; o vermelho cheio fica só no atraso; uma ação forte por vez. */
+
+/* ============================================================
+   Lista
+   ============================================================ */
+
+/* Abas: o zero fica à vista, apagado (a aba não parece desligada). */
+.alertas-abas button b.zero { opacity: 0.55; }
+
+/* Grupos presos no topo enquanto o grupo está à vista; a cor vai só no número. */
+.alertas-lista { gap: 6px; }
+.alertas-lista > .alertas-grupo, .alertas-esperar > summary.alertas-grupo {
+  position: sticky; top: -12px; z-index: 2; margin: 4px -16px 0; padding: 8px 16px 6px;
+  background: var(--cartao); color: var(--texto-2); font-size: 11.5px; letter-spacing: 0.06em;
+}
+.alertas-lista > .alertas-grupo:first-child { margin-top: -12px; }
+.alertas-grupo b { margin-left: auto; }
+.alertas-grupo.g-prazo, .alertas-grupo.g-crise { color: var(--texto-2); }
+.alertas-grupo.g-vai_estourar b { background: var(--media-fundo); color: var(--media-texto); }
+.alertas-divisor { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--borda); }
+
+/* Cartão: 3 linhas. Borda na cor da gravidade (Alta e Média mais apagadas que Crítica). */
+.alerta-item {
+  padding: 10px 12px 10px; border-radius: 12px; background: var(--cartao);
+  border: 1px solid color-mix(in srgb, var(--borda-forte) 55%, transparent); border-left: 4px solid var(--media);
+}
+.alerta-item.critica { border-left-color: var(--critica); }
+.alerta-item.alta { border-left-color: color-mix(in srgb, var(--alta) 80%, var(--cartao)); }
+.alerta-item.media { border-left-color: color-mix(in srgb, var(--media) 75%, var(--cartao)); }
+.alerta-item:hover, .alerta-item:focus-visible { transform: none; box-shadow: var(--elev-1, 0 4px 14px rgba(11, 29, 34, 0.12)); border-color: var(--borda-forte); }
+.alerta-item:focus-visible { outline: 2px solid var(--foco); outline-offset: 2px; }
+/* O que está aberto no detalhe: anel na cor de ação, para não perder o lugar ao voltar. */
+.alerta-item.aberto { box-shadow: 0 0 0 2px var(--acao); border-color: transparent; }
+
+.alerta-topo { align-items: flex-start; gap: 10px; }
+.alerta-item h3 { font-size: 14px; line-height: 1.3; }
+
+/* Etiqueta do atraso: o único vermelho cheio do cartão. Números de largura fixa para a coluna alinhar. */
+.alerta-atraso {
+  flex: none; margin-top: 1px; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 700;
+  font-variant-numeric: tabular-nums; white-space: nowrap; background: var(--critica); color: #fff;
+}
+.alerta-atraso.quase { background: var(--media-fundo); color: var(--media-texto); }
+.alerta-item.tratada .alerta-atraso { display: none; }
+
+/* Onde e quem, numa linha neutra; o motivo vem logo depois, discreto. */
+.alerta-item .alerta-tag { gap: 4px 6px; margin-top: 4px; color: var(--suave); }
+.alerta-onde { min-width: 0; }
+.alerta-item .alerta-chip { max-width: 100%; padding: 1px 7px; font-size: 11.5px; }
+.alerta-item .alerta-chip.m-prazo { background: var(--sup-3); color: var(--texto-2); }
+
+/* Prazo e ação na mesma linha. */
+.alerta-pe { gap: 10px; margin-top: 8px; min-height: 26px; }
+.alerta-pe .alerta-prazo { flex: 1; min-width: 0; margin: 0; }
+.alerta-prazo .barra { width: 56px; }
+.alerta-item.estourada .alerta-prazo span { color: var(--texto-2); font-weight: 500; }
+.alerta-item.estourada .alerta-prazo .barra b { background: var(--critica); }
+
+/* A ação do cartão é contorno; ganha cor cheia quando o cartão está sob o mouse ou com foco. */
+.alerta-pe .btn-acao.principal {
+  flex: none; max-width: 55%; overflow: hidden; text-overflow: ellipsis; padding: 4px 10px; border-radius: 8px;
+  background: transparent; border-color: color-mix(in srgb, var(--acao) 45%, var(--borda)); color: var(--acao);
+}
+.alerta-item:hover .btn-acao.principal, .alerta-item:focus-within .btn-acao.principal, .alerta-item.aberto .btn-acao.principal {
+  background: var(--acao); border-color: var(--acao); color: var(--sobre-acao);
+}
+.alerta-pe .btn-acao.principal:focus-visible { outline: 2px solid var(--foco); outline-offset: 1px; }
+
+/* Já tratadas: mais discretas, sem botão. */
+.alerta-item.tratada { background: color-mix(in srgb, var(--sup-2) 85%, transparent); border-left-color: var(--borda-forte); }
+
+@media (prefers-reduced-motion: reduce) { .alerta-item { transition: none; } }
+
+/* ============================================================
+   Detalhe
+   ============================================================ */
+
+.gavetas .gaveta { display: flex; flex-direction: column; padding-top: 12px; }
+.gavetas .gaveta > * { flex: none; }
+
+/* Linha de cima: voltar, anterior/próximo e fechar, todos com área de toque decente. */
+.gaveta-cabeca { display: flex; align-items: center; gap: 8px; margin: 0 0 10px; min-height: 32px; }
+.gaveta-cabeca .gaveta-voltar { margin: 0; min-height: 32px; padding: 4px 12px; align-items: center; }
+.gaveta-nav { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; font-size: 12px; color: var(--suave); font-variant-numeric: tabular-nums; }
+.gaveta-nav span { padding: 0 4px; white-space: nowrap; }
+.gaveta-ir, .gaveta-cabeca .gaveta-fechar {
+  width: 32px; height: 32px; display: inline-grid; place-items: center; border: 0; border-radius: 50%;
+  background: color-mix(in srgb, var(--borda-forte) 22%, transparent); color: var(--texto-2); cursor: pointer; font-size: 15px;
+}
+.gaveta-ir:hover:not(:disabled), .gaveta-cabeca .gaveta-fechar:hover { background: color-mix(in srgb, var(--borda-forte) 40%, transparent); color: var(--texto); }
+.gaveta-ir:disabled { opacity: 0.35; cursor: default; }
+.gaveta-ir:focus-visible, .gaveta-cabeca .gaveta-fechar:focus-visible, .gaveta-voltar:focus-visible { outline: 2px solid var(--foco); outline-offset: 2px; }
+.gaveta-cabeca .gaveta-fechar { position: static; margin-left: auto; font-size: 14px; }
+.gaveta-nav + .gaveta-fechar { margin-left: 6px; }
+
+/* Selos, título e onde. A estrela vai para a direita da linha dos selos. */
+.gaveta-topo { padding-right: 0; gap: 8px; }
+.gaveta .sev { padding: 2px 9px; border-radius: 6px; letter-spacing: 0.04em; }
+.gaveta-status { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 6px; background: var(--andamento-fundo); }
+.gaveta-status.resolvida { background: var(--positivo-fundo); }
+.gaveta-topo .gaveta-acompanhar { margin: 0 0 0 auto; }
+.gaveta-topo .ap-estrela { padding: 3px 8px; }
+.gavetas .gaveta h2 {
+  margin: 10px 0 4px; font-family: var(--fonte-titulo, inherit); font-size: 19px; line-height: 1.25;
+  font-weight: 700; letter-spacing: -0.01em; color: var(--titulo, var(--texto));
+}
+.gavetas .gaveta .gaveta-meta { margin: 0 0 12px; font-size: 12.5px; color: var(--suave); }
+
+/* Prazos: duas fases lado a lado, cada uma com nome, valor, barra e o tamanho do prazo. */
+.gaveta-prazo { margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; background: var(--sup-2); border: 1px solid var(--borda); font-size: 12px; color: var(--texto-2); }
+.gaveta-prazo.estourada { background: var(--critica-fundo); border-color: var(--critica-borda); color: var(--texto-2); }
+.gp-fases { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.gp-fases > :only-child { grid-column: 1 / -1; }
+.gp-fase { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.gp-fase + .gp-fase { padding-left: 12px; border-left: 1px solid color-mix(in srgb, var(--borda-forte) 60%, transparent); }
+.gp-rot { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--suave); }
+.gp-rot i {
+  width: 16px; height: 16px; display: inline-grid; place-items: center; border-radius: 50%; font-style: normal;
+  font-size: 10px; background: var(--borda); color: var(--texto-2); letter-spacing: 0;
+}
+.gp-val { font-size: 14px; color: var(--texto); font-variant-numeric: tabular-nums; }
+.gp-val b { font-weight: 700; }
+.gp-barra { display: block; height: 5px; border-radius: 3px; background: var(--borda); overflow: hidden; }
+.gp-barra i { display: block; height: 100%; border-radius: 3px; background: var(--andamento); }
+.gp-fase small { font-size: 11.5px; color: var(--suave); }
+.gp-fase.quase .gp-barra i { background: var(--media); }
+.gp-fase.quase .gp-val { color: var(--media-texto); }
+.gp-fase.estourado .gp-barra i { background: var(--critica); }
+.gp-fase.estourado .gp-val { color: var(--critica-texto); }
+.gp-fase.estourado .gp-rot i { background: var(--critica); color: #fff; }
+.gp-fase.feito .gp-val { color: var(--positivo); font-weight: 600; }
+.gp-fase.feito .gp-rot i { background: var(--positivo); color: #fff; }
+.gp-pe { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 10px; margin-top: 10px; padding-top: 8px; border-top: 1px solid color-mix(in srgb, var(--borda-forte) 45%, transparent); }
+.gp-resp { color: var(--suave); }
+.gp-resp b { color: var(--texto); font-weight: 600; }
+.gp-situacao { font-weight: 600; color: var(--andamento); }
+.gaveta-prazo .gaveta-historico-prazo { margin-top: 6px; }
+
+/* Ação recomendada: logo abaixo do prazo, o que fazer antes do porquê. */
+.gaveta-ia {
+  margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; background: var(--ia-fundo);
+  border: 1px solid var(--ia-borda); color: var(--texto);
+}
+.gaveta-ia-rot { display: block; margin-bottom: 3px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ia); }
+.gaveta-ia p { margin: 0; font-size: 13.5px; line-height: 1.45; }
+
+/* Cartões de seção: fundo leve no lugar de títulos soltos. */
+.gaveta-cartao { margin: 0 0 10px; padding: 10px 12px 12px; border-radius: 12px; border: 1px solid var(--borda); background: color-mix(in srgb, var(--cartao) 80%, transparent); }
+.gavetas .gaveta .gaveta-cartao h3 { margin: 0 0 6px; font-size: 11.5px; letter-spacing: 0.06em; color: var(--suave); }
+.gaveta-porque .gaveta-regra-texto { margin: 0 0 8px; font-size: 13.5px; }
+.gaveta-porque .gaveta-evidencias { margin: 0 0 10px; padding-left: 18px; color: var(--texto-2); }
+.gaveta-porque .gaveta-evidencias li { margin: 3px 0; line-height: 1.4; }
+.gaveta-porque .gaveta-evidencias b { color: var(--texto); font-variant-numeric: tabular-nums; }
+.gaveta-impacto { display: flex; align-items: baseline; gap: 8px; padding: 8px 10px; border-radius: 10px; background: var(--sup-2); }
+.gaveta-impacto small { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--suave); }
+.gaveta-impacto b { font-size: 17px; font-weight: 700; color: var(--texto); font-variant-numeric: tabular-nums; }
+.gaveta-porque .gaveta-nota { margin: 8px 0 0; }
+.gaveta-porque .gaveta-tecnica { margin: 4px 0 0; }
+
+/* Linha do tempo: os passos mais antigos recolhidos. */
+.gaveta-linha-tempo .gaveta-tempo { margin: 0; }
+.gaveta-tempo-antigos { margin: 0 0 4px; font-size: 12px; color: var(--suave); }
+.gaveta-tempo-antigos > summary { cursor: pointer; margin-bottom: 4px; }
+.gaveta-tempo li.pendente { color: var(--critica-texto); font-style: normal; font-weight: 600; }
+.gaveta-tempo li.pendente::before { background: var(--critica); }
+
+/* Blocos da operação dentro do detalhe: mesmo raio e respiro dos cartões. */
+.gavetas .gaveta > .cb-bloco, .gavetas .gaveta > .ap-bloco { margin: 0 0 10px; border-radius: 12px; }
+/* Demandas sem nenhuma: vira uma linha só (o título e o "Passar demanda"). */
+.gavetas .gaveta > .tf-bloco:has(> .tf-vazio) { padding-top: 6px; padding-bottom: 6px; }
+.gavetas .gaveta > .tf-bloco:has(> .tf-vazio) > .tf-vazio { display: none; }
+
+/* Barra de ações: uma linha só, com a Maia como botão de ícone. */
+.ap-linha { flex-wrap: nowrap; }
+.ap-linha .gaveta-perguntar.so-icone { flex: none; width: 38px; min-width: 38px; padding: 0; display: inline-grid; place-items: center; font-size: 16px; align-self: stretch; }
+.ap-barra { padding-top: 10px; padding-bottom: 14px; }
+
+/* Celular e toque: alvos de 44 px. */
+@media (pointer: coarse) {
+  .gaveta-ir, .gaveta-cabeca .gaveta-fechar { width: 44px; height: 44px; }
+  .gaveta-cabeca .gaveta-voltar { min-height: 44px; }
+  .ap-linha .gaveta-perguntar.so-icone { width: 44px; min-width: 44px; }
+}
+@media (max-width: 420px) {
+  .gp-fases { grid-template-columns: 1fr; }
+  .gp-fase + .gp-fase { padding-left: 0; border-left: 0; padding-top: 8px; border-top: 1px solid color-mix(in srgb, var(--borda-forte) 60%, transparent); }
+}
+
+/* ============================================================
+   Busca e ordem (na linha do "i": a lista não perde altura)
+   O resumo ("3 de 16 ativos · cidade inteira") vai para o "i"; na aba Cobranças a linha volta a ser o resumo.
+   ============================================================ */
+.alertas-contexto { gap: 6px; margin: 8px 16px 0; min-height: 22px; }
+.alertas-busca, .alertas-ordem {
+  display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 8px; box-sizing: border-box;
+  border: 1px solid var(--divisor, rgba(143, 160, 164, 0.45)); border-radius: 8px; background: var(--cartao); color: var(--suave);
+}
+.alertas-busca[hidden], .alertas-ordem[hidden], .alertas-resumo[hidden] { display: none; }
+.alertas-busca { flex: 1 1 auto; min-width: 0; }
+.alertas-busca:focus-within, .alertas-ordem:focus-within { border-color: var(--acao); box-shadow: 0 0 0 2px color-mix(in srgb, var(--acao) 20%, transparent); }
+.alertas-busca input {
+  flex: 1; min-width: 0; border: 0; background: none; outline: none; font: inherit; font-size: 12.5px; color: var(--texto); padding: 0;
+}
+.alertas-busca input::-webkit-search-cancel-button { display: none; }
+.alertas-limpar { border: 0; background: none; color: var(--suave); cursor: pointer; padding: 0 2px; font-size: 11px; line-height: 1; }
+.alertas-limpar:hover { color: var(--texto); }
+.alertas-ordem { flex: none; max-width: 46%; cursor: pointer; }
+.alertas-ordem select {
+  border: 0; background: none; outline: none; font: inherit; font-size: 12.5px; color: var(--texto-2); cursor: pointer;
+  min-width: 0; max-width: 120px; padding: 0; text-overflow: ellipsis;
+}
+.alertas-ordem.mudada { border-color: var(--acao); color: var(--acao); }
+.alertas-ordem.mudada select { color: var(--acao); font-weight: 600; }
+.alertas-contexto .alertas-info { flex: none; margin-left: auto; }
+.alertas-explica-resumo { font-weight: 600; color: var(--texto); }
+.alertas-explica-resumo:empty { display: none; }
+
+/* Resultado da busca: uma linha discreta no topo da lista. */
+.alertas-achados { margin: 0 2px; font-size: 12px; color: var(--suave); }
+.alertas-link { border: 0; background: none; padding: 0; margin-left: 4px; font: inherit; color: var(--acao); cursor: pointer; text-decoration: underline; }

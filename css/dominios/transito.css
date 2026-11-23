@@ -1,0 +1,39 @@
+/* Domínio: transito (segurança no trânsito): pino, popup e widget. Carrega logo depois de css/v3.css no index.html. */
+/* Pino: o círculo de .marcador-equip (css/mapa-premium.css) na cor da situação; o selo é o número de atropelamentos. */
+.marcador-transito { --c: var(--positivo); }
+.marcador-transito.atencao { --c: var(--media); }
+.marcador-transito.critica { --c: var(--critica); }
+/* Atropelamento perto de escola: anel tracejado em volta do pino. */
+.marcador-transito.escola { outline: 2px dashed var(--c); outline-offset: 3px; }
+
+.popup .sev.transito-critica { background: var(--critica); }
+.popup .sev.transito-atencao { background: var(--media); }
+.popup .sev.transito-ok { background: var(--positivo); }
+.transito-numeros { list-style: none; margin: 6px 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.transito-numeros b { display: block; font-size: 16px; color: var(--texto); font-variant-numeric: tabular-nums; }
+.transito-numeros small { font-size: 12px; color: var(--suave); }
+.transito-numeros li.grave b { color: var(--critica); }
+.popup-transito .transito-tendencia.subindo { color: var(--critica); }
+.popup-transito .transito-tendencia.caindo { color: var(--positivo); }
+.popup-transito .transito-escola.grave { color: var(--critica); font-weight: 600; }
+.popup-transito .acao { font-weight: 600; color: var(--texto); }
+
+.w-transito { display: flex; flex-direction: column; gap: 12px; }
+.w-transito .w-num[data-destaque] { cursor: pointer; }
+.w-transito h4 { margin: 0 0 8px; font-size: 13px; }
+.w-transito h4 small { display: block; font-weight: 400; font-size: 12px; color: var(--suave); }
+.w-transito-escolas li { cursor: pointer; }
+.w-transito-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-transito-lista button {
+  display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 5px 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-transito-lista button:hover { background: var(--sup-2); }
+.w-transito-lista .sit { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff; border-radius: 10px; padding: 1px 0; text-align: center; }
+.w-transito-lista .sit.critica { background: var(--critica); }
+.w-transito-lista .sit.atencao { background: var(--media); }
+.w-transito-lista .sit.ok { background: var(--positivo); }
+.w-transito-lista .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-transito-lista .tend { font-size: 12px; font-weight: 600; white-space: nowrap; color: var(--suave); font-variant-numeric: tabular-nums; }
+.w-transito-lista .tend.subindo { color: var(--critica); }
+.w-transito-lista .tend.caindo { color: var(--positivo); }

@@ -1,0 +1,155 @@
+/* Acabamento premium do painel (index.html)
+   Carregado depois de css/cabecalho.css e antes de css/indicadores-premium.css (que refina a gaveta
+   de Indicadores). Tokens de elevação em identidade-visual/tokens.css (--elev-*, --sup-tile, --raio-*).
+   Regras da casa: menos borda e mais material; quatro níveis de elevação; números em Sora;
+   situação num filete curto, nunca uma borda grossa; um destaque cheio por bloco. */
+
+/* ---------- elevação: as sombras antigas passam a ser os níveis novos ---------- */
+:root {
+  --sombra: var(--elev-1);
+  --sombra-alta: var(--elev-2);
+  --vidro-sombra: var(--elev-2);
+  --divisor: color-mix(in srgb, var(--borda) 85%, transparent);
+}
+/* No escuro a profundidade vem do filete de luz no topo e do anel (sobrepõe marca.css). */
+[data-tema="escuro"] .vidro, [data-tema="escuro"] .widget, [data-tema="escuro"] .gaveta-painel { box-shadow: var(--elev-2); }
+[data-tema="escuro"] .widget { box-shadow: var(--elev-1); }
+
+/* ---------- vidro: mais desfoque, borda de luz ---------- */
+.vidro {
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+}
+@media (prefers-reduced-transparency: reduce) { .vidro { -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* ---------- títulos ---------- */
+.sec-topo h2, .gaveta-cab h2, .w-modal-cab h2, .ind-ficha-cab h3 { font-family: var(--fonte-titulo); font-weight: 600; letter-spacing: -0.02em; }
+.sec-topo h2 { font-size: 21px; }
+.sec-topo p { line-height: 1.45; }
+.gaveta-cab h2 { font-size: 17px; }
+
+/* ---------- telas sobre o mapa e gavetas ---------- */
+.sobre { border-radius: var(--raio-painel); box-shadow: var(--elev-3); }
+.gavetas { border-radius: var(--raio-painel); box-shadow: var(--elev-3); }
+.gaveta-cab, .gaveta-pe { border-color: var(--divisor); }
+.gaveta-cab { padding: 16px 18px 12px; }
+.gaveta-corpo { padding-left: 18px; padding-right: 18px; }
+.gaveta-corpo legend { font-size: 11.5px; font-weight: 600; letter-spacing: 0.07em; }
+.gaveta-x, .sobre-fechar { transition: background-color var(--dur-micro) var(--ease-sai), color var(--dur-micro) var(--ease-sai), transform var(--dur-curta) var(--ease-sai); }
+.gaveta-x:hover, .sobre-fechar:hover { transform: rotate(90deg); }
+@media (prefers-reduced-motion: reduce) { .gaveta-x:hover, .sobre-fechar:hover { transform: none; } }
+
+/* ---------- modais ---------- */
+.w-modal { border-radius: var(--raio-painel); box-shadow: var(--elev-3); }
+.w-modal-cab { border-bottom-color: var(--divisor); padding: 16px 20px; }
+dialog::backdrop { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.w-modal::backdrop { background: rgba(11, 29, 34, 0.38); }
+
+/* ---------- botões ---------- */
+.btn-sec, .toggle {
+  border-color: color-mix(in srgb, var(--borda-forte) 65%, transparent);
+  border-radius: 9px;
+  box-shadow: 0 1px 2px rgba(15, 76, 92, 0.06);
+  transition: background-color var(--dur-micro) var(--ease-sai), border-color var(--dur-micro) var(--ease-sai), box-shadow var(--dur-micro) var(--ease-sai), transform var(--dur-micro) var(--ease-sai);
+}
+.btn-sec:hover, .toggle:hover { border-color: var(--borda-forte); box-shadow: 0 2px 6px -2px rgba(15, 76, 92, 0.16); }
+.btn-sec:active, .toggle:active { transform: translateY(1px); box-shadow: none; }
+[data-tema="escuro"] .btn-sec, [data-tema="escuro"] .toggle { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04); }
+
+/* O botão cheio: brilho de cima e sombra na cor da ação */
+.btn-primario, .btn-sec.principal {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 60%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(15, 76, 92, 0.2), 0 6px 14px -6px color-mix(in srgb, var(--acao) 70%, transparent);
+  border-radius: 9px;
+  transition: background-color var(--dur-micro) var(--ease-sai), box-shadow var(--dur-micro) var(--ease-sai), transform var(--dur-micro) var(--ease-sai);
+}
+.btn-primario:hover:not(:disabled), .btn-sec.principal:hover:not(:disabled) {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 2px 4px rgba(15, 76, 92, 0.2), 0 10px 20px -8px color-mix(in srgb, var(--acao) 80%, transparent);
+}
+.btn-primario:active:not(:disabled), .btn-sec.principal:active:not(:disabled) { transform: translateY(1px); box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15); }
+.btn-primario:disabled { background-image: none; box-shadow: none; }
+@media (prefers-reduced-motion: reduce) {
+  .btn-sec:active, .toggle:active, .btn-primario:active, .btn-sec.principal:active { transform: none; }
+}
+
+.btn-vidro { border-color: color-mix(in srgb, var(--borda-forte) 55%, transparent); }
+.btn-vidro:hover { border-color: var(--borda-forte); box-shadow: 0 2px 6px -2px rgba(15, 76, 92, 0.16); }
+.btn-vidro.ativo, .doca-btn.ativo, .doca-btn[aria-expanded="true"] {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 60%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 4px 10px -4px color-mix(in srgb, var(--primaria) 60%, transparent);
+}
+
+/* ---------- chips de filtro: pílulas ---------- */
+.chip-filtro, .chip-f {
+  border-radius: 999px; border-color: color-mix(in srgb, var(--borda-forte) 55%, transparent);
+  transition: background-color var(--dur-micro) var(--ease-sai), border-color var(--dur-micro) var(--ease-sai), color var(--dur-micro) var(--ease-sai);
+}
+.chip-filtro.ativo, .chip-f.ativo {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 60%);
+  box-shadow: 0 2px 6px -2px color-mix(in srgb, var(--primaria) 60%, transparent);
+}
+
+/* ---------- ladrilhos de número ----------
+   KPIs das telas (.kpi, .sec-ind) no mesmo material dos de Indicadores: sem a borda grossa no topo,
+   a situação num filete curto. Os números das telas ficam em Sora. */
+.kpi, .sec-ind {
+  position: relative; border: 0; border-radius: var(--raio-tile);
+  background: var(--sup-tile); box-shadow: var(--elev-tile);
+}
+.kpi { --sit: var(--primaria); }
+.kpi.critico { --sit: var(--critica); }
+.kpi.alerta { --sit: var(--media); }
+.kpi.andamento { --sit: var(--andamento); }
+.kpi.bom { --sit: var(--positivo); }
+[data-tema="escuro"] .kpi:not(.critico, .alerta, .andamento, .bom) { --sit: var(--titulo); }
+.kpi::before {
+  content: ''; position: absolute; left: 12px; top: 0; width: 22px; height: 3px; border-radius: 0 0 3px 3px; background: var(--sit);
+}
+.kpi-valor, .sec-ind b, .rel-numero b, .desemp-kpis b {
+  font-family: var(--fonte-titulo); font-weight: 600; letter-spacing: -0.025em; font-variant-numeric: tabular-nums;
+}
+.rel-numero { border-radius: var(--raio-tile); }
+.painel-card { border-color: transparent; border-radius: var(--raio-tile); background: var(--sup-tile); box-shadow: var(--elev-tile); }
+.rel-doc { border-radius: var(--raio-cartao); }
+
+/* ---------- tabelas ---------- */
+.sec-tabela th { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--suave); }
+.sec-tabela td { border-top-color: var(--divisor); }
+.sec-tabela tbody tr { transition: background-color var(--dur-micro) var(--ease-sai); }
+.sec-tabela tbody tr:hover { background-color: color-mix(in srgb, var(--acao) 4%, transparent); }
+
+/* ---------- cascata de entrada (js/movimento.js) ----------
+   Até 6 itens com 40 ms de passo (--cascata-passo); o resto entra junto com o sexto. */
+.ga-cascata { animation: ga-sobe var(--dur-longa) var(--ease-sai) both; animation-delay: calc(var(--i, 0) * var(--cascata-passo)); }
+@media (prefers-reduced-motion: reduce) { .ga-cascata { animation: none; } }
+
+/* ---------- brilho que segue o mouse (js/movimento.js grava --mx/--my) ----------
+   Só com mouse e no hover. Os cartões escolhidos têm fundo liso: o brilho é uma camada de imagem por cima. */
+@media (hover: hover) and (pointer: fine) {
+  :is(.widget, .ind-cartao, .rel-numero, .alr-kpi):hover {
+    background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--acao) 8%, transparent), transparent 45%);
+  }
+  [data-tema="escuro"] :is(.widget, .ind-cartao, .rel-numero, .alr-kpi):hover {
+    background-image: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), color-mix(in srgb, var(--acao) 14%, transparent), transparent 45%);
+  }
+}
+
+/* ---------- troca de tela com View Transitions (js/app/telas.js) ----------
+   O painel das telas tem nome próprio: o que sai encolhe e some, o que entra sobe e aparece; o resto
+   (mapa, cabeçalho) fica parado. Durante a troca, a animação de entrada própria do painel se cala. */
+#sobre { view-transition-name: tela-sobre; }
+/* Entrou pela transição: a animação própria não toca de novo quando o vt-tela sai (js/app/telas.js). */
+html.vt-tela .sobre, .sobre.ja-entrou { animation: none; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+::view-transition-group(tela-sobre) { animation-duration: var(--dur-media); animation-timing-function: var(--ease-move); }
+::view-transition-old(tela-sobre) { animation: vt-tela-sai var(--dur-curta) var(--ease-entra) both; }
+::view-transition-new(tela-sobre) { animation: vt-tela-entra var(--dur-media) var(--ease-sai) both; }
+@keyframes vt-tela-sai { to { opacity: 0; transform: scale(0.985); } }
+@keyframes vt-tela-entra { from { opacity: 0; transform: translateY(10px) scale(1.01); } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+
+/* ---------- detalhes ---------- */
+::selection { background: color-mix(in srgb, var(--acao) 24%, transparent); }
+* { scrollbar-color: color-mix(in srgb, var(--borda-forte) 80%, transparent) transparent; }

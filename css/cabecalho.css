@@ -1,0 +1,111 @@
+/* ============================================================
+   Cabeçalho do painel (revisão de UI/UX, 2026-11-12).
+   Carregado depois de css/marca.css: as regras daqui valem sobre as antigas de styles.css e v3.css.
+   - nome da cidade e, embaixo, a linha de contexto (perfil · ao vivo com a hora · selo de demonstração);
+   - números com peso pela urgência, rótulo curto antes de a faixa rolar;
+   - botões da mesma altura (36 px), números com 32 px;
+   - contador dos Alertas com o mesmo estilo sempre, e o texto diz o recorte ("2 de 16").
+   ============================================================ */
+
+/* ---------- identidade: nome + linha de contexto ---------- */
+.topo-id { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 0 1 auto; }
+.topo .topo-id h1 { display: block; margin: 0; font-size: 18px; font-weight: 700; line-height: 1.15; color: var(--navy);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topo-contexto { margin: 0; display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 12px; line-height: 1.2;
+  color: var(--suave); white-space: nowrap; }
+.topo-contexto > * { flex: none; }
+.topo-contexto > .topo-perfil { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.topo-contexto > * + *::before { content: '·'; margin-right: 6px; color: var(--borda-forte); }
+.topo-perfil:empty, .topo-perfil:empty + *::before { display: none; }
+
+/* O perfil vira texto da linha, não um segundo título. "Vendo como" continua realçado (css/perfis-acesso.css). */
+.topo-contexto .perfil-chip,
+body.perfil-setor .topo-contexto .perfil-chip { background: none; padding: 0; border-radius: 0; font-size: 12px; font-weight: 600; color: var(--navy); }
+.topo-contexto .perfil-chip-vendo { padding: 1px 7px; border-radius: 999px; }
+
+.topo-vivo { display: inline-flex; align-items: center; gap: 5px; cursor: help; font-variant-numeric: tabular-nums; }
+.topo-vivo .ao-vivo { display: inline-block; width: 7px; height: 7px; flex: none; }
+
+/* Selo de demonstração: "Demo" curto; a frase inteira só quando há espaço. */
+.topo-contexto .selo-demo { padding: 2px 6px; font-size: 11px; }
+.topo-contexto .selo-demo::before { display: none; }
+.topo-contexto .selo-demo-longo { display: none; }
+@media (min-width: 1440px) { .topo-contexto .selo-demo-longo { display: inline; } }
+
+/* ---------- números-chave ---------- */
+/* Sem o cartão branco dentro do vidro: os números já têm a própria pílula. */
+.topo .faixa { align-items: center; background: none; box-shadow: none; padding: 4px 3px; border-radius: 0; }
+.topo .faixa-num { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 0 11px; border-radius: 16px; font-size: 13px; }
+.topo .faixa-num b { font-size: 16px; line-height: 1; }
+.fn-curto { display: none; }
+/* O que pede ação pesa mais: críticas e prazos estourados com fundo na cor; em atendimento fica neutro. */
+/* Fundo translúcido na cor (não os tokens *-fundo, que são claros também no tema escuro). */
+.topo .faixa-num.critico { background: color-mix(in srgb, var(--critica) 9%, transparent); border-color: color-mix(in srgb, var(--critica) 30%, transparent); color: var(--texto); }
+.topo .faixa-num.alerta { background: color-mix(in srgb, var(--media) 16%, transparent); border-color: color-mix(in srgb, var(--media-texto) 30%, transparent); color: var(--texto); }
+.topo .faixa-num.andamento { background: transparent; }
+.topo .faixa-num.andamento b { color: var(--suave); }
+.topo .faixa-num.critico:hover, .topo .faixa-num.alerta:hover { border-color: var(--borda-forte); }
+/* Número ligado é um filtro: realce na cor da marca e um × para tirar (o clique no número inteiro tira). */
+.fn-x { display: none; }
+.topo .faixa-num.ativo { background: var(--andamento-fundo); border-color: var(--navy); color: var(--navy); font-weight: 600;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primaria) 15%, transparent); padding-right: 5px; }
+.topo .faixa-num.ativo .fn-x { display: inline-grid; place-items: center; width: 20px; height: 20px; margin-left: 2px; border-radius: 50%;
+  font-size: 13px; vertical-align: 0; background: color-mix(in srgb, var(--navy) 12%, transparent); color: var(--navy); transition: background 0.15s, color 0.15s; }
+.topo .faixa-num.ativo:hover .fn-x { background: var(--navy); color: var(--cartao); }
+
+/* Número em zero não pede nada: volta ao neutro (classe zero em js/dashboard.js). */
+.topo .faixa-num.zero:not(.ativo) {background: transparent; border-color: var(--borda); }
+
+/* ---------- botões: mesma altura ---------- */
+.topo-botoes { align-items: center; }
+.topo-botoes .btn-vidro { min-height: 36px; padding-top: 0; padding-bottom: 0; }
+.topo-botoes #btn-mais { min-width: 36px; justify-content: center; padding: 0 9px; }
+
+/* Contador dos Alertas: sempre preenchido; o texto diz o recorte (o contorno de antes não se explicava).
+   Roxo: é contagem, não gravidade (o vermelho fica para o que é crítico). Texto em --chip-texto (escuro no Titã noturno). */
+.btn-vidro .alertas-contador,
+.btn-vidro .alertas-contador.filtrado { box-shadow: none; background: var(--ia); color: var(--chip-texto); width: auto; padding: 0 7px; font-variant-numeric: tabular-nums; }
+.btn-vidro .alertas-contador { display: inline-flex; align-items: center; height: 20px; border-radius: 10px; }
+.btn-vidro.btn-alertas.ativo .alertas-contador { background: var(--cartao); color: var(--ia); }
+.alertas-contador .cont-mais { font-weight: 600; opacity: 0.92; white-space: pre; }
+
+/* Avatar: quem usa o painel; é o botão do menu ⋯ (js/app/cabecalho.js põe .com-avatar). Sem usuário, os três pontos. */
+.mais-iniciais[hidden], .com-avatar .mais-pontos { display: none; }
+.topo-botoes #btn-mais.com-avatar { width: 36px; min-width: 36px; height: 36px; min-height: 36px; padding: 0; border-radius: 50%;
+  border: 2px solid var(--cartao); background: var(--primaria); background-image: none; color: #fff;
+  font: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.02em; display: inline-grid; place-items: center;
+  box-shadow: 0 0 0 1px var(--borda-forte); transition: box-shadow var(--dur-micro, 0.15s); }
+.topo-botoes #btn-mais.com-avatar:hover,
+.topo-botoes #btn-mais.com-avatar[aria-expanded="true"] { box-shadow: 0 0 0 2px var(--primaria); }
+.topo-botoes #btn-mais.com-avatar[aria-expanded="true"] { box-shadow: 0 0 0 2px var(--cartao), 0 0 0 4px var(--secundaria); }
+.topo-botoes #btn-mais.com-avatar:focus-visible { outline: 2px solid var(--foco); outline-offset: 2px; }
+/* O menu sai do palco e vai para o <body> (js/app/cabecalho.js alinha top/right ao avatar): assim fica por cima
+   das gavetas da direita (Filtros, Camadas, Maia: 2500), abaixo só do tour e do telão. */
+.menu-mais.vidro.menu-mais-solto { position: fixed; z-index: 3000; }
+
+/* ---------- larguras ---------- */
+/* Até 1280 px: rótulos curtos e o contador só com o número antes de a faixa precisar rolar. */
+@media (max-width: 1280px) {
+  .fn-rot { display: none; }
+  .fn-curto { display: inline; }
+  .alertas-contador .cont-mais { display: none; }
+  .btn-vidro .alertas-contador { padding: 0 5px; }
+}
+/* Faixa em linha própria (v3.css): a linha de contexto continua. */
+@media (max-width: 980px) {
+  .topo .faixa { padding-bottom: 2px; }
+}
+/* Celular: duas linhas (nome + botões; números). Maia mantém o nome; o avatar continua (é o menu ⋯). */
+@media (max-width: 720px) {
+  .topo.vidro { gap: 8px; padding: 8px 8px 8px 12px; }
+  .topo .topo-id h1 { font-size: 16px; }
+  .topo-vivo #relogio { display: none; }
+  .topo-botoes .btn-vidro { padding: 0 9px; }
+  .topo-botoes #chat-aba .rot { display: inline; }
+  .topo .faixa { gap: 4px; }
+  .topo .faixa-num { padding: 0 9px; font-size: 12px; }
+  .topo .faixa-num b { font-size: 15px; }
+}
+@media (max-width: 400px) {
+  .topo-contexto .selo-demo { display: none; }
+}

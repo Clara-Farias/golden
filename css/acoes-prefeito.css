@@ -1,0 +1,72 @@
+/* Mais ações do prefeito (js/acoes-prefeito.js, js/acoes-prefeito-ui.js): bloco "Decisões do prefeito" no detalhe
+   da ocorrência (delegar, pedir explicação, adiar) e itens da aba Cobranças. Selos, histórico e formulários vêm
+   de css/cobrancas.css. */
+
+.ap-bloco {
+  margin: 12px 0 4px; padding: 10px 12px 12px; border-radius: 12px;
+  background: var(--cartao); border: 1px solid var(--borda); border-left: 4px solid var(--primaria);
+}
+.ap-bloco .cb-bloco-cab h3 { margin: 0; font-size: 14px; color: var(--titulo); }
+
+.ap-item {
+  margin-top: 8px; padding: 8px 10px; border-radius: 10px;
+  background: var(--fundo); border: 1px solid var(--borda); border-left: 3px solid var(--primaria);
+}
+.alertas-lista > .ap-item { margin-top: 0; background: var(--vidro); border-left-width: 4px; cursor: pointer; }
+.ap-item.ap-adiamento { border-left-color: var(--suave); }
+.ap-item.pede { border-left-color: var(--alta); }
+.ap-item h4 { flex: 1; min-width: 0; margin: 0; font-size: 13px; font-weight: 650; color: var(--texto); line-height: 1.3; }
+.ap-item h4 small { font-weight: 500; color: var(--suave); }
+.ap-item .cb-item-meta { margin-top: 2px; font-size: 11px; color: var(--suave); }
+.ap-item .aj-oque { margin: 4px 0 2px; font-size: 13px; color: var(--texto); line-height: 1.35; }
+.ap-item .cb-resumo { margin: 2px 0; font-size: 12px; }
+.ap-item .cb-historico { margin-top: 6px; }
+.ap-item .cb-item-pe { margin-top: 6px; }
+
+/* As três ações novas: botões discretos, lado a lado; o do formulário aberto fica marcado. */
+/* Histórico recolhido do bloco "Decisões do prefeito". */
+.ap-historico { margin-top: 8px; }
+.ap-historico > summary { cursor: pointer; font-size: 12px; font-weight: 600; color: var(--suave); }
+.ap-historico[open] > summary { margin-bottom: 2px; }
+
+/* Estrela "Acompanhar" no topo do detalhe: pessoal, discreta. */
+.gaveta-acompanhar { margin: -2px 0 8px; }
+.ap-estrela {
+  display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px;
+  border: 1px solid var(--borda); background: transparent; color: var(--suave); font-size: 12px; font-weight: 600; cursor: pointer;
+}
+.ap-estrela:hover { color: var(--texto); border-color: var(--borda-forte, var(--borda)); }
+.ap-estrela.ativo { color: var(--ouro, #b8860b); border-color: currentColor; }
+.ap-estrela .ti { font-size: 14px; }
+
+/* A barra de ações: fixa no pé do detalhe, com o formulário da vez e o menu logo acima da linha de botões. */
+/* flex: none — o detalhe é uma coluna flex; com rolagem própria, a barra encolheria até sumir (ficava com 25 px). */
+.ap-barra {
+  flex: none; position: sticky; bottom: -18px; z-index: 2; margin: 14px -16px -18px; padding: 10px 16px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--cartao); border-top: 1px solid var(--borda); box-shadow: 0 -8px 18px rgba(11, 29, 34, .06);
+  max-height: 75vh; overflow-y: auto;
+}
+.ap-barra > .cb-form { margin: 0; }
+.ap-linha { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.ap-linha > button { flex: 1 1 auto; margin: 0; }
+.ap-linha .gaveta-perguntar { flex: 1 1 100%; }
+.ap-mais[aria-expanded="true"] { border-color: var(--acao); color: var(--acao); }
+.ap-perigo { background: var(--critica); border-color: var(--critica); }
+
+/* Menu "Mais ações": grupos com título e uma linha que diz o efeito de cada ação. */
+.ap-menu {
+  display: flex; flex-direction: column; gap: 6px; padding: 6px; border-radius: 12px;
+  background: var(--fundo); border: 1px solid var(--borda);
+}
+.ap-menu[hidden] { display: none; }
+.ap-menu-tit { margin: 4px 6px 2px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--suave); }
+.ap-menu-item {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 1px; width: 100%; padding: 6px 8px;
+  border: 0; border-radius: 8px; background: transparent; color: var(--texto); text-align: left; cursor: pointer;
+}
+.ap-menu-item b { font-size: 13px; font-weight: 600; }
+.ap-menu-item small { font-size: 11.5px; color: var(--suave); }
+.ap-menu-item:hover, .ap-menu-item:focus-visible { background: var(--cartao); outline: none; box-shadow: inset 0 0 0 1px var(--borda); }
+.ap-bloco > .cb-form { margin-top: 8px; }
+.cb-campo-rot { margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--suave); }

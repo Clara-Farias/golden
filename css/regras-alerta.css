@@ -1,0 +1,125 @@
+/* Chave de pausar regra (lista de #/regras, js/tela-regras.js) e o menu "por quanto tempo". */
+.alr-chave input:disabled { cursor: not-allowed; }
+.alr-chave input:disabled + span { opacity: 0.45; }
+
+.alr-pausa { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 6px; padding: 6px 8px; border-radius: 6px; background: var(--sup-3); }
+.alr-pausa > span { font-weight: 600; color: var(--texto-2); }
+.alr-pausa .chip-filtro { font-size: 12px; padding: 2px 10px; }
+.alr-pausa-x { border: 0; background: none; padding: 2px 0; font: inherit; font-size: 12px; color: var(--texto-2); text-decoration: underline; cursor: pointer; margin-left: auto; }
+.alr-pausa-x:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; border-radius: 2px; }
+
+/* Motivo "escalada pela regra" (fase 3): mesmo peso visual do prazo estourado, em tom de atenção. */
+.m-escalada { background: var(--alta-fundo); color: var(--alta-texto); }
+.alerta-chip.m-escalada { background: var(--alta-fundo); color: var(--alta-texto); }
+.alerta-item .motivo-mini.m-escalada { background: var(--sup-3); color: var(--suave); }
+
+/* Central de alertas: filtros do mapa, busca, ordenação, seleção em lote (js/tela-alertas.js). */
+.alr-limpar-filtros, .alr-limpar-sel, .alr-prioridade { border: 0; background: none; padding: 2px 0; font: inherit; font-size: 12px; color: var(--acao); text-decoration: underline; cursor: pointer; }
+.alr-filtros { align-items: center; }
+.alr-busca { flex: 1 1 260px; max-width: 420px; }
+.alr-lote { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; padding: 8px 12px; border-radius: 8px; background: var(--cartao); border: 1px solid var(--acao); position: sticky; top: 0; z-index: 2; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); }
+.alr-lote .btn-acao, .alr-lote .btn-sec { font-size: 12px; padding: 5px 12px; width: auto; margin: 0; }
+.alr-lote .btn-acao:disabled { opacity: 0.45; cursor: not-allowed; }
+.alr-aviso { margin: 10px 0 0; padding: 8px 12px; border-radius: 8px; background: var(--positivo-fundo); font-size: 13px; color: var(--texto); }
+.alr-aviso-erro { background: var(--critica-fundo); color: var(--critica-texto); }
+.alr-tabela .alr-marca { width: 28px; text-align: center; padding-right: 0; }
+.alr-tabela .alr-marca input { width: 16px; height: 16px; cursor: pointer; }
+.alr-tabela tr.selecionada > td { background: var(--andamento-fundo, var(--sup-3)); }
+.alr-ordenar { border: 0; background: none; padding: 0; font: inherit; font-weight: inherit; color: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.alr-ordenar i { opacity: 0.45; font-size: 14px; }
+.alr-ordenar.ativa, .alr-ordenar.ativa i { color: var(--acao); opacity: 1; }
+.alr-ordenar:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; border-radius: 3px; }
+#tela-alertas .sec-topo { flex-wrap: wrap; }
+#tela-alertas .sec-topo > div { flex: 1 1 260px; min-width: 0; }
+#tela-alertas .sec-acoes .btn-sec { width: auto; margin: 0; padding: 7px 12px; display: inline-flex; align-items: center; gap: 6px; }
+
+/* Motivo "vai estourar" (aviso antes do prazo acabar). */
+.m-vai_estourar { background: var(--alta-fundo); color: var(--alta-texto); }
+.alerta-chip.m-vai_estourar { background: var(--alta-fundo); color: var(--alta-texto); }
+.alerta-item .motivo-mini.m-vai_estourar { background: var(--sup-3); color: var(--suave); }
+
+/* Relacionados, novidades e pausa por horas (Central). */
+.alr-agrupar { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--texto-2); }
+.alr-rel { margin-left: 6px; border: 1px solid var(--borda); background: var(--sup-3); border-radius: 10px; padding: 1px 8px; font: inherit; font-size: 12px; color: var(--texto-2); cursor: pointer; display: inline-flex; align-items: center; gap: 2px; }
+.alr-rel:hover { border-color: var(--acao); color: var(--acao); }
+.alr-tabela tr.relacionada > td { background: var(--sup-3); }
+.alr-tabela tr.relacionada > td:nth-child(3) { padding-left: 18px; }
+.alr-rel-seta { color: var(--suave); margin-right: 4px; }
+.alr-juntar { display: block; margin-top: 4px; font-size: 12px; padding: 3px 10px; width: auto; }
+.alr-novo { margin-left: 6px; font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.02em; }
+.alr-novo-nova { background: var(--acao); color: #fff; }
+.alr-novo-mudou { background: var(--andamento-fundo, var(--sup-3)); color: var(--texto); }
+.alr-mudou { display: block; color: var(--texto-2); font-size: 12px; }
+.alr-novidades { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0 0; padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--acao); font-size: 13px; color: var(--texto); }
+.alr-novidades .btn-sec { font-size: 12px; padding: 4px 10px; width: auto; margin: 0; }
+.alr-chip-novidades b { margin-left: 4px; }
+.alr-pausa-outro { display: inline-flex; align-items: center; gap: 4px; }
+.alr-pausa-outro input { width: 56px; font: inherit; font-size: 12px; padding: 2px 4px; border: 1px solid var(--borda-forte); border-radius: 6px; }
+
+/* Casos recorrentes (Central): mesma secretaria no mesmo bairro acima do limite em 30 dias. */
+.alr-recorrentes { margin-top: 10px; padding: 10px 14px; }
+.alr-recorrentes > summary { cursor: pointer; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; font-weight: 600; font-size: 14px; color: var(--texto); }
+.alr-recorrentes > summary .ti { color: var(--critica); }
+.alr-rec-total { background: var(--sup-3); border-radius: 10px; padding: 0 8px; font-size: 12px; }
+.alr-rec-regra { font-weight: 400; color: var(--suave); font-size: 12px; }
+.alr-rec-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; margin-top: 10px; }
+.alr-rec-lista > .painel-vazio { grid-column: 1 / -1; }
+.alr-rec { border: 1px solid var(--borda); border-left: 3px solid var(--borda-forte); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; background: var(--cartao); }
+.alr-rec.com-abertas { border-left-color: var(--critica); }
+.alr-rec.ativo { border-color: var(--acao); box-shadow: 0 0 0 1px var(--acao); }
+.alr-rec h4 { margin: 0; font-size: 13px; }
+.alr-rec h4 span { font-weight: 400; color: var(--texto-2); }
+.alr-rec p { margin: 0; font-size: 12px; color: var(--texto-2); }
+.alr-rec-num b { font-size: 18px; color: var(--texto); margin-right: 2px; }
+.alr-rec-num small { display: block; }
+.alr-rec-num small.ruim { color: var(--critica-texto); }
+.alr-rec-num small.bom { color: var(--positivo); }
+.alr-rec-acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 2px; font-size: 12px; }
+.alr-rec-acoes .btn-sec { font-size: 12px; padding: 3px 10px; width: auto; margin: 0; }
+.alr-rec-faixa { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 8px; padding: 6px 10px; border-radius: 8px; background: var(--sup-3); font-size: 13px; }
+.alr-recorrente { margin-left: 6px; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 10px; background: var(--critica-fundo); color: var(--critica-texto); white-space: nowrap; }
+
+/* Agrupar parecidas (por tipo, bairro ou secretaria). */
+.alr-agrupar select { margin-left: 2px; }
+.alr-tabela tr.alr-grupo > td { background: var(--sup-3); border-top: 2px solid var(--borda); padding-top: 6px; padding-bottom: 6px; }
+.alr-tabela tr.alr-grupo small { color: var(--texto-2); font-size: 12px; }
+.alr-tabela tr.alr-grupo.outros b { color: var(--texto-2); }
+.alr-grupo-btn { border: 0; background: none; padding: 0; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+.alr-grupo-btn:hover b { color: var(--acao); }
+.alr-grupo-n { background: var(--cartao); border: 1px solid var(--borda); border-radius: 10px; padding: 0 7px; font-size: 12px; }
+.alr-grupo-critica { color: var(--critica-texto); font-weight: 600; }
+.alr-rec-mais { align-self: center; justify-self: start; }
+
+/* Central, revisão de 12/11: atalho das regras, números que filtram, filtro do mapa na linha dos filtros,
+   recorrentes recolhidos, gravidade e situação mais leves e ação curta na linha. */
+.alr-regras-link { text-decoration: none; }
+.alr-pausadas { margin-left: 2px; padding: 0 7px; border-radius: 10px; background: var(--alta-fundo); color: var(--alta-texto); font-size: 11px; font-weight: 700; }
+.alr-pausadas[hidden] { display: none; }
+button.alr-kpi { font: inherit; text-align: left; color: inherit; cursor: pointer; border: 1px solid var(--borda); transition: border-color 0.15s, box-shadow 0.15s; }
+button.alr-kpi:hover { border-color: var(--acao); }
+button.alr-kpi.ativo { border-color: var(--acao); box-shadow: inset 0 -3px 0 var(--acao); }
+button.alr-kpi:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+.alr-filtros { margin-top: 12px; row-gap: 8px; }
+.alr-global { display: inline-flex; align-items: center; gap: 2px; font-size: 12px; }
+.alr-editar-filtros { display: inline-flex; align-items: center; gap: 4px; max-width: 360px; border: 1px dashed var(--borda-forte); background: none; border-radius: 999px; padding: 3px 10px; font: inherit; font-size: 12px; color: var(--texto-2); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.alr-editar-filtros:hover { border-color: var(--acao); color: var(--acao); }
+.alr-global.com-filtro .alr-editar-filtros { border-style: solid; border-color: var(--acao); background: var(--andamento-fundo, var(--sup-3)); color: var(--texto); }
+.alr-limpar-filtro { border: 0; background: none; padding: 2px 4px; color: var(--texto-2); cursor: pointer; border-radius: 50%; line-height: 1; }
+.alr-limpar-filtro:hover { color: var(--critica-texto); background: var(--sup-3); }
+.alr-recorrentes > summary { list-style: none; }
+.alr-recorrentes > summary::-webkit-details-marker { display: none; }
+.alr-recorrentes > summary .alr-rec-seta { display: inline-block; color: var(--texto-2); transition: transform 0.15s; }
+.alr-recorrentes[open] > summary .alr-rec-seta { transform: rotate(90deg); }
+.alr-rec-resumo { font-weight: 600; color: var(--critica-texto); font-size: 12px; }
+.alr-rec-resumo:empty { display: none; }
+.alr-recorrentes:not([open]) .alr-rec-regra { display: none; }
+/* Gravidade: ponto e palavra, sem pílula (o vermelho cheio fica para o prazo estourado). */
+.alr-tabela .sev { padding: 0; background: none !important; font-weight: 600; }
+.alr-tabela .sev.critica { color: var(--critica-texto); } .alr-tabela .sev.alta { color: var(--alta-texto); } .alr-tabela .sev.media { color: var(--texto-2); }
+.alr-tabela .sev.media::before { background: var(--media); }
+.alr-sit-destaque { font-weight: 600; color: var(--texto); }
+/* Ação curta e contornada; ganha a cor cheia ao passar o mouse ou focar a linha. */
+.alr-acoes { width: 150px; }
+.alr-acao-principal { width: 108px; }
+.alr-acao-linha { width: 100%; text-align: left; }
+.alr-tabela tbody tr:hover .alr-acao-linha, .alr-tabela tbody tr:focus-within .alr-acao-linha { background: var(--acao); border-color: var(--acao); color: var(--sobre-acao); }

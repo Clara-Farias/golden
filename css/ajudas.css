@@ -1,0 +1,21 @@
+/* Pedido de ajuda entre secretarias (js/ajudas.js, js/ajudas-ui.js): bloco no detalhe da ocorrência e itens
+   da seção "Pedidos entre secretarias" na aba Cobranças. Selos, histórico e formulários vêm de css/cobrancas.css. */
+
+.aj-bloco {
+  margin: 12px 0 4px; padding: 10px 12px 12px; border-radius: 12px;
+  background: var(--cartao); border: 1px solid var(--borda); border-left: 4px solid var(--conjunta);
+}
+.aj-bloco .cb-bloco-cab h3 { margin: 0; font-size: 14px; color: var(--titulo); }
+.aj-bloco .cb-bloco-cab .btn-sec { font-size: 12px; padding: 4px 10px; }
+
+.aj-pedido {
+  margin-top: 8px; padding: 8px 10px; border-radius: 10px;
+  background: var(--fundo); border: 1px solid var(--borda); border-left: 3px solid var(--conjunta);
+}
+.alertas-lista > .aj-pedido { margin-top: 0; background: var(--vidro); border-left-width: 4px; cursor: pointer; }
+.aj-pedido.parado { border-left-color: var(--critica); }
+.aj-pedido h4 { flex: 1; min-width: 0; margin: 0; font-size: 13px; font-weight: 650; color: var(--texto); line-height: 1.3; }
+.aj-oque { margin: 4px 0 2px; font-size: 13px; color: var(--texto); line-height: 1.35; }
+.aj-pedido .cb-resumo { margin: 2px 0; font-size: 12px; }
+.aj-pedido .cb-historico { margin-top: 6px; }
+.aj-pedido .cb-item-pe { margin-top: 6px; }

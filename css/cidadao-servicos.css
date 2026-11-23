@@ -1,0 +1,118 @@
+/* Portal do Cidadão: serviços da Prefeitura num lugar só (js/portal-servicos.js). */
+/* A grade de serviços é o primeiro bloco depois da capa: cartões grandes (alvo de toque folgado), um tom por serviço. */
+#sec-servicos { display: none !important; } /* "Pedir um reparo" agora é um cartão da grade (#sec-carta) */
+.ps-grade { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px; }
+.ps-card { --tom: var(--primaria); --tom-fundo: var(--ouro-fundo);
+  width: 100%; height: 100%; min-height: 96px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; text-align: left;
+  font: inherit; color: var(--texto); text-decoration: none; background: var(--cartao); border: 1px solid var(--borda); border-left: 5px solid var(--tom);
+  border-radius: var(--raio-p, 12px); padding: 16px 16px 16px 14px; cursor: pointer; box-shadow: var(--sombra);
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+.ps-card:hover { transform: translateY(-2px); box-shadow: var(--sombra-alta); }
+.ps-card.aberto { background: var(--tom-fundo); box-shadow: inset 0 0 0 1px var(--tom); }
+.ps-card:focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
+.ps-ic { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 14px; background: var(--tom-fundo); color: var(--tom); font-size: 28px; }
+.ps-txt { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.ps-card b { font-family: Sora, Inter, sans-serif; font-size: 18px; line-height: 1.25; color: var(--titulo); }
+.ps-card small { font-size: 15px; color: var(--suave); line-height: 1.35; }
+.ps-seta { color: var(--tom); font-size: 22px; }
+.ps-obras { --tom: var(--c-obras); --tom-fundo: var(--c-obras-fundo); }
+.ps-saude { --tom: var(--c-saude); --tom-fundo: var(--c-saude-fundo); }
+.ps-escolas { --tom: var(--c-escolas); --tom-fundo: var(--c-escolas-fundo); }
+.ps-social { --tom: #9d174d; --tom-fundo: #fcecf3; }
+.ps-info { --tom: var(--info); --tom-fundo: var(--info-fundo); }
+.ps-marca { --tom: var(--primaria); --tom-fundo: var(--ouro-fundo); }
+@media (prefers-color-scheme: dark) { .ps-social { --tom: #f9a8d4; --tom-fundo: #3a1526; } }
+.ps-painel { --tom: var(--primaria); margin-top: 14px; background: var(--cartao); border: 1px solid var(--borda); border-top: 5px solid var(--tom); border-radius: var(--raio, 18px); padding: 18px 20px 20px; box-shadow: var(--sombra-alta); }
+.ps-painel.ps-obras { --tom: var(--c-obras); } .ps-painel.ps-saude { --tom: var(--c-saude); } .ps-painel.ps-escolas { --tom: var(--c-escolas); }
+.ps-painel.ps-social { --tom: #9d174d; } .ps-painel.ps-info { --tom: var(--info); }
+.ps-painel-cab { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.ps-painel-cab h3 { outline: none; }
+.ps-reparos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 8px; }
+.ps-reparo { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 10px 14px; border: 1px solid var(--borda); border-radius: 12px; color: var(--texto); text-decoration: none; font-weight: 600; font-size: 16px; background: var(--sup-2); }
+.ps-reparo i:first-child { font-size: 22px; color: var(--c-obras); }
+.ps-reparo i:last-child { margin-left: auto; color: var(--suave); }
+.ps-reparo:hover { border-color: var(--c-obras); }
+
+/* Atalhos "Mais procurados" na capa (fundo escuro). */
+.p-atalhos { margin-top: 16px; }
+.p-atalhos-rot { margin: 0 0 8px; font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: rgba(255, 255, 255, .78); }
+.p-atalhos-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.p-atalho { display: inline-flex; align-items: center; gap: 7px; min-height: 44px; padding: 8px 16px; border-radius: 999px; font: inherit; font-size: 15px; font-weight: 600;
+  color: var(--navy, #0f4c5c); background: #fff; border: 0; text-decoration: none; cursor: pointer; box-shadow: 0 2px 8px rgba(0, 0, 0, .18); }
+.p-atalho i { font-size: 19px; color: var(--primaria); }
+.p-atalho:hover { background: var(--ouro-fundo); }
+.p-atalho:focus-visible { outline: 3px solid #ffd400; outline-offset: 2px; }
+html.pa-contraste .p-atalho { background: #000; color: #ffd400; border: 2px solid #ffd400; box-shadow: none; }
+html.pa-contraste .p-atalho i { color: #ffd400; }
+
+/* Onde ser atendido (#sec-regiao). */
+.pr-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px; margin-top: 14px; }
+.pr-card { display: flex; flex-direction: column; gap: 6px; background: var(--cartao); border: 1px solid var(--borda); border-radius: var(--raio-p, 12px); padding: 16px; box-shadow: var(--sombra); }
+.pr-card h3 { margin: 0 0 2px; font-family: Sora, Inter, sans-serif; font-size: 18px; color: var(--titulo); }
+.pr-tipo { margin: 0; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--primaria); }
+.pr-linha { margin: 0; display: flex; gap: 8px; align-items: flex-start; font-size: 15px; color: var(--texto); }
+.pr-linha i { color: var(--suave); font-size: 18px; margin-top: 1px; }
+.pr-bairros { margin: 0; font-size: 14px; color: var(--suave); }
+.pr-destaque { border: 2px solid var(--primaria); }
+.pr-mov { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; }
+.pr-bolinha { width: 12px; height: 12px; border-radius: 50%; background: currentColor; }
+.pr-mov.calmo { color: var(--ok); } .pr-mov.medio { color: var(--atencao); } .pr-mov.cheio { color: var(--urgente); }
+.pr-acoes { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pr-zap { background: #eaf7ef; border-color: #b7e2c6; }
+.pr-zap .pr-tipo { color: #1f8a4c; }
+@media (prefers-color-scheme: dark) { .pr-zap { background: #0f2a1c; border-color: #1f5c38; } .pr-zap .pr-tipo { color: #6ee7a0; } }
+html.pa-contraste .pr-zap { background: #000; border-color: #fff; }
+.pr-passos { margin: 2px 0 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.pr-todas { margin-top: 14px; }
+.pr-todas > summary { cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--link); min-height: 44px; }
+.ps-painel h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-family: Sora, Inter, sans-serif; font-size: 20px; color: var(--titulo, var(--primaria)); }
+.ps-painel h3 i { color: var(--tom); }
+.ps-painel > p { margin: 0 0 12px; font-size: 16px; color: var(--texto); max-width: 70ch; }
+.ps-form { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+.ps-form label, .ps-busca { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--suave); }
+.ps-busca select { max-width: 360px; margin-bottom: 8px; }
+.ps-form input, .ps-busca select { font: inherit; font-size: 16px; color: var(--texto); background: var(--fundo); border: 1px solid var(--borda); border-radius: 10px; padding: 8px 10px; min-width: 180px; }
+.ps-renda { margin: 4px 0 8px; }
+.ps-lista { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 6px; }
+.ps-lista li { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; font-size: 16px; border-radius: 10px; background: var(--fundo); }
+.ps-lista li i { font-size: 18px; margin-top: 1px; }
+.ps-lista li.ok i { color: var(--ok); }
+.ps-lista li.pouco i { color: var(--atencao); }
+.ps-lista li.nao i { color: var(--suave); }
+.ps-lista li.nao b { color: var(--suave); }
+.ps-lista small { display: block; font-size: 14px; color: var(--suave); }
+.ps-opcoes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
+.ps-opcoes li { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border: 1px solid var(--borda); border-radius: 12px; }
+.ps-opcoes li span { font-size: 20px; font-weight: 700; color: var(--titulo, var(--primaria)); }
+.ps-opcoes li small { font-size: 12px; color: var(--ok); }
+.ps-passos { margin: 0 0 8px; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.ps-pe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 14px 0 0; font-size: 15px; color: var(--suave); }
+.ps-zap { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: #fff; background: #1f8a4c; border-radius: 999px; padding: 6px 12px; text-decoration: none; }
+.ps-zap:hover { background: #18703d; }
+.ps-zap.grande { font-size: 16px; padding: 10px 16px; }
+.ps-vazio { color: var(--suave); }
+@media (prefers-reduced-motion: reduce) { .ps-card { transition: none; } .ps-card:hover { transform: none; } }
+@media (max-width: 560px) { .ps-card { min-height: 84px; padding: 12px; gap: 12px; } .ps-ic { width: 46px; height: 46px; font-size: 24px; } .ps-card b { font-size: 17px; } }
+
+/* "Seus pedidos" no início: cada pedido é um cartão com o protocolo e o andamento (js/portal-pedidos.js). */
+.pp-lista-passos { gap: 10px; }
+.pp-lista-passos > li { border: 1px solid var(--borda); border-radius: 14px; background: var(--sup-2); padding-bottom: 12px; }
+.pp-lista-passos > li > .pp-item { border: 0; background: transparent; }
+.pp-lista-passos > li > .pp-passos { padding: 0 8px; }
+
+/* Onde ser atendido, antes de escolher o bairro: o WhatsApp e um convite para escolher o bairro, lado a lado. */
+.pr-convite { justify-content: center; border-style: dashed; }
+.pr-convite p { margin: 0; color: var(--suave); font-size: 15px; }
+html.pa-contraste .ps-card, html.pa-contraste .ps-painel { --tom: #ffd400; --tom-fundo: #000; text-decoration: none; }
+html.pa-contraste .ps-card b { text-decoration: underline; }
+html.pa-contraste .pp-lista-passos > li { background: #000; }
+/* Solicitações com protocolo (benefício e matrícula). */
+#sec-solicitacoes:empty { display: none; }
+#sec-solicitacoes { margin-top: 16px; }
+.ps-sol-dica { color: var(--suave); font-size: 13px; }
+.ps-pedir { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--borda); }
+.ps-pedir small { font-size: 14px; color: var(--suave); }
+.ps-pedir label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--suave); }
+.ps-pedir select { font: inherit; font-size: 16px; color: var(--texto); background: var(--fundo); border: 1px solid var(--borda); border-radius: 10px; padding: 8px 10px; }
+.ps-feito { margin: 10px 0 0; font-size: 15px; color: var(--ok); font-weight: 600; }
+.ps-feito:empty { display: none; }

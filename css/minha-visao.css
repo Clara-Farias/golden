@@ -1,0 +1,106 @@
+/* Minha visão (js/minha-visao.js): o painel de personalização e a arrumação Foco. */
+.menu-minha-visao { margin-top: auto; cursor: pointer; font: inherit; }
+.menu-visao ~ .menu-minha-visao { margin-top: 0; }
+.menu-minha-visao .menu-emoji i { font-size: 20px; }
+.mv-chip { margin-left: auto; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: color-mix(in srgb, var(--acao) 14%, transparent); color: var(--acao); }
+.rt-botoes { display: inline-flex; flex-wrap: wrap; gap: 6px; flex: none; }
+.rt-personalizar { color: var(--texto-2) !important; border-color: var(--borda) !important; }
+
+/* ---- diálogo ---- */
+.mv-dialogo { width: min(760px, calc(100vw - 24px)); max-height: min(90vh, 900px); padding: 0; border: 1px solid var(--borda); border-radius: 18px;
+  background: var(--cartao); color: var(--texto); box-shadow: 0 24px 64px -16px rgba(11, 29, 34, .45); overflow: hidden; }
+.mv-dialogo::backdrop { background: rgba(11, 29, 34, .45); backdrop-filter: blur(2px); }
+.mv-form { display: flex; flex-direction: column; max-height: min(90vh, 900px); overflow-y: auto; }
+.mv-cab { position: sticky; top: 0; z-index: 2; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 18px 22px 12px; background: var(--cartao); border-bottom: 1px solid var(--borda); }
+.mv-cab h2 { margin: 0; display: flex; align-items: center; gap: 8px; font-family: var(--fonte-titulo); font-size: 22px; color: var(--titulo); }
+.mv-rotulo { margin: 0 0 2px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--acao); }
+.mv-aviso { margin: 12px 22px 0; display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; background: var(--media-fundo, #fefce8); color: var(--media-texto, #713f12); font-size: 13px; }
+.mv-sec { padding: 14px 22px 4px; }
+.mv-sec h3 { margin: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--titulo); }
+.mv-dica { margin: -4px 0 8px; font-size: 13px; color: var(--texto-2); }
+.mv-duas { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.mv-modelos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.mv-modelo { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; font: inherit; color: var(--texto); cursor: pointer;
+  background: var(--sup-2, var(--cartao)); border: 1px solid var(--borda); border-radius: 14px; padding: 12px; }
+.mv-modelo b { display: flex; align-items: center; gap: 6px; font-size: 15px; color: var(--titulo); }
+.mv-modelo small { font-size: 12px; color: var(--texto-2); line-height: 1.35; }
+.mv-modelo.ativo { border-color: var(--acao); box-shadow: inset 0 0 0 1px var(--acao); background: color-mix(in srgb, var(--acao) 8%, var(--cartao)); }
+.mv-modelo[disabled] { opacity: .45; cursor: not-allowed; }
+/* Miniaturas: o desenho de cada arrumação. */
+.mv-mini { width: 100%; height: 58px; border-radius: 8px; background: var(--sup-3, #edf2f2); display: grid; gap: 4px; padding: 6px; margin-bottom: 4px; }
+.mv-mini i { display: block; border-radius: 4px; background: color-mix(in srgb, var(--acao) 30%, var(--cartao)); }
+.mv-mini-completa { grid-template-columns: repeat(4, 1fr); grid-template-rows: 1fr 1fr; }
+.mv-mini-completa i:nth-child(1) { grid-column: span 2; } .mv-mini-completa i:nth-child(4) { grid-column: span 4; }
+.mv-mini-resumida { grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; }
+.mv-mini-resumida i:nth-child(4) { grid-column: span 3; opacity: .45; }
+.mv-mini-foco { grid-template-columns: 1fr; grid-template-rows: 1.4fr 1fr; padding: 6px 22%; }
+.mv-mini-foco i:nth-child(n+3) { display: none; }
+.mv-atual { margin: 8px 0 0; font-size: 13px; color: var(--texto-2); }
+.mv-opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mv-opcao { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--borda); border-radius: 12px; cursor: pointer; }
+.mv-opcao input { margin-top: 3px; accent-color: var(--acao); }
+.mv-opcao b { display: block; font-size: 14px; }
+.mv-opcao small { font-size: 12px; color: var(--texto-2); }
+.mv-opcao.ativa { border-color: var(--acao); background: color-mix(in srgb, var(--acao) 7%, var(--cartao)); }
+.mv-opcao.travada { opacity: .5; cursor: not-allowed; }
+.mv-op-ic { font-size: 20px; color: var(--acao); }
+.mv-select { width: 100%; font: inherit; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--borda); background: var(--cartao); color: var(--texto); }
+.mv-texto { display: flex; gap: 6px; }
+.mv-texto button { font: inherit; font-weight: 700; min-width: 48px; min-height: 38px; border-radius: 999px; border: 1px solid var(--borda); background: transparent; color: var(--texto); cursor: pointer; }
+.mv-texto button[aria-pressed="true"] { background: var(--acao); border-color: var(--acao); color: #fff; }
+.mv-texto .tt-1 { font-size: 16px; } .mv-texto .tt-2 { font-size: 19px; }
+.mv-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 4px 12px; }
+.mv-check { display: flex; align-items: center; gap: 8px; font-size: 14px; padding: 5px 0; cursor: pointer; }
+.mv-check input { width: 17px; height: 17px; accent-color: var(--acao); }
+.mv-check.travada { color: var(--suave); cursor: not-allowed; }
+.mv-tela { border: 1px solid var(--borda); border-radius: 12px; padding: 0 12px; margin-bottom: 8px; }
+.mv-tela > summary { cursor: pointer; padding: 10px 0; font-weight: 600; display: flex; justify-content: space-between; gap: 8px; }
+.mv-tela > summary small { font-weight: 400; color: var(--texto-2); }
+.mv-tela[open] > summary { border-bottom: 1px solid var(--borda); margin-bottom: 6px; }
+.mv-tela .mv-checks { padding-bottom: 8px; }
+.mv-pe { position: sticky; bottom: 0; display: flex; justify-content: space-between; gap: 10px; padding: 12px 22px; margin-top: 10px; background: var(--cartao); border-top: 1px solid var(--borda); }
+@media (max-width: 640px) { .mv-modelos, .mv-opcoes, .mv-duas { grid-template-columns: 1fr; } .mv-pe { flex-direction: column-reverse; } }
+
+/* ---- Arrumação Foco: a mudança de layout ----
+   Menu com nomes, telas numa coluna central, números grandes e o Resumo de hoje preso ao lado do mapa. */
+/* Trilho do menu mais largo, com o nome embaixo do ícone (o rótulo flutuante do mouse sai: o nome já está à vista).
+   --esq (css/v3.css) acompanha a largura do trilho: cabeçalho, telas e legendas começam depois dele. */
+@media (min-width: 721px) {
+  .arr-foco { --esq: 116px; }
+  .arr-foco .app.menu-recolhido .menu.vidro { width: 92px; padding: 8px 6px; }
+  .arr-foco .app.menu-recolhido .menu.vidro .menu-item { flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 8px 4px; min-height: 58px; }
+  .arr-foco .app.menu-recolhido .menu-nome { display: block; flex: none; width: 100%; font-size: 11.5px; font-weight: 500; line-height: 1.2; white-space: normal; text-align: center; overflow: visible; text-overflow: clip; overflow-wrap: break-word; }
+  .arr-foco .app.menu-recolhido .menu-item.ativo .menu-nome { font-weight: 700; }
+  .arr-foco .app.menu-recolhido .menu-item .menu-emoji { font-size: 21px; width: auto; line-height: 1; }
+  .arr-foco .app.menu-recolhido .menu-item[title]:hover::after { display: none; }
+  .arr-foco .app.menu-recolhido .menu.vidro .menu-marca { justify-content: center; }
+}
+
+.arr-foco .tela > * { width: 100%; max-width: 980px; margin-left: auto; margin-right: auto; }
+.arr-foco .tela :is(.sec-grade, .en-colunas, .sz-colunas, .rel-colunas, .desemp-grade, .oc-grade, .oc-colunas, .mt-grade) { grid-template-columns: minmax(0, 1fr) !important; }
+.arr-foco .tela :is(.oc-kpis, .oc-pend-lista) { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
+.arr-foco .tela .oc-kpi b { font-size: 30px; }
+/* Cabeçalho das telas na coluna central: os botões descem para a linha de baixo em vez de espremer o texto. */
+.arr-foco .tela .sec-topo { flex-wrap: wrap; row-gap: 10px; }
+.arr-foco .tela .sec-topo :is(.sec-acoes, .en-topo-acoes, .oc-acoes) { flex-wrap: wrap; }
+.arr-foco .tela .sec-topo :is(button, a) { white-space: nowrap; }
+.arr-foco .tela :is(.en-kpis, .tf-kpis, .alr-kpis, .sz-kpis, .sec-indicadores, .desemp-kpis, .rel-numeros, .oc-numeros, .cr-status) { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
+.arr-foco .tela :is(.en-kpi, .tf-kpi, .alr-kpi, .sz-kpi, .rel-numero, .sec-ind) { padding: 16px 18px !important; min-height: 92px; }
+.arr-foco .tela :is(.en-kpi, .tf-kpi, .alr-kpi, .sz-kpi, .rel-numero, .sec-ind) :is(b, strong) { font-size: 30px !important; line-height: 1.1; }
+.arr-foco .tela :is(h1, .sec-topo h2) { font-size: 26px; }
+.arr-foco .tela table { font-size: 15px; }
+.arr-foco .tela td, .arr-foco .tela th { padding-top: 11px !important; padding-bottom: 11px !important; }
+.arr-foco .tela .painel-card, .arr-foco .tela .rel-cartao { padding: 18px 20px; }
+.arr-foco .rt-faixa { max-width: 980px; }
+/* No mapa: o Resumo de hoje vira uma coluna fixa à esquerda (o mapa fica à direita). */
+.arr-foco .doca { transform: none; left: 0; right: 0; pointer-events: none; }
+.arr-foco .doca > * { pointer-events: auto; }
+.arr-foco.visao-simples .doca .resumo-dia.resumo-essencial.vidro { position: fixed; left: var(--esq, 116px); top: calc(20px + var(--topo-h, 56px)); bottom: auto; width: min(460px, calc(100vw - 160px)); max-height: calc(100vh - var(--topo-h, 56px) - 40px); overflow-y: auto; }
+.arr-foco.visao-simples .doca .resumo-essencial .re-colunas { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 900px) { .arr-foco.visao-simples .doca .resumo-dia.resumo-essencial.vidro { position: absolute; left: auto; top: auto; bottom: calc(100% + 8px); width: min(760px, calc(100vw - 24px)); max-height: 70vh; } }
+/* Botões dos diálogos (Minha visão, regras, ofício, eixos): maiores, o principal cheio. */
+.mv-pe .btn-sec, .mv-dialogo .oc-of-acoes .btn-sec { padding: 9px 16px; font-size: 14px; font-weight: 600; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; }
+.mv-cab h2:focus { outline: none; }
+/* Resumo de hoje na coluna do Foco: os quatro números em 2 × 2 (em 4 colunas o texto quebrava no meio da palavra). */
+.arr-foco.visao-simples .doca .resumo-essencial .rs-numeros { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.arr-foco.visao-simples .doca .resumo-essencial .re-num small { overflow-wrap: normal; word-break: normal; hyphens: none; }

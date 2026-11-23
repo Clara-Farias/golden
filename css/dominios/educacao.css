@@ -1,0 +1,40 @@
+/* Domínio: educacao (pino, popup e widget). Veio de css/v3.css; carrega logo depois dele no index.html. */
+/* ---- Educação (pedido do workshop de 04/11): pino, popup e widget ---- */
+.marcador-escola {
+  display: flex; align-items: center; gap: 2px; padding: 2px 6px; border-radius: 14px; cursor: pointer; white-space: nowrap;
+  background: var(--cartao); border: 2px solid var(--positivo); color: var(--positivo); font-size: 13px; line-height: 20px;
+  box-shadow: 0 2px 6px rgba(11, 29, 34, 0.25);
+}
+.marcador-escola b { font-size: 12px; }
+.marcador-escola.atencao { border-color: var(--media); color: var(--media-texto); }
+.marcador-escola.critica { border-color: var(--critica); color: var(--critica); }
+.popup .sev.escola-critica { background: var(--critica); }
+.popup .sev.escola-atencao { background: var(--media); }
+.popup .sev.escola-ok { background: var(--positivo); }
+.escola-numeros { list-style: none; margin: 6px 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.escola-numeros b { display: block; font-size: 16px; color: var(--texto); font-variant-numeric: tabular-nums; }
+.escola-numeros small { font-size: 12px; color: var(--suave); }
+.escola-motivos { margin: 4px 0 0; padding-left: 16px; font-size: 12px; color: var(--media-texto); }
+.escola-motivos li.critico { color: var(--critica); font-weight: 600; }
+.w-edu { display: flex; flex-direction: column; gap: 12px; }
+.w-edu .w-num b { font-size: 20px; }
+.w-edu h4 { margin: 0 0 8px; font-size: 13px; }
+.w-edu-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-edu-lista button {
+  display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 5px 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-edu-lista button:hover { background: var(--sup-2); }
+.w-edu-lista .sit { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff; border-radius: 10px; padding: 1px 0; text-align: center; }
+.w-edu-lista .sit.critica { background: var(--critica); }
+.w-edu-lista .sit.atencao { background: var(--media); }
+.w-edu-lista .sit.ok { background: var(--positivo); }
+.w-edu-lista .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-edu-lista .prof { font-size: 12px; color: var(--positivo); white-space: nowrap; }
+.w-edu-lista .prof.falta { color: var(--critica); font-weight: 600; }
+.w-edu-escolaridade { background: var(--sup-2); border: 1px solid var(--borda); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.w-edu-escolaridade p { margin: 0; font-size: 13px; color: var(--suave); }
+.w-edu-escolaridade p b { font-size: 18px; color: var(--texto); margin-right: 4px; }
+.w-edu-escolaridade h4 { margin-top: 6px; }
+.w-edu-escolaridade small { font-size: 12px; color: var(--suave); }
+.w-obras-alertas li[data-camada] { cursor: pointer; }

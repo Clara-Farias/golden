@@ -1,0 +1,23 @@
+/* Domínio: seguranca (pino, popup e widget). Veio de css/v3.css; carrega logo depois dele no index.html. */
+/* ---- Segurança (Fase 2 do workshop de 04/11): widget ---- */
+.w-seg { display: flex; flex-direction: column; gap: 14px; }
+.w-seg .w-num b { font-size: 20px; }
+.w-seg-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.w-seg h4 { margin: 0 0 8px; font-size: 13px; color: var(--texto); display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.w-seg h4 .btn-sec { font-size: 12px; padding: 4px 8px; }
+.w-barras { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+.w-barras li { display: grid; grid-template-columns: minmax(120px, 190px) 1fr 36px; align-items: center; gap: 8px; font-size: 13px; }
+.w-barras i { display: block; height: 8px; border-radius: 4px; background: var(--borda); position: relative; overflow: hidden; }
+.w-barras i::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--v); border-radius: 4px; background: var(--primaria); }
+.w-barras b { text-align: right; font-variant-numeric: tabular-nums; }
+.w-vmc { background: var(--sup-2); border: 1px solid var(--borda); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+.w-vmc.subindo { border-left: 4px solid var(--critica); }
+.w-vmc h4 { margin: 0; }
+.w-vmc p { margin: 0; font-size: 13px; color: var(--suave); }
+.w-vmc-num b { font-size: 24px; color: var(--texto); margin-right: 4px; }
+.w-vmc-num .ruim { color: var(--critica); font-weight: 600; }
+.w-vmc-num .bom { color: var(--positivo); font-weight: 600; }
+.w-vmc-bairros { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; }
+.w-vmc-bairros li { background: var(--cartao); border: 1px solid var(--borda); border-radius: 999px; padding: 2px 10px; font-size: 12px; display: flex; gap: 6px; }
+.w-vmc .btn-sec { align-self: flex-start; font-size: 12px; padding: 4px 10px; }
+.w-vmc small { font-size: 12px; color: var(--suave); }

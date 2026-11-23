@@ -1,0 +1,28 @@
+/* Visão resumida nas telas (js/resumo-telas.js): mesmo layout, menos informação. */
+.rt-faixa { display: flex; align-items: center; gap: 12px; margin: 10px 0 14px; padding: 10px 12px 10px 14px; border-radius: 12px;
+  background: color-mix(in srgb, var(--acao, #008080) 9%, var(--cartao, #fff)); border: 1px solid color-mix(in srgb, var(--acao, #008080) 28%, transparent); }
+.rt-faixa > i { font-size: 22px; color: var(--acao, #008080); flex: none; }
+.rt-faixa p { margin: 0; flex: 1; font-size: 14px; line-height: 1.4; color: var(--texto, inherit); }
+.rt-faixa b { color: var(--acao, #008080); }
+.rt-alternar { flex: none; display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  color: var(--acao, #008080); background: var(--cartao, #fff); border: 1px solid color-mix(in srgb, var(--acao, #008080) 45%, transparent); border-radius: 999px; padding: 7px 14px; min-height: 38px; }
+.rt-alternar:hover { background: color-mix(in srgb, var(--acao, #008080) 12%, var(--cartao, #fff)); }
+.rt-alternar:focus-visible { outline: 2px solid var(--acao, #008080); outline-offset: 2px; }
+@media (max-width: 640px) { .rt-faixa { flex-wrap: wrap; } .rt-faixa p { flex: 1 1 200px; min-width: 0; } .rt-botoes { width: 100%; } .rt-botoes .rt-alternar { flex: 1; justify-content: center; } }
+
+/* O que fica para a tela completa. */
+.rt-resumida [data-rt="detalhe"], .rt-resumida [data-rt="mais"] { display: none !important; }
+/* A faixa da tela de indicadores mora na gaveta (mais estreita). */
+#tela-indicadores .rt-faixa { margin: 8px 0 10px; }
+
+/* Tamanho do texto do painel (menu ⋯ → Leitura; js/tamanho-texto.js). O mapa fica do mesmo tamanho. */
+.tt-maior .tela > *, .tt-maior #tela-indicadores > *, .tt-maior #resumo-essencial > *, .tt-maior .gaveta-painel > *, .tt-maior #menu-mais { zoom: var(--tt-zoom, 1); }
+.mais-leitura { display: flex; align-items: center; gap: 6px; padding: 4px 10px 8px; }
+.mais-leitura span { font-size: 13px; color: var(--texto-2, inherit); margin-right: auto; }
+.mais-leitura button { font: inherit; font-weight: 700; min-width: 40px; min-height: 34px; border-radius: 999px; cursor: pointer; color: var(--texto, inherit);
+  background: transparent; border: 1px solid var(--borda, rgba(0, 0, 0, .15)); }
+.mais-leitura button[aria-pressed="true"] { background: var(--acao, #008080); border-color: var(--acao, #008080); color: #fff; }
+.mais-leitura .tt-1 { font-size: 15px; } .mais-leitura .tt-2 { font-size: 17px; }
+/* Grade de dois cartões com um recolhido: o que fica ocupa a largura toda. */
+.rt-resumida .sec-grade:has(> [data-rt]) { grid-template-columns: 1fr; }
+#menu-mais .mais-leitura-grupo { display: flex; }

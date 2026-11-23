@@ -1,0 +1,161 @@
+/* Tela Calendário sazonal (js/tela-sazonal.js). Usa as peças comuns das telas (sec-topo, rel-cartao, sec-tabela,
+   btn-sec) e a faixa de alerta e a lista de ações do widget (css/dominios/sazonal.css: w-saz-alerta, w-saz-acoes). */
+#tela-sazonal .sz-topo-acoes { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: flex-end; }
+#tela-sazonal .sz-topo p { max-width: 60ch; }
+
+/* Seletor de mês */
+.sz-seletor { display: inline-flex; align-items: center; gap: 2px; background: var(--cartao); border: 1px solid var(--borda-forte); border-radius: 999px; padding: 2px; }
+/* Largura fixa (cabe "Fevereiro"): trocar de mês não empurra as setas nem o "Hoje". */
+.sz-seletor b { width: 96px; text-align: center; font-family: var(--fonte-titulo); font-size: 15px; color: var(--texto); }
+.sz-seletor .sz-hoje {
+  width: 56px; height: 28px; margin-left: 4px; border-radius: 999px; border: 1px solid var(--borda-forte); background: none;
+  font: inherit; font-size: 12px; font-weight: 600; color: var(--acao); cursor: pointer;
+}
+.sz-seletor .sz-hoje:hover { background: var(--sup-3); }
+.sz-seletor .sz-hoje.ativo { background: var(--sup-3); border-color: transparent; color: var(--suave); cursor: default; }
+.sz-seletor .sz-hoje:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+.sz-seta { border: 0; background: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; color: var(--texto); cursor: pointer; font-size: 18px; }
+.sz-seta:hover { background: var(--sup-3); }
+.sz-seta:focus-visible, .sz-cab .cel button:focus-visible, .sz-linha:focus-visible, .sz-cartao:focus-visible, .sz-link:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+
+/* Faixa das metas atrasadas */
+.sz-alerta { margin: 0 0 14px; }
+.sz-alerta ul { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 13px; }
+.sz-alerta li span { color: var(--suave); }
+.sz-alerta .sz-link { color: var(--critica-texto); font-weight: 600; }
+
+/* Números */
+.sz-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 16px; }
+.sz-kpi { background: var(--cartao); border: 1px solid var(--borda); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sz-kpi small { font-size: 12px; color: var(--suave); }
+.sz-kpi b { font-size: 20px; font-family: var(--fonte-titulo); color: var(--texto); }
+.sz-kpi span { font-size: 12px; color: var(--suave); }
+.sz-kpi.ruim { border-left: 4px solid var(--critica); }
+.sz-kpi.ruim b { color: var(--critica-texto); }
+.sz-link { border: 0; background: none; padding: 0; font: inherit; color: var(--acao); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; text-align: left; }
+.sz-link:hover { text-decoration-thickness: 2px; }
+
+/* Grade do ano */
+.sz-ano-topo { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; margin-bottom: 4px; }
+.sz-ano-topo h3 { margin: 0; }
+.sz-ano h3 small, .sz-detalhe h3 small, #tela-sazonal .rel-cartao h3 small { font-weight: 400; font-size: 12px; color: var(--suave); margin-left: 6px; }
+.sz-legenda { margin: 0; gap: 4px 14px; font-size: 12px; }
+.sz-legenda span { display: inline-flex; align-items: center; }
+.sz-legenda i.sz-escala { width: 34px; background: linear-gradient(to right, var(--viz-seq-300), var(--viz-seq-500), var(--viz-seq-700)); }
+.sz-legenda i.sz-leg-pico { position: relative; background: var(--viz-seq-700); }
+.sz-legenda i.sz-leg-pico::before { content: ''; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: var(--cartao); }
+.sz-legenda i.sz-leg-hoje { width: 2px; height: 14px; border-radius: 1px; background: var(--critica); }
+
+.sz-grade {
+  --rotulo: minmax(170px, 26%); --banda: color-mix(in srgb, var(--acao) 14%, transparent); --vao: 3px;
+  overflow-x: auto; overflow-y: hidden; padding-bottom: 6px; position: relative;
+}
+.sz-grade ul { list-style: none; margin: 0; padding: 0; min-width: 560px; }
+.sz-cab, .sz-linha { display: grid; grid-template-columns: var(--rotulo) 1fr; align-items: stretch; gap: 10px; min-width: 560px; }
+.sz-grade .cel { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--vao); align-items: center; }
+/* A coluna do mês escolhido: uma faixa clara de cima a baixo, atrás das células. */
+.sz-grade .cel {
+  background: linear-gradient(to right,
+    transparent calc((100% + var(--vao)) * var(--m) / 12 - 2px),
+    var(--banda) calc((100% + var(--vao)) * var(--m) / 12 - 2px),
+    var(--banda) calc((100% + var(--vao)) * (var(--m) + 1) / 12 - 1px),
+    transparent calc((100% + var(--vao)) * (var(--m) + 1) / 12 - 1px));
+}
+.sz-cab .cel { padding: 2px 0; border-radius: 8px 8px 0 0; }
+.sz-cab .cel button {
+  border: 1px solid transparent; background: none; border-radius: 8px; padding: 6px 0; font: inherit; font-size: 12px; color: var(--texto); cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; min-height: 36px;
+}
+.sz-cab .cel button small { font-size: 9px; font-weight: 700; color: var(--critica-texto); text-transform: uppercase; letter-spacing: 0.03em; }
+.sz-cab .cel button:hover { background: var(--sup-3); border-color: var(--borda-forte); }
+.sz-cab .cel button.olhado { background: var(--acao); border-color: var(--acao); color: #fff; font-weight: 700; }
+.sz-cab .cel button.olhado small { color: #fff; }
+.sz-area { margin-top: 10px; }
+.sz-area h4 { margin: 0 0 2px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--suave); position: sticky; left: 0; width: max-content; }
+.sz-sua { text-transform: none; letter-spacing: 0; font-weight: 600; color: var(--acao); margin-left: 4px; }
+.sz-area > ul { display: flex; flex-direction: column; }
+.sz-linha { width: 100%; border: 0; background: none; border-radius: 8px; padding: 0 6px 0 0; font: inherit; color: var(--texto); cursor: pointer; text-align: left; }
+.sz-linha .cel { padding: 4px 0; }
+.sz-linha .nome {
+  display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 13px; padding: 0 6px; border-radius: 8px 0 0 8px;
+  position: sticky; left: 0; z-index: 1; background: var(--cartao);
+}
+.sz-linha .nome-txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sz-origem { margin-left: auto; color: var(--suave); font-size: 14px; opacity: 0.7; flex: none; }
+.sz-linha:hover .nome, .sz-linha:hover { background: var(--sup-3); }
+.sz-linha.sel, .sz-linha.sel .nome { background: color-mix(in srgb, var(--acao) 12%, var(--cartao)); }
+.sz-linha.sel .nome { box-shadow: inset 3px 0 0 var(--acao); font-weight: 600; }
+.sz-linha.fora-pasta { opacity: 0.6; }
+.sz-linha .cel i { display: block; height: 20px; border-radius: 4px; background: var(--sup-3); position: relative; }
+.sz-linha .cel i.em.t300 { background: var(--viz-seq-300); }
+.sz-linha .cel i.em.t400 { background: var(--viz-seq-400); }
+.sz-linha .cel i.em.t500 { background: var(--viz-seq-500); }
+.sz-linha .cel i.em.t600 { background: var(--viz-seq-600); }
+.sz-linha .cel i.em.t700 { background: var(--viz-seq-700); }
+.sz-linha .cel i.prep { background: repeating-linear-gradient(135deg, var(--acao) 0 3px, color-mix(in srgb, var(--acao) 12%, transparent) 3px 7px); }
+/* Pico: um ponto no meio da célula. */
+.sz-linha .cel i.pico::before { content: ''; position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: var(--cartao); }
+/* Hoje: uma linha fina que atravessa as linhas da grade. */
+.sz-linha .cel i.hoje::after { content: ''; position: absolute; left: 50%; top: -5px; bottom: -5px; width: 2px; margin-left: -1px; background: var(--critica); opacity: 0.75; border-radius: 1px; }
+
+/* O mês escolhido e o detalhe */
+.sz-colunas { display: grid; grid-template-columns: minmax(280px, 2fr) minmax(320px, 3fr); gap: 16px; align-items: start; margin: 0 0 16px; }
+.sz-mes, .sz-detalhe { display: flex; flex-direction: column; gap: 8px; }
+.sz-mes h4, .sz-detalhe h4 { margin: 6px 0 0; font-size: 13px; }
+.sz-cartao {
+  width: 100%; box-sizing: border-box; display: flex; align-items: center; gap: 8px; text-align: left;
+  border: 1px solid var(--borda); border-left: 4px solid var(--borda-forte); border-radius: 10px; padding: 10px 12px;
+  background: var(--cartao); font: inherit; color: var(--texto); cursor: pointer;
+}
+.sz-cartao.pico, .sz-cartao.temporada { border-left-color: var(--viz-seq-600); }
+.sz-cartao.preparo { border-left-color: var(--acao); border-left-style: dashed; }
+.sz-cartao:hover { background: var(--sup-2); border-color: var(--borda-forte); }
+.sz-cartao.sel { background: color-mix(in srgb, var(--acao) 10%, var(--cartao)); border-color: var(--acao); }
+.sz-cartao.fora-pasta { opacity: 0.7; }
+.sz-cartao-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; align-items: flex-start; }
+.sz-cartao b { font-size: 14px; }
+.sz-cartao small { font-size: 12px; color: var(--suave); }
+.sz-cartao.pico .w-saz-tag, .sz-cartao.temporada .w-saz-tag { color: var(--viz-seq-600); }
+.sz-cartao.preparo .w-saz-tag { color: var(--acao); }
+.sz-cartao-ir { color: var(--suave); font-size: 18px; flex: none; }
+.sz-selo { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 1px 8px; white-space: nowrap; color: var(--suave); background: var(--sup-3); }
+.sz-selo.ruim { color: var(--critica-texto); background: var(--critica-fundo); }
+.sz-selo.ok { color: var(--positivo); background: var(--positivo-fundo); }
+.sz-depois { margin: 4px 0 0; font-size: 13px; color: var(--suave); }
+.sz-detalhe { scroll-margin-top: 12px; }
+.sz-detalhe:focus { outline: none; }
+.sz-detalhe p { margin: 0; font-size: 13px; }
+.sz-base { color: var(--texto); }
+.sz-fonte { color: var(--suave); font-size: 12px !important; }
+.sz-barras { width: 100%; max-width: 480px; height: auto; }
+.sz-barras rect { fill: var(--viz-contexto, var(--sup-3)); }
+.sz-barras .em rect { fill: var(--viz-seq-500); }
+.sz-barras .pico rect { fill: var(--viz-seq-700); }
+.sz-barras .olhado rect { stroke: var(--acao); stroke-width: 2; }
+.sz-barras text { font-size: 10px; fill: var(--suave); }
+.sz-barras text.valor { font-weight: 700; fill: var(--texto); }
+.sz-detalhe-acoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+
+/* Metas de preparo */
+.sz-tabela-rolagem { overflow-x: auto; }
+.sz-metas tr.fora-pasta { opacity: 0.6; }
+.sz-prog-cel { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sz-prog { display: inline-block; width: 80px; height: 6px; border-radius: 3px; background: var(--sup-3); vertical-align: middle; margin-right: 6px; overflow: hidden; }
+.sz-prog i { display: block; height: 100%; background: var(--viz-seq-500); }
+.sz-prog.atrasada i { background: var(--critica); }
+.sz-prog.ok i { background: var(--positivo); }
+
+@media (max-width: 900px) {
+  .sz-colunas { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  #tela-sazonal .sec-topo { flex-direction: column; align-items: stretch; }
+  #tela-sazonal .sz-topo-acoes { justify-content: flex-start; }
+  .sz-kpis { gap: 8px; }
+  .sz-kpi { padding: 10px; }
+  .sz-kpi b { font-size: 16px; }
+  .sz-kpi span { display: none; }
+  .sz-grade { --rotulo: 128px; }
+  .sz-linha .nome { font-size: 12px; }
+  .sz-origem { display: none; }
+}

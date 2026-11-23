@@ -1,0 +1,42 @@
+/* Ambiente do mapa (js/mapa-ambiente.js): luz pela hora do dia, ondas de chegada e minimapa. */
+
+/* ---------- 16 · Luz do dia: véu por cima do mapa, por baixo dos pinos ---------- */
+.mapa-luz {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(120% 90% at 50% 0%, var(--luz-cor, transparent), transparent 75%), var(--luz-cor, transparent);
+  opacity: var(--luz-opacidade, 0);
+  transition: opacity 4s linear, background-color 4s linear;
+}
+/* O escuro já é a sala de situação; o telão tem luz própria. */
+body.mapa-escuro .mapa-luz, body.telao-ativo .mapa-luz { opacity: 0; }
+
+/* ---------- 17 · Onda de chegada: dois anéis que se abrem do ponto novo, uma vez ---------- */
+.onda-chegada { position: relative; width: 0; height: 0; pointer-events: none; --onda: var(--andamento); }
+.onda-chegada.critica { --onda: var(--critica); }
+.onda-chegada.alta { --onda: var(--alta); }
+.onda-chegada.media { --onda: var(--media); }
+.onda-chegada i {
+  position: absolute; left: -40px; top: -40px; width: 80px; height: 80px; border-radius: 50%;
+  border: 2.5px solid var(--onda); box-shadow: 0 0 18px color-mix(in srgb, var(--onda) 50%, transparent);
+  animation: onda-abre 1.6s var(--ease-sai) both;
+}
+.onda-chegada i + i { animation-delay: 0.45s; }
+@keyframes onda-abre { from { transform: scale(0.15); opacity: 0.95; } to { transform: scale(2.2); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .onda-chegada { display: none; } }
+
+/* ---------- 19 · Minimapa de orientação (canto de baixo, à esquerda dos controles) ---------- */
+.mapa-minimapa {
+  position: absolute; right: 60px; bottom: 54px; z-index: 2; padding: 6px; border: 0; cursor: pointer;
+  border-radius: 12px; background: var(--vidro); box-shadow: var(--elev-2);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  animation: ga-aparece var(--dur-curta) var(--ease-sai);
+  transition: transform var(--dur-micro) var(--ease-sai);
+}
+.mapa-minimapa[hidden] { display: none; }
+.mapa-minimapa:hover { transform: translateY(-1px); }
+.mapa-minimapa:focus-visible { outline: 2px solid var(--foco); outline-offset: 2px; }
+.mapa-minimapa svg { display: block; overflow: hidden; }
+.mm-cidade { fill: color-mix(in srgb, var(--primaria) 12%, transparent); stroke: color-mix(in srgb, var(--primaria) 45%, transparent); stroke-width: 0.6; }
+.mm-vista { fill: color-mix(in srgb, var(--acao) 18%, transparent); stroke: var(--acao); stroke-width: 1.5; stroke-linejoin: round; }
+[data-tema="escuro"] .mm-cidade { fill: rgba(159, 218, 221, 0.12); stroke: rgba(159, 218, 221, 0.45); }
+@media (max-width: 720px) { .mapa-minimapa { display: none; } }

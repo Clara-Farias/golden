@@ -1,0 +1,55 @@
+/* Domínio: economia (pino, popup e widget). Carrega logo depois de css/v3.css no index.html. */
+/* ---- Pinos: o círculo de .marcador-equip (css/mapa-premium.css); o do bairro é quadrado para não confundir ---- */
+.marcador-equip.marcador-eco-bairro { border-radius: 8px; }
+.marcador-equip.marcador-eco-bairro.ok { --c: var(--positivo); }
+.marcador-equip.marcador-eco-bairro.atencao { --c: var(--media); }
+.marcador-equip.marcador-eco-bairro.critica { --c: var(--critica); }
+.marcador-equip.marcador-alvara.atencao { --c: var(--media); }
+.marcador-equip.marcador-alvara.critica { --c: var(--critica); }
+.marcador-equip.marcador-eco-bairro b, .marcador-equip.marcador-alvara b { color: #fff; }
+
+/* ---- Popup ---- */
+.popup .sev.eco-critica { background: var(--critica); }
+.popup .sev.eco-atencao { background: var(--media); }
+.popup .sev.eco-ok { background: var(--positivo); }
+.eco-numeros { list-style: none; margin: 6px 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.eco-numeros b { display: block; font-size: 16px; color: var(--texto); font-variant-numeric: tabular-nums; }
+.eco-numeros b.pos { color: var(--positivo); }
+.eco-numeros b.neg { color: var(--critica); }
+.eco-numeros small { font-size: 12px; color: var(--suave); }
+.popup-economia .eco-pendencia { font-weight: 600; color: var(--texto); }
+
+/* ---- Widget ---- */
+.w-eco { display: flex; flex-direction: column; gap: 12px; }
+.w-eco h4 { margin: 0 0 8px; font-size: 13px; }
+.w-eco h4 small { font-weight: 400; font-size: 12px; color: var(--suave); }
+.w-eco-gargalo { margin: 0; font-size: 13px; color: var(--media-texto); font-weight: 600; }
+.w-eco-ok { margin: 0; font-size: 13px; color: var(--positivo); }
+.w-eco .pos { color: var(--positivo); }
+.w-eco .neg { color: var(--critica); }
+.w-eco-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-eco-lista button {
+  display: grid; grid-template-columns: 72px 1fr auto; align-items: center; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 5px 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-eco-lista button:hover { background: var(--sup-2); }
+.w-eco-lista .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-eco-lista .dias, .w-eco-lista .sit {
+  font-size: 12px; font-weight: 700; color: #fff; border-radius: 10px; padding: 1px 0; text-align: center; white-space: nowrap;
+}
+.w-eco-lista .dias.critica, .w-eco-lista .sit.critica { background: var(--critica); }
+.w-eco-lista .dias.atencao, .w-eco-lista .sit.atencao { background: var(--media); }
+.w-eco-lista .sit.ok { background: var(--positivo); }
+.w-eco-lista .saldo { font-weight: 700; font-variant-numeric: tabular-nums; }
+.w-eco-barras { list-style: none; margin: 0 0 12px; padding: 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; height: 110px; }
+.w-eco-barras li { display: grid; grid-template-rows: 1fr 1fr auto; align-items: stretch; min-width: 0; }
+.w-eco-barras span { position: relative; }
+.w-eco-barras .pos { border-bottom: 1px solid var(--borda); }
+.w-eco-barras i { position: absolute; left: 15%; right: 15%; height: var(--h); border-radius: 3px; }
+.w-eco-barras .pos i { bottom: 0; background: var(--positivo); }
+.w-eco-barras .neg i { top: 0; background: var(--critica); }
+.w-eco-barras small { font-size: 11px; color: var(--suave); text-align: center; overflow: hidden; }
+.w-eco-regioes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-eco-regioes li { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; padding: 4px 6px; border-radius: 8px; cursor: pointer; }
+.w-eco-regioes li:hover { background: var(--sup-2); }
+.w-eco-regioes b { font-variant-numeric: tabular-nums; }

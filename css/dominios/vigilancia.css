@@ -1,0 +1,56 @@
+/* Domínio: vigilância em saúde (pino, popup e widget). Carrega logo depois de css/v3.css no index.html. */
+/* ---- Pino: o círculo de .marcador-equip (css/mapa-premium.css) na cor da situação ---- */
+.marcador-equip.marcador-vigilancia b { color: #fff; }
+/* zoonoses: borda tracejada, para separar do ponto estratégico do Aedes sem depender da cor */
+.marcador-equip.marcador-vigilancia.zoonose { border-style: dashed; }
+
+/* ---- Popup ---- */
+.popup .sev.vigilancia-critica { background: var(--critica); }
+.popup .sev.vigilancia-atencao { background: var(--media); }
+.popup .sev.vigilancia-ok { background: var(--positivo); }
+.vigilancia-numeros { list-style: none; margin: 6px 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.vigilancia-numeros b { display: block; font-size: 16px; color: var(--texto); font-variant-numeric: tabular-nums; }
+.vigilancia-numeros small { font-size: 12px; color: var(--suave); }
+.vigilancia-nota { margin: 4px 0 0; font-size: 13px; color: var(--texto); }
+
+/* ---- Widget ---- */
+.w-vig { display: flex; flex-direction: column; gap: 12px; }
+.w-vig .w-num b { font-size: 20px; }
+.w-vig h4 { margin: 0 0 8px; font-size: 13px; }
+.w-vig h4 small { display: block; font-weight: 400; font-size: 12px; color: var(--suave); }
+.w-vig-alerta {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  background: var(--critica-fundo); border: 1px solid var(--critica-borda); border-left: 4px solid var(--critica); border-radius: 10px; padding: 10px 12px;
+}
+.w-vig-alerta b { display: block; color: var(--critica); font-size: 14px; }
+.w-vig-alerta small { font-size: 13px; color: var(--texto); }
+.w-vig-ok { margin: 0; font-size: 13px; color: var(--positivo); }
+.w-vig-meta {
+  align-self: flex-start; border: 1px solid var(--borda); background: var(--sup-2); color: var(--media-texto);
+  border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;
+}
+.w-vig-meta:hover { border-color: var(--media); }
+.w-vig-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.w-vig-bairros, .w-vig-pontos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-vig-bairros button, .w-vig-pontos button {
+  display: grid; align-items: center; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 5px 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-vig-bairros button { grid-template-columns: 1fr auto 86px; }
+.w-vig-pontos button { grid-template-columns: 28px 1fr; }
+.w-vig-bairros button:hover, .w-vig-pontos button:hover { background: var(--sup-2); }
+.w-vig .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-vig-bairros .vac { font-size: 12px; color: var(--positivo); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.w-vig-bairros .vac.abaixo { color: var(--critica); font-weight: 600; }
+.w-vig-bairros .liraa {
+  font-size: 12px; font-weight: 700; color: #fff; border-radius: 10px; padding: 1px 6px; text-align: center; white-space: nowrap;
+  background: var(--positivo); font-variant-numeric: tabular-nums;
+}
+.w-vig-bairros .liraa.alerta { background: var(--media); }
+.w-vig-bairros .liraa.risco { background: var(--critica); }
+.w-vig-pontos .sit {
+  display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
+  background: var(--cartao); border: 2px solid var(--positivo); color: var(--positivo); font-size: 14px;
+}
+.w-vig-pontos .sit.atencao { border-color: var(--media); color: var(--media-texto); }
+.w-vig-pontos .sit.critica { border-color: var(--critica); color: var(--critica); }

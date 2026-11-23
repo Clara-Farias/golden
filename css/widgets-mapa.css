@@ -1,0 +1,178 @@
+/* Widgets fixados no mapa (js/widgets.js, desenharMapa). Salvos com a visualização: widgets.fixados (a ordem) e
+   widgets.noMapa (lugar e tamanho de cada um). Cinco lugares fixos (GC.LUGARES_WIDGET_MAPA), afastados das bordas,
+   do menu, da barra de Filtros/Camadas, dos controles de zoom e da doca. Arrastar pelo cabeçalho troca de lugar. */
+.widgets-mapa {
+  --wm-topo: calc(76px + var(--topo-h, 56px)); /* abaixo da barra de Visualização e de Filtros/Camadas */
+  --wm-base: 96px;  /* acima da doca (Resumo do dia…) */
+  --wm-esq: 92px;   /* ao lado do menu lateral */
+  --wm-dir: 24px;
+  --wm-ctrl: 68px;  /* à esquerda da coluna de controles do mapa (zoom, tema) */
+  --wm-vao: 10px;
+  position: absolute; inset: 0;
+  pointer-events: none; /* o mapa continua clicável fora dos cartões */
+}
+.widgets-mapa[hidden] { display: none; }
+
+.wm-lugar {
+  position: absolute; display: flex; flex-direction: column; gap: var(--wm-vao);
+  overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
+  padding: 2px; /* o destaque do cartão não é cortado pela rolagem */
+  pointer-events: none;
+}
+.wm-lugar[data-lugar="dir-cima"] { right: var(--wm-dir); top: var(--wm-topo); bottom: 272px; align-items: flex-end; }
+.wm-lugar[data-lugar="dir-baixo"] { right: var(--wm-ctrl); bottom: var(--wm-base); max-height: calc(100% - var(--wm-topo) - var(--wm-base)); align-items: flex-end; }
+.wm-lugar[data-lugar="esq-cima"] { left: var(--wm-esq); top: var(--wm-topo); bottom: var(--wm-base); align-items: flex-start; }
+.wm-lugar[data-lugar="esq-baixo"] { left: var(--wm-esq); bottom: var(--wm-base); max-height: calc(100% - var(--wm-topo) - var(--wm-base)); align-items: flex-start; }
+.wm-lugar[data-lugar="baixo"] {
+  left: 50%; transform: translateX(-50%); bottom: var(--wm-base);
+  flex-direction: row; align-items: flex-end; overflow-x: auto; overflow-y: hidden;
+  max-width: calc(100% - 2 * var(--wm-esq) - 2 * 300px);
+}
+/* Embaixo, o cartão fica baixo (está sobre a cidade) e rola por dentro (o cabeçalho nunca some). */
+.wm-lugar[data-lugar="baixo"] > .w-fixo { display: flex; flex-direction: column; max-height: min(28vh, 240px); }
+/* Um painel da doca aberto (Resumo do dia, da semana, Desde a última visita) ocupa o mesmo lugar: a faixa sai
+   da frente até ele fechar, em vez de ficar escondida por baixo. */
+body:has(.doca-btn[aria-expanded="true"]) .wm-lugar[data-lugar="baixo"] { display: none; }
+.wm-lugar[data-lugar="baixo"] > .w-fixo > .w-corpo { flex: 1 1 auto; min-height: 0; max-height: none; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+/* Os dois lugares do mesmo lado ocupados: cada um fica com a sua metade. */
+.widgets-mapa:has([data-lugar="dir-baixo"] > .widget) [data-lugar="dir-cima"] { bottom: max(272px, calc(50% + 6px)); }
+.widgets-mapa:has([data-lugar="dir-cima"] > .widget) [data-lugar="dir-baixo"] { max-height: calc(50% - var(--wm-base) - 6px); }
+.widgets-mapa:has([data-lugar="esq-baixo"] > .widget) [data-lugar="esq-cima"] { bottom: calc(50% + 6px); }
+.widgets-mapa:has([data-lugar="esq-cima"] > .widget) [data-lugar="esq-baixo"] { max-height: calc(50% - var(--wm-base) - 6px); }
+/* Cartões embaixo no meio: a faixa se alarga quando os cantos de baixo estão vazios. */
+.widgets-mapa:not(:has([data-lugar="esq-baixo"] > .widget)):not(:has([data-lugar="dir-baixo"] > .widget)) [data-lugar="baixo"] { max-width: calc(100% - 2 * var(--wm-esq) - 40px); }
+
+/* Coluna com mais cartões do que cabe: a borda de baixo esmaece e o botão "Mais N" leva ao próximo. */
+.wm-lugar.wm-transborda { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 44px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 44px), transparent); }
+.wm-mais {
+  position: absolute; z-index: 1; pointer-events: auto;
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 999px;
+  border: 1px solid var(--vidro-borda); background: var(--cartao); color: var(--navy);
+  font: 600 12px/1.2 inherit; box-shadow: var(--sombra); cursor: pointer;
+}
+.wm-mais:hover { color: var(--acao); }
+.wm-mais:focus-visible { outline: 2px solid var(--acao); outline-offset: 2px; }
+.wm-mais .ti { font-size: 14px; }
+.widgets-mapa.wm-arrastando .wm-mais { display: none; }
+
+/* O cartão (também quando voa pelo body durante o arraste) */
+.widget.w-fixo {
+  pointer-events: auto; flex: none; margin: 0; max-width: 100%;
+  background: var(--vidro); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid var(--vidro-borda); border-top: 3px solid var(--cor, var(--primaria));
+  border-radius: 14px; box-shadow: var(--vidro-sombra, var(--sombra));
+  padding: 8px 10px 10px; min-height: 0;
+}
+.widget.w-fixo.wm-p { width: 264px; }
+.widget.w-fixo.wm-m { width: 330px; }
+.widget.w-fixo.wm-l { width: 420px; }
+.w-fixo.wm-m .w-corpo, .w-fixo.wm-l .w-corpo { max-height: 44vh; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.w-fixo > header { display: flex; align-items: center; gap: 2px; margin: 0 0 6px; }
+.w-fixo > header h3 {
+  flex: 1; min-width: 0; margin: 0 0 0 2px; font-size: 13px; display: flex; align-items: center; gap: 6px;
+  cursor: grab; user-select: none; touch-action: none;
+}
+.w-fixo .w-titulo { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.w-fixo .w-corpo { font-size: 12px; }
+.w-fixo.wm-p .w-p-oculto { display: none !important; }
+/* Números em duas colunas, mais baixos: o cartão Compacto cobre o mínimo do mapa. */
+.w-fixo .w-numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.w-fixo.wm-l .w-numeros { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.w-fixo .w-num { padding: 6px 8px; border-radius: 8px; }
+.w-fixo .w-num b { font-size: 18px; line-height: 1.2; }
+.w-fixo .w-num small { font-size: 11px; line-height: 1.3; display: block; }
+.w-fixo .wm-alca { width: 20px; margin-left: -4px; cursor: grab; touch-action: none; }
+.w-fixo-btn.ativo { color: var(--acao); background: color-mix(in srgb, var(--acao) 12%, transparent); }
+.widget.w-fixo.w-recem { animation: w-recem 1.4s ease-out; }
+
+/* Ajustes: tamanho e lugar (um minimapa com os cinco lugares) */
+.wm-ajustes {
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 10px;
+  margin: 0 0 8px; padding: 8px 10px; border-radius: 10px;
+  background: color-mix(in srgb, var(--primaria) 6%, transparent); font-size: 12px;
+}
+.wm-aj-rot { color: var(--suave); font-weight: 600; }
+.wm-ajustes .w-tam { justify-self: start; }
+.wm-aj-dica { grid-column: 1 / -1; color: var(--suave); font-size: 11px; }
+.wm-lugares {
+  justify-self: start; position: relative; width: 88px; height: 52px;
+  border: 1.5px solid color-mix(in srgb, var(--suave) 60%, transparent); border-radius: 6px;
+  background: color-mix(in srgb, var(--cartao) 70%, transparent);
+}
+.wm-lugares button {
+  position: absolute; width: 24px; height: 16px; padding: 0; border: 0; border-radius: 3px; cursor: pointer;
+  background: color-mix(in srgb, var(--suave) 30%, transparent);
+}
+.wm-lugares button:hover { background: color-mix(in srgb, var(--acao) 45%, transparent); }
+.wm-lugares button.ativo { background: var(--acao); }
+.wm-lugares button:focus-visible { outline: 2px solid var(--acao); outline-offset: 1px; }
+.wm-lugares .wm-l-esq-cima { left: 5px; top: 5px; }
+.wm-lugares .wm-l-esq-baixo { left: 5px; bottom: 5px; }
+.wm-lugares .wm-l-dir-cima { right: 5px; top: 5px; }
+.wm-lugares .wm-l-dir-baixo { right: 5px; bottom: 5px; }
+.wm-lugares .wm-l-baixo { left: 50%; bottom: 5px; transform: translateX(-50%); }
+
+/* Arrastando: os cinco lugares aparecem como alvos; o mais perto do ponteiro fica marcado. */
+.widgets-mapa.wm-arrastando .wm-lugar {
+  min-width: 264px; min-height: 96px; border-radius: 16px;
+  outline: 2px dashed color-mix(in srgb, var(--acao) 45%, transparent); outline-offset: 4px;
+  background: color-mix(in srgb, var(--acao) 5%, transparent);
+  transition: background 120ms, outline-color 120ms;
+}
+/* Os de cima ocupam a coluna inteira quando o canto de baixo está vazio; arrastando, ficam só com a metade de
+   cima, senão cobrem o alvo de baixo e soltar no canto de baixo caía no de cima. */
+.widgets-mapa.wm-arrastando [data-lugar="esq-cima"] { bottom: calc(50% + 6px); }
+.widgets-mapa.wm-arrastando [data-lugar="dir-cima"] { bottom: max(272px, calc(50% + 6px)); }
+.widgets-mapa.wm-arrastando [data-lugar="esq-baixo"], .widgets-mapa.wm-arrastando [data-lugar="dir-baixo"] { max-height: calc(50% - var(--wm-base) - 6px); }
+.widgets-mapa.wm-arrastando .wm-lugar.wm-alvo { outline-color: var(--acao); background: color-mix(in srgb, var(--acao) 12%, transparent); }
+.widgets-mapa.wm-arrastando .wm-lugar:not(:has(> *))::after {
+  content: attr(data-rotulo); margin: auto; padding: 0 12px; text-align: center;
+  font-size: 12px; font-weight: 600; color: var(--navy);
+}
+.wm-marcador {
+  flex: none; max-width: 100%; border-radius: 14px;
+  border: 2px dashed var(--acao); background: color-mix(in srgb, var(--acao) 12%, transparent);
+}
+.widget.w-fixo.wm-voando {
+  position: fixed; left: 0; top: 0; z-index: 3000; pointer-events: none; cursor: grabbing;
+  box-shadow: 0 18px 40px rgba(11, 29, 34, 0.28); opacity: 0.94;
+}
+body:has(.wm-voando) { cursor: grabbing; user-select: none; }
+
+/* Botões do cartão no mapa e o alfinete no cartão do painel / na gaveta */
+.w-fixo-btn, .w-fixar {
+  flex: none; display: inline-grid; place-items: center; width: 26px; height: 26px; padding: 0;
+  border: 0; border-radius: 6px; background: transparent; color: var(--suave); cursor: pointer;
+}
+.w-fixo-btn:hover, .w-fixar:hover { background: color-mix(in srgb, var(--primaria) 10%, transparent); color: var(--navy); }
+.w-fixo-btn:focus-visible, .w-fixar:focus-visible { outline: 2px solid var(--acao); outline-offset: 1px; }
+.w-fixar.ativo, .icone[data-fixar].ativo { color: var(--acao); }
+.w-fixo-btn .ti, .w-fixar .ti { font-size: 16px; }
+
+/* Visualizações: "Guardar também o zoom" e o enquadramento da visualização em uso */
+.vista-enq { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--suave); margin: 6px 2px 2px; cursor: pointer; }
+.vista-enq input { margin: 0; accent-color: var(--acao); }
+.vista-enq-inline { margin: 6px 10px 4px; }
+
+body.telao-ativo .widgets-mapa, body.tela-aberta .widgets-mapa { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) { .widget.w-fixo.w-recem { animation: none; } }
+
+/* Tela baixa: as colunas de cima encolhem até onde cabe. */
+@media (max-height: 640px) {
+  .widgets-mapa { --wm-base: 84px; }
+  .wm-lugar[data-lugar="dir-cima"] { bottom: 200px; }
+}
+/* Celular: os lugares viram uma fila só, acima da doca (sem arrastar; o tamanho vale até a largura da tela). */
+@media (max-width: 760px) {
+  .widgets-mapa {
+    inset: auto 12px 96px 12px; display: flex; flex-direction: row; gap: 8px;
+    overflow-x: auto; overflow-y: hidden; padding-bottom: 4px; align-items: flex-end;
+  }
+  .wm-lugar { display: contents; }
+  .widget.w-fixo { display: flex; flex-direction: column; max-height: 38vh; }
+  .widget.w-fixo > .w-corpo { flex: 1 1 auto; min-height: 0; max-height: none; overflow-y: auto; overscroll-behavior: contain; }
+  .widget.w-fixo.wm-p, .widget.w-fixo.wm-m, .widget.w-fixo.wm-l { width: min(300px, calc(100vw - 48px)); }
+  .w-fixo .wm-alca, .wm-lugares, .wm-aj-dica, .wm-aj-lugar { display: none; }
+  .w-fixo > header h3 { cursor: default; }
+}

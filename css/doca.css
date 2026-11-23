@@ -1,0 +1,104 @@
+/* Doca em Titã: a barra da base do mapa (Resumo do dia, da semana, Desde a última visita, Indicadores) e os
+   cabeçalhos dos painéis que ela abre, com as curvas de nível da marca (css/img/curvas-nivel.svg, gerado por
+   GC.grafismo.curvas) num filete esmaecido. Regras do grafismo: em branco, até 20% de opacidade, saindo pela
+   borda e nunca atrás de dado (só atrás do título). É a exceção do painel prevista no manual (cap. 05,
+   "Qual grafismo usar": no painel, curvas só na moldura). Carregado por último no index.html.
+   A cor é var(--primaria): segue a personalização da Prefeitura. */
+:root {
+  --doca-fundo: var(--primaria);
+  --doca-texto: #ffffff;
+  --doca-suave: rgba(255, 255, 255, 0.74);
+  --doca-hover: rgba(255, 255, 255, 0.1);
+  --doca-ativo: rgba(255, 255, 255, 0.16);
+  --doca-curvas-op: 0.2;
+}
+
+/* Base comum: Titã com as curvas por cima, num ::before que não pega clique. A barra é relative; os dois
+   cabeçalhos são sticky (abaixo), que também segura o ::before: nunca ponha relative neles, senão soltam ao rolar. */
+.doca-botoes.vidro { position: relative; }
+.doca-botoes.vidro,
+.doca .rd-cab,
+.dashboard .dash-topo {
+  isolation: isolate;
+  background: var(--doca-fundo); color: var(--doca-texto);
+}
+.doca-botoes.vidro::before,
+.doca .rd-cab::before,
+.dashboard .dash-topo::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
+  background: url('img/curvas-nivel.svg') right 45% / 640px auto no-repeat;
+  opacity: var(--doca-curvas-op);
+}
+
+/* ---------- barra fechada ---------- */
+.doca-botoes.vidro {
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  border-color: color-mix(in srgb, var(--doca-fundo) 70%, #000);
+  box-shadow: 0 -6px 18px -8px rgba(11, 29, 34, 0.45);
+  padding: 4px 5px 0;
+}
+.doca-botoes.vidro::before { background-position: 20% 30%; background-size: 560px auto; }
+.doca-btn { color: var(--doca-suave); position: relative; transition: color var(--dur-micro, 0.12s), background-color var(--dur-micro, 0.12s); }
+.doca-btn .ti { color: inherit; }
+.doca-btn:hover { background: var(--doca-hover); color: var(--doca-texto); }
+.doca-btn:focus-visible { outline: 2px solid var(--doca-texto); outline-offset: -2px; }
+/* Aberto: fundo um pouco mais claro e o traço da aba ativa em Chama (o uso de Chama previsto no manual). */
+.doca-btn.ativo, .doca-btn[aria-expanded="true"] {
+  background: var(--doca-ativo); background-image: none; box-shadow: none; color: var(--doca-texto);
+}
+.doca-btn.ativo::after, .doca-btn[aria-expanded="true"]::after {
+  content: ''; position: absolute; left: 12px; right: 12px; bottom: 0; height: 2px; border-radius: 2px 2px 0 0; background: var(--acento);
+}
+/* Contador vermelho com anel Titã, para não se perder no fundo escuro. */
+.doca-btn .rd-n { box-shadow: 0 0 0 2px var(--doca-fundo); }
+
+/* ---------- cabeçalho dos cartões da doca (Resumo do dia, da semana, Desde a última visita) ---------- */
+.doca .rd-cab {
+  margin: -8px -10px 2px; padding: 9px 8px 9px 12px; border-radius: 16px 16px 0 0;
+  position: sticky; top: -8px; z-index: 2;
+}
+.doca .rd-cab h2 { color: var(--doca-texto); font-family: var(--fonte-titulo); font-weight: 600; letter-spacing: -0.01em; }
+.doca .rd-cab small { color: var(--doca-suave); }
+.doca .rd-cab h2 .ti, .doca .rd-cab h2 [class^="ic-"] { color: var(--doca-suave); }
+.doca .rd-cab .rd-x { color: var(--doca-suave); }
+.doca .rd-cab .rd-x:hover { background: var(--doca-hover); color: var(--doca-texto); }
+.doca .rd-cab .rd-x:focus-visible { outline: 2px solid var(--doca-texto); outline-offset: -2px; }
+.doca .rd-cab .btn-acao, .doca .rd-cab .btn-sec { background: transparent; color: var(--doca-texto); border-color: rgba(255, 255, 255, 0.4); }
+.doca .rd-cab .btn-acao:hover, .doca .rd-cab .btn-sec:hover { background: var(--doca-hover); }
+
+/* ---------- topo da gaveta de Indicadores ---------- */
+.dashboard .dash-topo {
+  position: sticky; top: 0; z-index: 5;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  border-bottom: 0; box-shadow: 0 6px 18px -10px rgba(11, 29, 34, 0.5);
+}
+.dashboard .dash-topo::before { background-size: 900px auto; background-position: right 40%; }
+.dashboard .dash-topo h2 { color: var(--doca-texto); }
+.dashboard .dash-topo small { color: var(--doca-suave); }
+.dashboard .dash-topo h2 small#dash-escopo { color: var(--doca-texto); background: var(--doca-hover); border-color: rgba(255, 255, 255, 0.22); }
+.dashboard .dash-abas { background: rgba(0, 0, 0, 0.18); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
+.dashboard .dash-aba { color: var(--doca-suave); }
+.dashboard .dash-aba:hover { color: var(--doca-texto); }
+.dashboard .dash-aba.ativo, [data-tema="escuro"] .dashboard .dash-aba.ativo { background: var(--cartao); color: var(--titulo); }
+.dashboard .dash-aba:focus-visible { outline: 2px solid var(--doca-texto); outline-offset: 2px; }
+/* Personalizar: contorno branco; Voltar ao mapa: o único cheio, agora em branco com texto Titã. */
+.dash-topo #dash-editar { background: transparent; color: var(--doca-texto); border-color: rgba(255, 255, 255, 0.45); }
+.dash-topo #dash-editar .ti { color: inherit; }
+.dash-topo #dash-editar:hover { background: var(--doca-hover); border-color: var(--doca-texto); }
+.dash-topo #dash-editar[aria-pressed="true"] { background: var(--doca-ativo); color: var(--doca-texto); border-color: var(--doca-texto); box-shadow: inset 0 0 0 1px var(--doca-texto); }
+.dash-topo #dash-editar:focus-visible, .dash-topo #dash-fechar:focus-visible { outline: 2px solid var(--doca-texto); outline-offset: 2px; }
+.dash-topo #dash-fechar { background: #ffffff; color: var(--primaria); border-color: #ffffff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18); }
+.dash-topo #dash-fechar:hover { background: color-mix(in srgb, #ffffff 88%, var(--primaria)); }
+.dash-topo #dash-editar:not([hidden]) + #dash-fechar::before { background: rgba(255, 255, 255, 0.35); }
+.dash-topo .dash-esc { border-color: color-mix(in srgb, var(--primaria) 30%, transparent); background: color-mix(in srgb, var(--primaria) 8%, transparent); color: var(--primaria); }
+.dash-topo .vistas.vidro { border-color: transparent; }
+
+@media (max-width: 720px) {
+  .dashboard .dash-topo { background: var(--doca-fundo); }
+  /* A barra sólida não passa por baixo do ☰ do canto: fica à direita dele e rola de lado se faltar espaço. */
+  .doca-botoes.vidro { max-width: calc(100vw - 96px); overflow-x: auto; scrollbar-width: none; }
+  .doca-botoes.vidro::-webkit-scrollbar { display: none; }
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  .doca-botoes.vidro::before, .doca .rd-cab::before, .dashboard .dash-topo::before { display: none; }
+}

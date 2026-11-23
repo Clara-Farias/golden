@@ -1,0 +1,47 @@
+/* Painel de comando (Ctrl+K, / ou a lupa): js/busca.js põe a caixa da busca num <dialog> modal.
+   Fica no meio da tela, por cima de tudo, com o fundo desfocado. Carregado depois de css/premium.css. */
+dialog.comando {
+  position: fixed; inset: 0; margin: 12vh auto auto; padding: 0; border: 0; background: transparent;
+  width: min(640px, calc(100vw - 32px)); max-width: none; max-height: none; overflow: visible; color: var(--texto);
+}
+dialog.comando::backdrop {
+  background: color-mix(in srgb, var(--barra) 30%, transparent);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1); backdrop-filter: blur(8px) saturate(1.1);
+  animation: comando-fundo var(--dur-curta) var(--ease-sai);
+}
+dialog.comando .busca-caixa.vidro {
+  position: static; width: 100%; border-radius: var(--raio-painel);
+  background: color-mix(in srgb, var(--cartao) 94%, transparent); box-shadow: var(--elev-3);
+  animation: comando-abre var(--dur-curta) var(--ease-sai);
+}
+@keyframes comando-abre { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes comando-fundo { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { dialog.comando .busca-caixa.vidro, dialog.comando::backdrop { animation: none; } }
+
+dialog.comando .busca-campo { height: 56px; padding: 0 12px 0 18px; gap: 12px; border-bottom-color: var(--divisor, var(--borda)); }
+dialog.comando .busca-campo .ti { font-size: 20px; color: var(--acao); }
+dialog.comando .busca-campo input { font-size: 16px; }
+dialog.comando .busca-campo kbd {
+  font: inherit; font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 6px;
+  background: var(--sup-3); box-shadow: inset 0 -1px 0 var(--borda-forte); color: var(--suave);
+}
+dialog.comando .busca-lista { max-height: min(440px, 60vh); padding: 6px 8px 8px; }
+dialog.comando .busca-item { padding: 8px 10px; border-radius: 10px; transition: background-color var(--dur-micro) var(--ease-sai); }
+dialog.comando .busca-item.ativo { background: color-mix(in srgb, var(--acao) 10%, transparent); box-shadow: inset 2px 0 0 var(--acao); }
+dialog.comando .busca-ic { width: 32px; height: 32px; border-radius: 9px; }
+dialog.comando .busca-item.acao .busca-ic { color: var(--acao); background: color-mix(in srgb, var(--acao) 10%, transparent); }
+dialog.comando .busca-grupo {
+  list-style: none; padding: 10px 10px 4px; font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--suave);
+}
+dialog.comando .busca-grupo:first-child { padding-top: 4px; }
+dialog.comando .busca-tecla {
+  flex: none; font: inherit; font-size: 11px; font-weight: 600; min-width: 22px; text-align: center; padding: 2px 6px; border-radius: 6px;
+  background: var(--sup-3); box-shadow: inset 0 -1px 0 var(--borda-forte); color: var(--suave);
+}
+dialog.comando .busca-dica { padding: 14px 12px; }
+
+@media (max-width: 720px) {
+  dialog.comando { margin-top: 10px; width: calc(100vw - 20px); }
+  dialog.comando .busca-lista { max-height: 65vh; }
+}

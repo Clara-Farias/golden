@@ -1,0 +1,106 @@
+/* Várias camadas ao mesmo tempo (js/mapa/varias-camadas.js, js/app/camadas.js, legenda em js/foco.js).
+   Classes no elemento do mapa: .camada-destacada, .muitas-camadas, .zoom-longe, .camadas-agrupadas. */
+
+/* ---------- destacar uma camada: o resto esmaece ---------- */
+.maplibregl-marker { transition: opacity 0.18s ease; }
+.camada-destacada .maplibregl-marker.esmaecido { opacity: 0.2 !important; }
+
+/* ---------- menos detalhe: com 3 ou mais camadas e o mapa afastado, pino sem número ---------- */
+.muitas-camadas.zoom-longe .maplibregl-marker[data-camada]:not(.pino-aberto) b { display: none; }
+
+/* ---------- selo por bairro: os pinos das camadas somem e o bairro mostra um selo ---------- */
+.camadas-agrupadas .maplibregl-marker[data-camada]:not(.pino-aberto) { display: none !important; }
+.selo-camadas-wrap { cursor: pointer; }
+.selo-camadas-wrap:focus-visible { outline: none; }
+.selo-camadas {
+  display: inline-flex; align-items: center; gap: 2px; padding: 3px 6px 3px 5px;
+  border-radius: 999px; background: var(--cartao); border: 2px solid var(--positivo);
+  box-shadow: 0 2px 8px rgba(11, 29, 34, 0.22); font-size: 13px; line-height: 1; white-space: nowrap;
+  transition: transform 0.15s ease;
+}
+.selo-camadas.atencao { border-color: var(--media); }
+.selo-camadas.critica { border-color: var(--critica); box-shadow: 0 0 0 3px color-mix(in srgb, var(--critica) 22%, transparent), 0 2px 8px rgba(11, 29, 34, 0.22); }
+.selo-camadas.neutro { border-color: var(--suave); }
+.selo-camadas-wrap:hover .selo-camadas, .selo-camadas-wrap:focus-visible .selo-camadas { transform: scale(1.08); }
+.selo-camadas-wrap:focus-visible .selo-camadas { outline: 2px solid #2563eb; outline-offset: 2px; }
+.selo-camadas-emojis { display: inline-flex; gap: 3px; }
+.selo-camadas-emojis i { font-style: normal; display: inline-flex; align-items: flex-end; }
+.selo-camadas-emojis small { font-size: 10px; font-weight: 700; color: var(--suave); margin-left: 1px; font-variant-numeric: tabular-nums; }
+
+/* ---------- pinos sobrepostos: a lista do que há no lugar ---------- */
+.popup-sobrepostos .sobrepostos-titulo { display: block; margin-bottom: 6px; font-size: 13px; }
+.popup-sobrepostos .sobrepostos { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; max-height: 260px; overflow-y: auto; }
+.popup-sobrepostos .sobreposto {
+  display: flex; align-items: flex-start; gap: 8px; width: 100%; padding: 6px 8px; text-align: left;
+  border: 1px solid var(--borda); border-left: 4px solid var(--positivo); border-radius: 6px;
+  background: var(--cartao); color: inherit; font: inherit; font-size: 13px; line-height: 1.3; cursor: pointer;
+}
+.popup-sobrepostos .sobreposto.atencao { border-left-color: var(--media); }
+.popup-sobrepostos .sobreposto.critica { border-left-color: var(--critica); }
+.popup-sobrepostos .sobreposto.neutro { border-left-color: var(--suave); }
+.popup-sobrepostos .sobreposto:hover { background: color-mix(in srgb, var(--primaria) 6%, var(--cartao)); }
+.popup-sobrepostos .sobreposto:focus-visible { outline: 2px solid #2563eb; outline-offset: 1px; }
+.popup-sobrepostos .sobreposto-emoji { flex: none; }
+
+/* Dica do destaque: "passe o mouse" só onde há mouse. */
+.so-toque { display: none; }
+@media (hover: none) { .so-mouse { display: none; } .so-toque { display: inline; } }
+
+/* ---------- gaveta Camadas: lista com rolagem própria e pé preso embaixo ---------- */
+#gaveta-camadas .painel-camadas { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.camadas-lista {
+  flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin;
+  display: flex; flex-direction: column; gap: 2px; padding: 6px 8px 12px;
+}
+/* Tela estreita: o nome quebra linha, a contagem e o interruptor nunca saem da gaveta. */
+@media (max-width: 600px) { .camadas-lista .toggle { white-space: normal; line-height: 1.25; } }
+/* Nome comprido com contagem comprida ("Vigilância em saúde" + "5 pontos de vigilância"): quem encolhe é a
+   contagem, com reticências; o nome e o interruptor ficam inteiros, todos os interruptores na mesma coluna. */
+.camadas-lista .toggle input, .camadas-lista .toggle .ti { flex: none; }
+.camadas-lista .toggle .camada-n { flex: 0 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.camadas-pe { flex: none; flex-direction: column; align-items: stretch; gap: 0; padding: 4px 8px 6px; background: var(--sup-2); }
+.camadas-pe .camadas-atencao { margin: 0; padding: 5px 8px; gap: 8px; border-top: 0; border-radius: 8px; font-size: 13px; }
+/* O subtítulo dos interruptores vira dica (title + leitor de tela): sobra mais altura para a lista de camadas. */
+.camadas-pe .camadas-atencao > .ti { font-size: 16px; }
+.camadas-pe-linha { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 0 0 8px; }
+.camadas-ligadas { font-size: 12px; color: var(--suave); font-variant-numeric: tabular-nums; }
+
+/* ---------- painel Camadas em grupos ---------- */
+.camadas-grupo { display: flex; flex-direction: column; gap: 2px; }
+.camadas-grupo + .camadas-grupo { margin-top: 6px; padding-top: 4px; border-top: 1px solid var(--borda); }
+.camadas-grupo-cab {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 8px 10px 2px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--suave);
+}
+.camadas-grupo-btn {
+  border: 0; background: none; padding: 2px 4px; border-radius: 4px; cursor: pointer;
+  font: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--primaria);
+}
+.camadas-grupo-btn:hover { background: color-mix(in srgb, var(--primaria) 8%, transparent); }
+.camadas-grupo-btn:focus-visible { outline: 2px solid #2563eb; outline-offset: 1px; }
+
+/* ---------- legenda: olho que destaca e camadas recolhidas ---------- */
+.leg-secao-titulo { display: flex; align-items: center; gap: 4px; }
+.leg-destacar {
+  margin-left: auto; flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px;
+  border: 0; border-radius: 6px; background: none; color: var(--suave); cursor: pointer;
+}
+.leg-destacar .ti { font-size: 15px; }
+.leg-destacar:hover, .leg-destacar[aria-pressed="true"] { color: var(--primaria); background: color-mix(in srgb, var(--primaria) 10%, transparent); }
+.leg-destacar:focus-visible { outline: 2px solid #2563eb; outline-offset: 1px; }
+.leg-camadas { display: grid; gap: 2px; margin-top: 4px; }
+.leg-camada > summary {
+  display: flex; align-items: center; gap: 4px; padding: 4px 2px; cursor: pointer; font-weight: 600; font-size: 13px;
+  list-style: none; border-radius: 6px;
+}
+.leg-camada > summary::-webkit-details-marker { display: none; }
+.leg-camada > summary::before { content: '▸'; color: var(--suave); width: 12px; flex: none; transition: transform 0.15s; }
+.leg-camada[open] > summary::before { transform: rotate(90deg); }
+.leg-camada > summary:hover { background: color-mix(in srgb, var(--primaria) 5%, transparent); }
+.leg-camada > summary:focus-visible { outline: 2px solid #2563eb; outline-offset: 1px; }
+.leg-camada > :not(summary) { margin-left: 16px; }
+.leg-camada[open] { padding-bottom: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .maplibregl-marker, .selo-camadas, .leg-camada > summary::before { transition: none; }
+}

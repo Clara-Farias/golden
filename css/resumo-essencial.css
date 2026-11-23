@@ -1,0 +1,46 @@
+/* Resumo de hoje (js/resumo-essencial.js): o cartão da doca na visão resumida. Mesmo vidro e mesmo cabeçalho
+   do Resumo do dia e de "Desde a sua última visita"; um pouco mais largo e alto, porque é a porta de entrada. */
+.doca .resumo-dia.resumo-essencial.vidro { width: min(760px, calc(100vw - 24px)); max-height: min(74vh, 700px); gap: 10px; }
+.re-manchete { display: flex; flex-direction: column; gap: 2px; padding: 2px 2px 0; }
+.re-manchete b { font-family: var(--fonte-titulo); font-size: 18px; line-height: 1.25; color: var(--titulo); }
+.re-manchete span { font-size: 13px; color: var(--texto-2); }
+.re-num { text-align: left; font: inherit; color: var(--texto); }
+button.re-num:not([disabled]) { cursor: pointer; }
+button.re-num:not([disabled]):hover { background: var(--cartao); }
+.re-num b { font-size: 20px; }
+.rs-num.tom-atencao { border-left-color: var(--media); }
+.re-dec { cursor: default; align-items: center; }
+.re-dec:hover { background: color-mix(in srgb, var(--cartao) 85%, transparent); }
+.re-dec > span:first-child { white-space: normal; }
+.re-dec b { white-space: normal; font-size: 13px; }
+.re-dec small { white-space: normal; }
+.re-dec em { font-style: normal; font-weight: 400; }
+.re-ruim { color: var(--critica-texto) !important; font-weight: 600 !important; font-style: normal; }
+.re-bt { flex: none !important; flex-direction: row !important; gap: 6px; }
+.re-bt .btn-sec, .re-bt .btn-acao { padding: 4px 10px; font-size: 12px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.re-conf { background: var(--media-fundo); border-left-color: var(--media); }
+.re-aviso { margin: 0; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 8px; }
+.re-aviso.ok { background: var(--positivo-fundo); color: var(--positivo); }
+.re-aviso.erro { background: var(--critica-fundo); color: var(--critica-texto); }
+.re-colunas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.re-eixos, .re-fatos { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.re-eixos li span { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 3px; }
+.re-eixos b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.re-eixos b { font-size: 12px; font-weight: 600; }
+.re-eixos small, .re-fatos small { font-size: 12px; color: var(--suave); white-space: nowrap; }
+.re-fatos li { display: flex; flex-direction: column; gap: 3px; }
+.re-fatos li.re-ruim-linha { flex-direction: row; align-items: flex-start; gap: 6px; }
+.re-fatos li.re-ruim-linha small { white-space: normal; color: var(--texto-2); }
+.re-fatos li.re-ruim-linha .ti { color: var(--critica); font-size: 15px; }
+.re-fatos b { color: var(--texto); }
+.re-barra { position: relative; display: block; height: 6px; border-radius: 3px; background: var(--trilho, var(--sup-3)); }
+.re-barra i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: inherit; background: var(--primaria); }
+.re-barra.tom-atencao i { background: var(--media); }
+.re-barra.tom-critico i { background: var(--critica); }
+.re-barra em { position: absolute; top: -3px; bottom: -3px; width: 2px; border-radius: 1px; background: var(--acento); }
+.re-pe { display: flex; }
+.re-pe .btn-maia-tela { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 13px; }
+@media (max-width: 720px) {
+  .re-colunas { grid-template-columns: 1fr; }
+  .re-dec { flex-wrap: wrap; }
+}

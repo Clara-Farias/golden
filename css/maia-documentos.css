@@ -1,0 +1,20 @@
+/* Rascunhos da Maia (Maia v2, fase 4): ofício, comunicado, nota e resposta, editáveis dentro da resposta. */
+.doc-maia {
+  margin-top: 10px; padding: 10px; border: 1px solid var(--ia-borda); border-radius: 10px;
+  background: var(--cartao); display: flex; flex-direction: column; gap: 8px;
+}
+.doc-titulo { font-size: 12px; font-weight: 700; color: var(--ia); letter-spacing: 0.01em; }
+.doc-texto, .doc-sms {
+  width: 100%; box-sizing: border-box; resize: vertical; padding: 8px 10px; border: 1px solid var(--borda); border-radius: 8px;
+  font: 13px/1.5 Inter, system-ui, sans-serif; color: inherit; background: var(--sup-2);
+}
+.doc-texto:focus, .doc-sms:focus { outline: 2px solid var(--ia); outline-offset: 0; background: var(--cartao); }
+.doc-sms-rotulo { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; font-size: 12px; color: var(--suave); }
+.doc-sms-rotulo .doc-sms { flex-basis: 100%; }
+.doc-sms-cont { margin-left: auto; font-variant-numeric: tabular-nums; }
+.doc-acoes { display: flex; flex-wrap: wrap; gap: 6px; }
+.doc-btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--ia-borda); background: var(--ia-fundo); color: var(--ia); font-weight: 600; font-size: 12.5px;
+}
+.doc-btn:focus-visible { outline: 2px solid var(--ia); outline-offset: 1px; }

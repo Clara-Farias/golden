@@ -1,0 +1,112 @@
+/* Modo de crise (js/app/modo-crise.js): a faixa mora dentro do cabeçalho, numa linha própria. Assim a altura do
+   topo (--topo-h, medida em js/app/cabecalho.js) já desconta a faixa, e tudo o que fica abaixo acompanha.
+   Sem vermelho piscando: a cor é a da gravidade e o realce de entrada roda uma vez só. */
+.palco > .topo.vidro.com-crise { flex-wrap: wrap; row-gap: 8px; }
+@media (min-width: 981px) {
+  /* Na tela larga, a primeira linha continua numa linha só: os números encolhem em vez de quebrar. */
+  .palco > .topo.vidro.com-crise > .faixa { flex-basis: 0; }
+}
+
+.crise-faixa {
+  --cf-cor: var(--alta);
+  --cf-fundo: var(--alta-fundo);
+  --cf-texto: var(--alta-texto);
+  order: 20; flex: 1 1 100%; min-width: 0;
+  display: flex; align-items: center; gap: 10px;
+  margin: 0 -2px 0 -8px; padding: 6px 8px 6px 10px; border-radius: 12px;
+  background: var(--cf-fundo); border: 1px solid color-mix(in srgb, var(--cf-cor) 35%, transparent);
+  border-left: 4px solid var(--cf-cor);
+  color: var(--texto); font-size: 13px; line-height: 1.25;
+}
+.crise-faixa[hidden] { display: none; }
+.crise-faixa[data-sev="critica"] { --cf-cor: var(--critica); --cf-fundo: var(--critica-fundo); --cf-texto: var(--critica-texto); }
+.crise-faixa[data-sev="media"], .crise-faixa[data-sev="baixa"] { --cf-cor: var(--media); --cf-fundo: var(--media-fundo); --cf-texto: var(--media-texto); }
+
+.cf-ic { flex: none; display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: color-mix(in srgb, var(--cf-cor) 16%, transparent); color: var(--cf-texto); font-size: 16px; }
+.cf-texto { flex: 1 1 auto; min-width: 0; display: flex; align-items: baseline; flex-wrap: wrap; column-gap: 8px; row-gap: 2px; }
+.cf-rotulo { color: var(--cf-texto); font-weight: 700; white-space: nowrap; }
+.cf-titulo { font-weight: 600; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 40ch; }
+.cf-partes { display: inline-flex; flex-wrap: wrap; gap: 0 6px; color: var(--suave); font-variant-numeric: tabular-nums; }
+.cf-partes > span + span::before { content: '·'; margin-right: 6px; color: var(--borda-forte); }
+.cf-atrasadas { color: var(--cf-texto); }
+
+.cf-botoes { flex: none; display: flex; align-items: center; gap: 6px; }
+.cf-botao {
+  border: 1px solid var(--borda-forte); background: var(--cartao); color: var(--texto); border-radius: 999px;
+  padding: 5px 12px; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; white-space: nowrap;
+}
+.cf-botao:hover { border-color: var(--cf-cor); }
+.cf-botao:focus-visible { outline: 2px solid var(--foco, var(--primaria)); outline-offset: 2px; }
+.cf-principal { background: var(--cf-cor); border-color: var(--cf-cor); color: #fff; }
+.crise-faixa[data-sev="media"] .cf-principal, .crise-faixa[data-sev="baixa"] .cf-principal { color: var(--texto); }
+.cf-principal:hover { filter: brightness(1.05); }
+.cf-mais { background: none; }
+.cf-fixar { display: inline-flex; align-items: center; gap: 4px; background: none; }
+.cf-fixar .ti { font-size: 14px; }
+.cf-fixar[aria-pressed="true"] { border-color: var(--cf-cor); background: color-mix(in srgb, var(--cf-cor) 12%, var(--cartao)); }
+
+/* Realce de entrada: um brilho na borda, uma vez. */
+.crise-faixa.cf-entrando { animation: cf-entrar 900ms ease-out 1; }
+@keyframes cf-entrar {
+  from { box-shadow: 0 0 0 4px color-mix(in srgb, var(--cf-cor) 35%, transparent); }
+  to { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .crise-faixa.cf-entrando { animation: none; } }
+
+/* Tela estreita: o título vai para a linha de baixo e os botões encolhem. */
+@media (max-width: 720px) {
+  .crise-faixa { flex-wrap: wrap; margin: 0; }
+  .cf-titulo { max-width: 100%; }
+  .cf-botoes { flex: 1 1 100%; justify-content: flex-end; flex-wrap: wrap; }
+}
+
+/* ---------- fase 2: prioridade na crise ---------- */
+/* Selo "Crise" nos cartões de Alertas, nas linhas da Central e na caixa do secretário. */
+.selo-crise {
+  display: inline-block; vertical-align: 1px; margin-right: 2px; padding: 0 6px; border-radius: 999px;
+  background: var(--critica-fundo); color: var(--critica-texto); border: 1px solid var(--critica-borda);
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; line-height: 16px;
+}
+.alertas-grupo.g-crise { color: var(--critica-texto); }
+.alertas-grupo.g-crise b { background: var(--critica-fundo); color: var(--critica-texto); }
+.alerta-item.da-crise { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--critica) 30%, transparent); }
+
+/* "Pode esperar a crise": recolhido no fim da lista, sem esconder nada (abre com um clique). */
+.alertas-esperar { margin-top: 6px; border-top: 1px dashed var(--borda-forte); padding-top: 6px; display: flex; flex-direction: column; gap: 8px; }
+.alertas-esperar > summary { cursor: pointer; flex-wrap: wrap; list-style: none; color: var(--suave); }
+.alertas-esperar > summary::-webkit-details-marker { display: none; }
+.alertas-esperar > summary::before { content: '▸'; font-size: 11px; transition: transform 0.15s; }
+.alertas-esperar[open] > summary::before { transform: rotate(90deg); }
+.alertas-esperar > summary small { flex-basis: 100%; font-size: 11.5px; font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--suave); }
+.alertas-esperar > summary:focus-visible { outline: 2px solid var(--foco, var(--primaria)); outline-offset: 2px; border-radius: 6px; }
+@media (prefers-reduced-motion: reduce) { .alertas-esperar > summary::before { transition: none; } }
+.alr-chip-crise b { margin-left: 4px; }
+
+/* ---------- fixar ou soltar a faixa do cabeçalho ---------- */
+/* Na faixa: o alfinete no fim solta a faixa. Solta, a crise vira um selo ao lado da hora, na cor da gravidade,
+   e o clique nele fixa de novo (preferência em gc.modoCrise.<cidade>.<usuário>, faixaFixa). */
+.cf-soltar {
+  flex: none; display: inline-grid; place-items: center; width: 28px; height: 28px; margin-left: 2px;
+  border: 0; border-radius: 50%; background: none; color: var(--cf-texto); cursor: pointer; font-size: 16px;
+}
+.cf-soltar:hover { background: color-mix(in srgb, var(--cf-cor) 16%, transparent); }
+.cf-soltar:focus-visible { outline: 2px solid var(--foco, var(--primaria)); outline-offset: 1px; }
+
+.crise-chip {
+  --cc-cor: var(--alta); --cc-fundo: var(--alta-fundo); --cc-texto: var(--alta-texto);
+  display: inline-flex; align-items: center; gap: 4px; padding: 1px 8px; border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--cc-cor) 45%, transparent); background: var(--cc-fundo); color: var(--cc-texto);
+  font: inherit; font-size: 11.5px; font-weight: 700; line-height: 16px; cursor: pointer; white-space: nowrap;
+}
+.crise-chip[hidden] { display: none; }
+.crise-chip[data-sev="critica"] { --cc-cor: var(--critica); --cc-fundo: var(--critica-fundo); --cc-texto: var(--critica-texto); }
+.crise-chip[data-sev="media"], .crise-chip[data-sev="baixa"] { --cc-cor: var(--media); --cc-fundo: var(--media-fundo); --cc-texto: var(--media-texto); }
+.crise-chip .ti { font-size: 13px; }
+.crise-chip .ti-pin { opacity: 0.7; }
+.crise-chip:hover { border-color: var(--cc-cor); }
+.crise-chip:hover .ti-pin { opacity: 1; }
+.crise-chip:focus-visible { outline: 2px solid var(--foco, var(--primaria)); outline-offset: 2px; }
+/* O "·" da linha de contexto não entra no selo: dentro do botão ele viraria parte da pílula. */
+.topo-contexto > .crise-chip::before { content: none; }
+.topo-contexto > .crise-chip { margin-left: 2px; }

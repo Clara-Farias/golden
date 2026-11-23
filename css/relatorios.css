@@ -1,0 +1,138 @@
+/* Tela Relatórios: o que é da personalização (docs/specs/2026-11-12-vila-dourada-relatorios-personalizaveis-design.md).
+   O layout de sempre da tela continua em css/styles.css (.rel-*). */
+
+/* Barra do topo em duas linhas fixas: em cima o tipo (abas) e o download (Outros formatos, PDF);
+   embaixo o que entra no relatório (secretaria ou bairro, período, Montar). Controles com 34 px.
+   O ::after é a quebra de linha: com `order`, os filtros vão sempre para a linha de baixo. */
+.rel-topo { gap: 5px 12px; padding-top: 8px; padding-bottom: 10px; }
+.rel-topo::after { content: ''; order: 3; flex-basis: 100%; height: 0; }
+.rel-tipos { order: 1; }
+.rel-exportar { order: 2; }
+.rel-alvo, .rel-periodo, .rel-montar { order: 4; }
+.rel-alvo:empty { display: none; }
+.rel-topo select, .rel-alvo select { font-size: 13px; height: 34px; padding: 0 8px; }
+.rel-alvo select { max-width: 300px; }
+.rel-seg button { min-height: 28px; display: inline-flex; align-items: center; padding: 5px 11px; }
+/* Sem "Dados novos", o aviso não ocupa espaço (nem o vão do gap). */
+.rel-aviso:has(> .rel-novos[hidden]) { display: none; }
+.rel-rotulo { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--suave); white-space: nowrap; }
+.rel-exportar { align-items: center; flex-wrap: wrap; gap: 8px; }
+.rel-exportar .btn-sec, .rel-montar-btn { font-size: 13px; height: 34px; padding: 0 12px; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; }
+.rel-exportar .btn-primario { height: 34px; padding: 0 14px; display: inline-flex; align-items: center; gap: 6px; box-sizing: border-box; }
+
+/* "Outros formatos": Excel, Word e CSV num menu só; o PDF é o botão principal. */
+.rel-formatos-menu { display: inline-block; position: relative; }
+.rel-formatos-menu summary { list-style: none; cursor: pointer; }
+.rel-formatos-menu summary::-webkit-details-marker { display: none; }
+.rel-formatos-menu[open] summary { background: var(--sup-2); }
+.rel-caret { font-size: 11px; color: var(--suave); }
+.rel-formatos-menu [role="menu"] { position: absolute; right: 0; top: calc(100% + 4px); z-index: 5; display: flex; flex-direction: column; min-width: 200px; padding: 4px; background: var(--cartao); border: 1px solid var(--borda); border-radius: 10px; box-shadow: var(--sombra); }
+.rel-formatos-menu [role="menuitem"] { font: inherit; font-size: 13px; text-align: left; padding: 8px 10px; border: 0; border-radius: 6px; background: none; color: var(--texto); cursor: pointer; display: flex; align-items: baseline; gap: 8px; }
+.rel-formatos-menu [role="menuitem"] small { color: var(--suave); font-size: 12px; }
+.rel-formatos-menu [role="menuitem"]:hover, .rel-formatos-menu [role="menuitem"]:focus-visible { background: var(--sup-2); }
+
+/* Montar: suspenso ancorado no botão. */
+.rel-montar { position: relative; }
+.rel-montar-btn[aria-expanded="true"] { background: var(--sup-2); }
+.rel-montar-painel { position: absolute; left: 0; top: calc(100% + 6px); z-index: 6; width: min(360px, calc(100vw - 32px)); max-height: min(70vh, 560px); overflow: auto; padding: 12px 14px; background: var(--cartao); color: var(--texto); border: 1px solid var(--borda); border-radius: 12px; box-shadow: var(--sombra); font-size: 13px; }
+.rel-montar-painel[hidden] { display: none; }
+.rel-montar-grupo { border: 0; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 2px; position: relative; }
+.rel-montar-grupo legend { font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--suave); padding: 0; margin-bottom: 4px; }
+.rel-montar-grupo [data-marcar-todas] { position: absolute; right: 0; top: -2px; }
+.rel-montar-grupo label { display: flex; align-items: flex-start; gap: 8px; padding: 4px 2px; border-radius: 6px; cursor: pointer; line-height: 1.35; }
+.rel-montar-grupo label:hover { background: var(--sup-2); }
+.rel-montar-grupo input { margin: 2px 0 0; accent-color: var(--acao); }
+.rel-montar-grupo input:disabled + * , .rel-montar-grupo label:has(input:disabled) { cursor: not-allowed; }
+.rel-obs { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.rel-obs span { font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--suave); }
+.rel-obs textarea { font: inherit; font-size: 13px; resize: vertical; min-height: 72px; padding: 6px 8px; border: 1px solid var(--borda); border-radius: 8px; background: var(--cartao); color: var(--texto); }
+.rel-obs small { align-self: flex-end; color: var(--suave); font-size: 11px; }
+.rel-link { font: inherit; font-size: 12px; border: 0; background: none; padding: 0; color: var(--acao); text-decoration: underline; cursor: pointer; }
+.rel-montar-painel > .rel-link { margin-top: 10px; }
+
+/* Cabeçalho: título e linha do período à esquerda; "Resumir com a Maia" à direita, como ação secundária.
+   Embaixo, selos: a hora do retrato e, se houver, os ajustes do Montar (clique abre o Montar; × tira). */
+.rel-cabecalho { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; }
+.rel-cab-texto { flex: 1 1 320px; min-width: 0; }
+.rel-cabecalho .btn-maia-tela { margin-top: 4px; flex: none; }
+.rel-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0 !important; }
+.rel-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; line-height: 1; padding: 4px 9px; border-radius: 999px; background: var(--sup-2); color: var(--suave); }
+.rel-chip-filtro { padding: 0; border: 1px solid var(--borda); background: var(--cartao); }
+.rel-versao { font: inherit; font-size: 12px; font-weight: 600; line-height: 1.2; padding: 3px 4px 3px 10px; border: 0; border-radius: 999px 0 0 999px; background: none; color: var(--texto); cursor: pointer; text-align: left; }
+.rel-versao:hover { color: var(--acao); text-decoration: underline; text-underline-offset: 2px; }
+.rel-limpar { font: inherit; font-size: 15px; line-height: 1; width: 24px; height: 22px; border: 0; border-radius: 0 999px 999px 0; background: none; color: var(--suave); cursor: pointer; }
+.rel-limpar:hover { color: var(--critica); background: var(--sup-2); }
+.rel-versao:focus-visible, .rel-limpar:focus-visible { outline: 2px solid var(--foco); outline-offset: 1px; }
+
+/* Cartões de número: o valor manda; tendência em selo ao lado, detalhe em cinza com a cor só no pontinho. */
+.rel-conteudo .rel-numero { gap: 4px; }
+.rel-numero-valor { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 8px; }
+.rel-numero-valor b { line-height: 1.1; }
+.rel-conteudo .rel-numero span.rel-tend { font-size: 12px; font-weight: 700; padding: 2px 7px; border-radius: 999px; background: var(--sup-2); color: var(--texto-2); white-space: nowrap; align-self: center; font-variant-numeric: tabular-nums; }
+.rel-conteudo .rel-numero span.rel-tend.ok { background: var(--positivo-fundo); color: #15803d; }
+.rel-conteudo .rel-numero span.rel-tend.ruim { background: var(--critica-fundo); color: var(--critica-texto); }
+.rel-conteudo .rel-numero span.rel-tend-ref { flex-basis: 100%; font-size: 11.5px; font-weight: 400; color: var(--suave); }
+.rel-conteudo .rel-numero span.rel-det { position: relative; padding-left: 12px; font-weight: 400; color: var(--suave); }
+.rel-det.t-ok::before, .rel-det.t-ruim::before { content: ''; position: absolute; left: 1px; top: 0.45em; width: 7px; height: 7px; border-radius: 50%; }
+.rel-det.t-ok::before { background: var(--positivo); }
+.rel-det.t-ruim::before { background: var(--critica); }
+
+/* "O que fazer agora" e listas do painel: a etiqueta vai para baixo do texto, que não fica espremido. */
+.rel-acoes .rel-acao { display: grid; grid-template-columns: 20px minmax(0, 1fr); column-gap: 8px; row-gap: 4px; align-items: start; }
+.rel-acoes .rel-acao .rel-etq { grid-column: 2; justify-self: start; white-space: normal; }
+
+/* Dados detalhados: tabelas mais legíveis (13 px, listras, números à direita, cabeçalho preso ao rolar). */
+.rel-doc .rel-tabela-wrap { max-height: min(60vh, 460px); overflow: auto; border: 1px solid var(--borda); border-radius: 8px; }
+.rel-doc .rel-tabela { font-size: 13px; }
+.rel-doc .rel-tabela th { position: sticky; top: 0; z-index: 1; background: var(--sup-2); color: var(--texto-2); font-weight: 600; padding: 7px 10px; white-space: nowrap; }
+.rel-doc .rel-tabela td { padding: 6px 10px; border-top: 1px solid var(--borda); }
+.rel-doc .rel-tabela tbody tr:nth-child(even) td { background: var(--sup-2); background: color-mix(in srgb, var(--sup-2) 55%, transparent); }
+.rel-doc .rel-tabela tbody tr:hover td { background: var(--sup-3); }
+.rel-doc .rel-tabela .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Comparação: modo, seletor de bairros/secretarias e os dois períodos. */
+.rel-alvo { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rel-escolha { position: relative; }
+.rel-escolha summary { list-style: none; cursor: pointer; font-size: 13px; padding: 4px 10px; max-width: 340px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rel-escolha summary::-webkit-details-marker { display: none; }
+.rel-escolha-lista { position: absolute; left: 0; top: calc(100% + 4px); z-index: 6; display: flex; flex-direction: column; gap: 2px; min-width: 220px; max-height: min(60vh, 380px); overflow: auto; padding: 8px 10px; background: var(--cartao); color: var(--texto); border: 1px solid var(--borda); border-radius: 10px; box-shadow: var(--sombra); font-size: 13px; }
+.rel-escolha-lista small { color: var(--suave); font-size: 11px; margin-bottom: 4px; }
+.rel-escolha-lista label { display: flex; align-items: center; gap: 8px; padding: 4px 2px; border-radius: 6px; cursor: pointer; }
+.rel-escolha-lista label:hover { background: var(--sup-2); }
+.rel-escolha-lista input { margin: 0; accent-color: var(--acao); }
+.rel-escolha-lista label:has(input:disabled) { cursor: not-allowed; color: var(--suave); }
+.rel-comp-periodos { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12px; color: var(--suave); }
+.rel-comp-periodos b { color: var(--texto); }
+.rel-periodo[hidden] { display: none; }
+
+/* Observações no corpo do relatório (Ver dados detalhados). */
+.rel-texto { margin: 0; white-space: pre-line; line-height: 1.5; }
+
+@media (max-width: 720px) {
+  /* Toque: controles com 40 px. Abas numa linha só, rolando de lado (a ativa fica à vista pelo JS). */
+  .rel-topo select, .rel-alvo select, .rel-exportar .btn-sec, .rel-exportar .btn-primario, .rel-montar-btn { height: 40px; }
+  .rel-tipos { flex: 1 1 100%; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .rel-tipos::-webkit-scrollbar { display: none; }
+  .rel-seg button { min-height: 34px; flex: none; }
+  .rel-alvo { flex: 1 1 100%; }
+  .rel-periodo { flex: 1 1 0; min-width: 0; }
+  .rel-montar { flex: none; }
+  .rel-alvo select, .rel-periodo select { flex: 1; min-width: 0; }
+  .rel-alvo .rel-rotulo { flex: 1; }
+  .rel-exportar { flex: 1 1 100%; flex-wrap: nowrap; }
+  .rel-alvo select { max-width: none; }
+  .rel-exportar > .rel-formatos-menu, .rel-exportar > .rel-pdf { flex: 1; }
+  .rel-formatos-menu summary, .rel-exportar .rel-pdf { width: 100%; justify-content: center; }
+  /* No estreito, o painel ocupa a largura da barra do topo (.rel-topo é sticky, então é a referência). */
+  .rel-montar { position: static; }
+  .rel-montar-painel { left: 6px; right: 6px; width: auto; }
+}
+
+/* Celular: números continuam 2×2 (um por linha empurrava o resto da tela para baixo). */
+@media (max-width: 480px) {
+  .rel-numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .rel-numero { padding: 9px 10px; }
+  .rel-numero b { font-size: 20px; }
+  .rel-numero small, .rel-numero span { font-size: 11.5px; }
+  .rel-cabecalho .btn-maia-tela { margin-top: 0; }
+}

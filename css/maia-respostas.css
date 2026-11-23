@@ -1,0 +1,226 @@
+/* Respostas da Maia (js/chat.js): texto em blocos, ações com hierarquia, barra no pé, aviso de mensagens novas,
+   estado "respondendo" e a faixa de atalhos. Depois de css/maia-acoes.css: sobrescreve o chat de css/styles.css. */
+
+/* A resposta da Maia ocupa a largura da gaveta, sem balão: gráfico e rascunho respiram.
+   A pergunta continua no balão à direita. */
+.msg.ia, .gavetas .msg.ia, [data-tema="escuro"] .gavetas .msg.ia, [data-tema="escuro"] .msg.ia.msg {
+  align-self: stretch; max-width: none; background: transparent; border: 0; box-shadow: none; padding: 2px 4px 4px;
+}
+.msg.ia .autor { margin-bottom: 6px; }
+.msg.prefeito { max-width: 85%; }
+/* Uma resposta para a outra: mais ar entre as trocas do que dentro de cada uma. */
+.chat-mensagens > .msg.ia + .msg.prefeito { margin-top: 10px; }
+
+/* Texto em blocos: parágrafos curtos, listas e números em negrito. */
+.resp-texto { display: flex; flex-direction: column; gap: 10px; color: var(--texto); }
+.resp-texto p { margin: 0; }
+/* Linha-manchete: o primeiro parágrafo de uma resposta com mais de um bloco é a conclusão; o resto é detalhe. */
+.msg.ia .resp-texto > p:first-child:not(:only-child) {
+  font-size: 15px; line-height: 1.45; font-weight: 500; color: var(--texto); letter-spacing: -0.005em;
+}
+.msg.ia .resp-texto > p:first-child:not(:only-child) .num { font-weight: 700; }
+.msg.ia .resp-texto > :not(:first-child) { color: var(--texto-2, var(--texto)); }
+
+/* Ritmo: entre os blocos da resposta (gráfico, ações, fontes) mais espaço do que entre parágrafos. */
+.msg.ia .grafico { margin-top: 14px; }
+.msg.ia .acoes { margin-top: 14px; }
+.resp-texto .num { font-weight: 650; font-variant-numeric: tabular-nums; }
+.resp-lista b { display: block; font-weight: 600; margin-bottom: 2px; }
+.resp-lista ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
+.resp-lista li::marker { color: var(--ia); }
+
+/* Ações: consultar (contorno), escolher (pergunta de volta) e fazer (cheio: muda dados). */
+:is(.msg, .aviso) .acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
+:is(.msg, .aviso) .acoes button {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--ia-borda); background: var(--cartao); color: var(--ia);
+  font: inherit; font-size: 12.5px; font-weight: 600; line-height: 1.2;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+:is(.msg, .aviso) .acoes :is(.acao-ver, .acao-escolha):hover:not(:disabled) { background: var(--ia-fundo); border-color: var(--ia); }
+:is(.msg, .aviso) .acoes .acao-fazer { background: var(--ia); border-color: var(--ia); color: var(--chip-texto); }
+:is(.msg, .aviso) .acoes .acao-fazer .ti { color: inherit; }
+:is(.msg, .aviso) .acoes .acao-fazer:hover:not(:disabled) { background: color-mix(in srgb, var(--ia) 85%, var(--texto)); }
+:is(.msg, .aviso) .acoes .acao-cancelar { background: transparent; border-color: transparent; color: var(--suave); }
+:is(.msg, .aviso) .acoes .acao-cancelar:hover { background: var(--sup-3); color: var(--texto); }
+:is(.msg, .aviso) .acoes button:focus-visible { outline: 2px solid var(--ia); outline-offset: 2px; }
+:is(.msg, .aviso) .acoes button:disabled { cursor: default; opacity: 0.55; background: var(--sup-3); border-color: transparent; color: var(--suave); }
+:is(.msg, .aviso) .acoes button.feito:disabled { opacity: 1; background: var(--positivo-fundo); color: var(--positivo); }
+:is(.msg, .aviso) .acoes button.feito .ti { color: inherit; }
+.acoes-situacao { font-size: 12px; color: var(--suave); }
+.acoes-situacao:empty { display: none; }
+
+/* Na resposta da Maia: "ver" é navegação (lista de linhas, em cima); fazer e escolher ficam embaixo, como botões.
+   O roxo cheio fica só para a confirmação em lote (com "Cancelar" ao lado); o resto do "fazer" é contorno. */
+.msg.ia .acoes { gap: 6px; }
+.msg.ia .acoes .acao-ver {
+  order: 0; flex: 1 1 100%; min-width: 0; justify-content: flex-start; gap: 10px;
+  padding: 8px 10px; border-radius: 10px; border-color: var(--borda); background: var(--cartao);
+  color: var(--texto); font-size: 13px; font-weight: 500; text-align: left;
+}
+.msg.ia .acoes .acao-ver .ti:first-child { flex: none; font-size: 16px; color: var(--ia); }
+.msg.ia .acoes .acao-ver .acao-rot { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.msg.ia .acoes .acao-ver .acao-seta { flex: none; font-size: 15px; color: var(--suave); transition: transform 0.15s, color 0.15s; }
+.msg.ia .acoes .acao-ver:hover:not(:disabled) { background: var(--ia-fundo); border-color: var(--ia-borda); }
+.msg.ia .acoes .acao-ver:hover:not(:disabled) .acao-seta { color: var(--ia); transform: translateX(2px); }
+.msg.ia .acoes :is(.acao-fazer, .acao-escolha, .acao-cancelar) { order: 1; }
+.msg.ia .acoes .acao-ver + :is(.acao-fazer, .acao-escolha) { margin-top: 4px; }
+.msg.ia .acoes .acoes-situacao { order: 2; }
+.msg.ia .acoes:not(:has(.acao-cancelar)) .acao-fazer:not(:disabled) { background: var(--cartao); border-color: var(--ia); color: var(--ia); }
+.msg.ia .acoes:not(:has(.acao-cancelar)) .acao-fazer:hover:not(:disabled) { background: var(--ia-fundo); }
+.acoes .acao-rot { min-width: 0; }
+
+/* Barra no pé da resposta: Copiar, PDF e Fixar como widget. Aparece na última resposta,
+   e nas outras ao passar o mouse ou chegar pelo teclado (em tela de toque, sempre). */
+.msg-barra { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 6px; margin-left: -6px; transition: opacity 0.15s; }
+@media (hover: hover) {
+  .msg.ia:has(~ .msg.ia) .msg-barra { opacity: 0; }
+  .msg.ia:hover .msg-barra, .msg.ia:focus-within .msg-barra { opacity: 1; }
+}
+
+/* De onde veio: um selo de uma linha (ponto na cor da confiabilidade, secretaria, hora), sem traço em cima. */
+.msg.ia .fontes { margin-top: 12px; padding-top: 0; border-top: 0; font-size: 12px; }
+.msg.ia .fontes > summary {
+  display: inline-flex; align-items: center; flex-wrap: wrap; gap: 0 6px; padding: 3px 9px 3px 8px; border-radius: 999px;
+  background: var(--sup-2); font-weight: 500; transition: background 0.15s;
+}
+.msg.ia .fontes > summary:hover { background: var(--sup-3); }
+.msg.ia .fontes > summary::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--suave); flex: none; }
+.msg.ia .fontes > summary.conf::before { background: currentColor; }
+.msg.ia .fontes > summary > :first-child::before { content: none; }
+.msg.ia .fontes .fontes-ver { color: var(--suave); font-weight: 500; text-decoration: none; }
+.msg.ia .fontes > summary:hover .fontes-ver, .msg.ia .fontes[open] .fontes-ver { color: var(--ia); }
+.msg.ia .fontes > summary:focus-visible { outline: 2px solid var(--ia); outline-offset: 2px; }
+.msg.ia .fontes[open] > summary { margin-bottom: 6px; }
+.msg.ia .fontes[open] { padding: 0 0 8px; }
+.msg-barra-btn {
+  display: inline-flex; align-items: center; gap: 4px; padding: 3px 7px; border: 0; border-radius: 6px; cursor: pointer;
+  background: transparent; color: var(--suave); font: inherit; font-size: 12px;
+}
+.msg-barra-btn .ti { font-size: 15px; }
+.msg-barra-btn:hover { background: var(--sup-3); color: var(--texto); }
+.msg-barra-btn:focus-visible { outline: 2px solid var(--ia); outline-offset: 0; }
+.msg-barra-btn.feito { color: var(--positivo); }
+
+/* "Mensagens novas": aparece quando chega mensagem e a pessoa está lendo mais acima. */
+.chat-novas {
+  position: absolute; left: 50%; transform: translateX(-50%); z-index: 4;
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--ia-borda); background: var(--cartao); color: var(--ia); font: inherit; font-size: 12.5px; font-weight: 600;
+  box-shadow: var(--sombra); animation: surgir 0.25s ease-out;
+}
+.chat-novas[hidden] { display: none; }
+.chat-novas:focus-visible { outline: 2px solid var(--ia); outline-offset: 2px; }
+
+/* Enquanto a Maia responde: enviar e atalhos esperam; o campo continua aberto. */
+.chat-form button[type="submit"]:disabled { opacity: 0.45; cursor: progress; }
+.chat-sugestoes.ocupado button:not(.chat-acoes-btn) { opacity: 0.5; cursor: progress; }
+
+/* Campo de pergunta nas cores do tema (também no escuro). */
+.chat-form input { background: var(--cartao); color: var(--texto); }
+.chat-form input:focus { box-shadow: 0 0 0 3px var(--ia-fundo); }
+
+/* Faixa de atalhos: a borda esmaece onde há mais botões para rolar. */
+.chat-sugestoes.tem-dir { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent); }
+.chat-sugestoes.tem-esq { -webkit-mask-image: linear-gradient(to right, transparent, #000 36px); mask-image: linear-gradient(to right, transparent, #000 36px); }
+.chat-sugestoes.tem-esq.tem-dir {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 36px, #000 calc(100% - 36px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 36px, #000 calc(100% - 36px), transparent);
+}
+
+/* Abas Conversa | Atividade: o que chega sozinho (alertas, secretarias, Maia) fica fora da conversa. */
+.chat-abas { display: flex; gap: 2px; padding: 4px 12px 0; border-bottom: 1px solid var(--borda); flex: none; }
+.chat-abas [role="tab"] {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px 8px; margin-bottom: -1px; cursor: pointer;
+  border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--suave);
+  font: inherit; font-size: 13px; font-weight: 600;
+}
+.chat-abas [role="tab"] .ti { font-size: 16px; }
+.chat-abas [role="tab"]:hover { color: var(--texto); }
+.chat-abas [role="tab"][aria-selected="true"] { color: var(--ia); border-bottom-color: var(--ia); }
+.chat-abas [role="tab"]:focus-visible { outline: 2px solid var(--ia); outline-offset: -2px; border-radius: 6px 6px 0 0; }
+.chat-abas-cont {
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; box-sizing: border-box;
+  display: inline-grid; place-items: center; background: var(--ia); color: var(--chip-texto); font-size: 11px; font-weight: 700;
+}
+.chat-abas-cont[hidden] { display: none; }
+.chat-mensagens[hidden] { display: none; }
+
+/* Atividade: o mais novo em cima. Cada tipo tem ícone e cor próprios: secretaria (ícone da pasta, Fundo)
+   e Maia (rosto, Estrela). Alerta novo não entra: tem o aviso próprio e a gaveta Alertas. */
+.chat-avisos { flex: 1; min-height: 0; display: flex; flex-direction: column; background: color-mix(in srgb, var(--sup-2) 55%, transparent); }
+.chat-avisos[hidden] { display: none; }
+.chat:has(.chat-acoes:not([hidden])) .chat-avisos { display: none; }
+.avisos-cab { display: flex; align-items: center; gap: 8px; padding: 10px 12px 4px; flex: none; }
+.avisos-filtros { display: flex; flex-wrap: wrap; gap: 4px; flex: 1; min-width: 0; }
+.avisos-filtros button {
+  padding: 3px 10px; border-radius: 999px; border: 1px solid var(--borda); background: var(--cartao); color: var(--texto-2);
+  font: inherit; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;
+}
+.avisos-filtros button:hover { border-color: var(--ia-borda); }
+.avisos-filtros button[aria-pressed="true"] { background: var(--ia-fundo); border-color: var(--ia); color: var(--ia); font-weight: 600; }
+.avisos-filtros button:focus-visible { outline: 2px solid var(--ia); outline-offset: 1px; }
+.avisos-n { font-variant-numeric: tabular-nums; opacity: 0.75; }
+.avisos-limpar { flex: none; border: 0; background: transparent; color: var(--suave); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; padding: 2px 4px; }
+.avisos-limpar:hover { color: var(--texto); }
+.avisos-limpar[hidden] { display: none; }
+.avisos-nota { margin: 0; padding: 2px 14px 8px; font-size: 12px; color: var(--suave); flex: none; }
+.avisos-lista { flex: 1; min-height: 0; overflow-y: auto; padding: 2px 12px 12px; display: flex; flex-direction: column; gap: 8px; scrollbar-width: thin; }
+.avisos-vazio { margin: auto 0; padding: 24px 12px; text-align: center; color: var(--suave); font-size: 13px; }
+.chat-avisos[data-filtro="secretaria"] .aviso:not([data-tipo="secretaria"]),
+.chat-avisos[data-filtro="maia"] .aviso:not([data-tipo="maia"]) { display: none; }
+
+.aviso {
+  --aviso-cor: var(--navy);
+  flex: none; min-width: 0; box-sizing: border-box; overflow-wrap: anywhere;
+  background: var(--cartao); border: 1px solid var(--borda); border-left: 3px solid var(--aviso-cor); border-radius: 8px;
+  padding: 9px 12px 10px; font-size: 13px; line-height: 1.45; color: var(--texto); animation: surgir 0.3s ease-out;
+}
+.aviso-maia { --aviso-cor: var(--ia); }
+.aviso-recente { box-shadow: 0 0 0 1px color-mix(in srgb, var(--aviso-cor) 35%, transparent); }
+
+.aviso-cab { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 8px; margin-bottom: 5px; }
+.aviso-ic {
+  width: 22px; height: 22px; border-radius: 6px; display: inline-grid; place-items: center; font-size: 14px;
+  color: var(--aviso-cor); background: color-mix(in srgb, var(--aviso-cor) 12%, transparent);
+}
+.aviso-ic .ti { color: inherit; }
+.aviso-maia .aviso-ic { background: transparent; }
+.aviso-ic .maia-rosto { width: 20px; height: 20px; }
+.aviso-fonte { min-width: 0; display: flex; align-items: baseline; gap: 6px; overflow: hidden; }
+.aviso-fonte b { font-size: 12.5px; font-weight: 600; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.aviso-tag {
+  flex: none; font-size: 11px; font-weight: 600; color: var(--aviso-cor); text-transform: none;
+}
+.aviso-cab time { font-size: 12px; color: var(--suave); font-variant-numeric: tabular-nums; }
+.aviso-texto { margin: 0; }
+.aviso-texto .num { font-weight: 650; }
+.aviso .resp-texto { gap: 4px; }
+.aviso .selo-maia { margin: 0 0 4px; }
+.aviso .acoes { margin-top: 8px; }
+.aviso .acoes button { padding: 4px 10px; font-size: 12px; }
+
+/* Início da conversa nova: o que perguntar e as conversas anteriores para continuar. */
+.chat-inicio {
+  display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 10px;
+  background: var(--cartao); border: 1px solid var(--borda);
+}
+.chat-inicio-titulo { margin: 0; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--ia); }
+.chat-inicio-titulo .maia-rosto { width: 20px; height: 20px; }
+.chat-inicio-texto { margin: 0; font-size: 13px; color: var(--suave); }
+.chat-inicio-hist { margin-top: 4px; border-top: 1px solid var(--borda); padding-top: 8px; }
+.chat-inicio-cab { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 12px; color: var(--texto-2); }
+.chat-inicio-todas { border: 0; background: transparent; color: var(--ia); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; padding: 2px 4px; }
+.chat-inicio-hist ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.chat-inicio-item {
+  width: 100%; display: grid; grid-template-columns: 18px minmax(0, 1fr) 16px; align-items: center; gap: 8px; text-align: left;
+  padding: 7px 8px; border: 0; border-radius: 8px; background: transparent; color: inherit; font: inherit; cursor: pointer;
+}
+.chat-inicio-item:hover { background: var(--sup-2); }
+.chat-inicio-item:focus-visible, .chat-inicio-todas:focus-visible { outline: 2px solid var(--ia); outline-offset: -2px; }
+.chat-inicio-item .ti { color: var(--suave); }
+.chat-inicio-item span { min-width: 0; display: flex; flex-direction: column; }
+.chat-inicio-item b { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chat-inicio-item small { font-size: 11.5px; color: var(--suave); }
+
+@media (prefers-reduced-motion: reduce) { .chat-novas, .aviso { animation: none; } .msg .acoes button { transition: none; } }

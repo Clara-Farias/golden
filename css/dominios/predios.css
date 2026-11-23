@@ -1,0 +1,43 @@
+/* Domínio: predios (manutenção de prédios públicos): pino, popup e widget. Carrega logo depois de css/v3.css.
+   O pino reaproveita .marcador-equip (css/mapa-premium.css): ok, atencao e critica já têm cor lá. */
+.marcador-equip.marcador-predio { width: 26px; height: 26px; border-radius: 7px; font-size: 14px; }
+.marcador-equip.marcador-predio .ti { font-size: 14px; }
+.marcador-equip.marcador-predio b { color: #fff; left: 16px; }
+
+.popup .sev.predio-critica { background: var(--critica); }
+.popup .sev.predio-atencao { background: var(--media); }
+.popup .sev.predio-ok { background: var(--positivo); }
+.popup-predio .predio-tit { margin: 8px 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.02em; color: var(--suave); }
+.popup-predio .predio-vazio { margin: 0; font-size: 12px; color: var(--positivo); }
+.predio-chamados, .predio-vistorias { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--texto); }
+.predio-chamados li { display: grid; grid-template-columns: 48px 1fr; gap: 8px; align-items: start; }
+.predio-chamados small, .predio-vistorias small { display: block; font-size: 12px; color: var(--suave); }
+.predio-chamados small b { color: var(--critica); font-weight: 600; }
+.predio-grav { font-size: 12px; font-weight: 700; text-align: center; color: #fff; border-radius: 8px; padding: 1px 0; background: var(--positivo); }
+.predio-grav.alta { background: var(--critica); }
+.predio-grav.media { background: var(--media); }
+.predio-vistorias li { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.predio-vistorias li small { display: inline; text-align: right; }
+.predio-vistorias li.vencida span, .predio-vistorias li.vencida small { color: var(--critica); font-weight: 600; }
+.predio-vistorias li.a_vencer small { color: var(--media-texto); font-weight: 600; }
+
+.w-predios { display: flex; flex-direction: column; gap: 12px; }
+.w-predios .w-num b { font-size: 20px; }
+.w-predios h4 { margin: 0 0 8px; font-size: 13px; }
+.w-predios h4 small { font-weight: 400; font-size: 12px; color: var(--suave); margin-left: 4px; }
+.w-predios-ok { margin: 0; font-size: 13px; color: var(--positivo); }
+.w-predios-lista { list-style: none; margin: 0 0 10px; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.w-predios-lista button {
+  display: grid; grid-template-columns: 64px 1fr auto; align-items: center; gap: 10px; width: 100%;
+  border: 0; background: none; padding: 5px 6px; border-radius: 8px; font: inherit; font-size: 13px; color: var(--texto); cursor: pointer; text-align: left;
+}
+.w-predios-lista button:hover { background: var(--sup-2); }
+.w-predios-lista .sit { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #fff; border-radius: 10px; padding: 1px 0; text-align: center; }
+.w-predios-lista .sit.critica { background: var(--critica); }
+.w-predios-lista .sit.atencao { background: var(--media); }
+.w-predios-lista .sit.ok { background: var(--positivo); }
+.w-predios-lista .nome small { display: block; font-size: 12px; color: var(--suave); }
+.w-predios-lista .qtd { font-size: 12px; color: var(--suave); white-space: nowrap; }
+.w-predios-tipos { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.w-predios-tipos li { display: flex; justify-content: space-between; gap: 8px; padding: 3px 6px; border-radius: 6px; background: var(--sup-2); }
+.w-predios-tipos b { font-variant-numeric: tabular-nums; }

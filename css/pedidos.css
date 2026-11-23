@@ -1,0 +1,16 @@
+/* Pedidos do cidadão no painel (js/pedidos-ui.js): bloco "Relatos dos moradores" no detalhe da ocorrência.
+   Cabeçalho e notas vêm de css/cobrancas.css e css/operacao.css. */
+.pd-bloco {
+  margin: 12px 0 4px; padding: 10px 12px 12px; border-radius: 12px;
+  background: var(--cartao); border: 1px solid var(--borda); border-left: 4px solid #6d28d9;
+}
+.pd-bloco .cb-bloco-cab h3 { margin: 0; font-size: 14px; color: var(--titulo); }
+.pd-contador { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; background: #ede9fe; color: #5b21b6; }
+.pd-fotos { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 8px; }
+.pd-fotos img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 1px solid var(--borda); }
+.pd-relatos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.pd-relatos li { padding: 6px 8px; border-radius: 8px; background: var(--sup-2, rgba(0, 0, 0, 0.03)); }
+.pd-relatos p { margin: 0; font-size: 13px; }
+.pd-relatos small, .pd-notas { font-size: 12px; color: var(--suave); }
+.pd-notas { margin: 8px 0 0; }
+.w-aval-portal b { color: var(--titulo); }

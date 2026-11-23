@@ -1,0 +1,56 @@
+/* Conversas com a Maia (Maia v2, fase 2): botões do topo da gaveta e a lista de conversas guardadas. */
+.chat-topo-acoes { display: flex; gap: 4px; align-items: center; }
+.chat-topo-btn {
+  width: 32px; height: 32px; padding: 0; border: 1px solid transparent; border-radius: 8px;
+  background: transparent; color: var(--suave); font-size: 18px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.chat-topo-btn:hover, .chat-topo-btn[aria-expanded="true"] { background: var(--ia-fundo); color: var(--ia); }
+.chat-topo-btn:focus-visible { outline: 2px solid var(--ia); outline-offset: 1px; }
+
+/* A lista cobre as mensagens (a gaveta já é position: relative). */
+.chat-conversas {
+  position: absolute; left: 0; right: 0; top: 64px; bottom: 0; z-index: 5;
+  background: var(--cartao); display: flex; flex-direction: column; min-height: 0;
+  border-top: 1px solid var(--borda);
+}
+.chat-conversas[hidden] { display: none; }
+.conv-cab { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 12px 16px; }
+.conv-cab b { font-size: 14px; color: var(--texto, inherit); }
+.conv-nova {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--ia-borda); background: var(--ia-fundo); color: var(--ia); font-weight: 600; font-size: 13px;
+}
+.conv-lista { list-style: none; margin: 0; padding: 0 8px 8px; overflow-y: auto; flex: 1; min-height: 0; }
+.conv-item { display: flex; align-items: stretch; gap: 2px; border-radius: 10px; }
+.conv-item:hover, .conv-item.atual { background: var(--sup-2); }
+.conv-item.atual { box-shadow: inset 3px 0 0 var(--ia); }
+.conv-abrir {
+  flex: 1; min-width: 0; text-align: left; padding: 9px 10px; border: 0; background: transparent; cursor: pointer; color: inherit;
+  display: flex; flex-direction: column; gap: 2px; border-radius: 10px;
+}
+.conv-titulo { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conv-abrir small { font-size: 12px; color: var(--suave); }
+.conv-apagar {
+  width: 34px; flex: none; border: 0; background: transparent; color: var(--suave); cursor: pointer; border-radius: 8px; font-size: 16px;
+}
+.conv-apagar:hover { color: var(--critica, #b42318); background: var(--sup-3); }
+.conv-abrir:focus-visible, .conv-apagar:focus-visible, .conv-nova:focus-visible { outline: 2px solid var(--ia); outline-offset: -2px; }
+.conv-nota { margin: 0; padding: 8px 16px 12px; font-size: 12px; color: var(--suave); border-top: 1px solid var(--borda); }
+
+/* Conversa reaberta: sem a animação de mensagem nova. */
+.msg.msg-restaurada { animation: none; }
+.chat-vazio { margin: auto 0; text-align: center; color: var(--suave); font-size: 13px; padding: 24px 12px; }
+
+@media (prefers-reduced-motion: reduce) { .chat-conversas { transition: none; } }
+
+/* "Perguntar à Maia" nas telas (Maia v2, fase 5): gabinete, relatórios, Resumo do dia e Alertas. */
+.btn-maia-tela {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--ia-borda); background: var(--ia-fundo); color: var(--ia); font-weight: 600; font-size: 12.5px; white-space: nowrap;
+}
+.btn-maia-tela:hover { border-color: var(--ia); }
+.btn-maia-tela:focus-visible { outline: 2px solid var(--ia); outline-offset: 2px; }
+.btn-sec.btn-maia-tela { border-radius: 8px; }
+.rel-cabecalho .btn-maia-tela { margin-top: 8px; }
+.rd-sub .btn-maia-tela { margin-left: auto; padding: 3px 10px; font-size: 12px; }
+.btn-maia-alertas { margin: 0; padding: 4px 10px; font-size: 12px; }

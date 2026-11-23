@@ -1,0 +1,183 @@
+/* Prazos (js/prazos.js): o segundo prazo, o de resolver, e as mudanças de prazo no detalhe da ocorrência. */
+.gaveta-solucao { margin: 6px 0 0; color: var(--suave); }
+.gaveta-solucao.atrasada { color: #9a3412; }
+.gaveta-barra.solucao i { background: var(--andamento); }
+.gaveta-solucao.atrasada + .gaveta-barra.solucao i { background: #c2410c; }
+.gaveta-historico-prazo { margin-top: 6px; }
+.gaveta-historico-prazo summary { cursor: pointer; color: var(--acao); }
+.gaveta-historico-prazo ul { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 2px; }
+.gaveta-historico-prazo li span { display: inline-block; min-width: 64px; color: var(--suave); }
+
+/* Bloco "Prazo" no detalhe (js/prazos-ui.js) */
+.pz-frase { margin: 4px 0; font-size: 13px; line-height: 1.45; }
+.pz-frase small { color: var(--suave); }
+.pz-frase.longa { color: #9a3412; }
+.pz-hist { margin: 2px 0; font-size: 12px; color: var(--suave); }
+
+/* Tela "Parâmetros de prazo" (#/prazos, js/tela-prazos.js). Prefixo pzp- (o pz- é da Personalização).
+   Cores: --titulo e --acao nas etapas, o laranja (--acento) só na folga, --acao também marca o campo mudado. */
+/* Toda a largura do modal: a folga do botão de fechar (v3.css, .sobre .tela > :first-child) fica só no cabeçalho */
+.sobre .tela > .pzp:first-child { padding-right: 0; }
+.pzp .sec-topo { padding-right: 48px; }
+.pzp { container: pzp / inline-size; display: flex; flex-direction: column; gap: 12px; padding-bottom: 8px; }
+.pzp h3 { margin: 0; font: 700 16px var(--fonte-titulo); color: var(--titulo); display: flex; align-items: center; gap: 6px; }
+.pzp .sec-topo p { margin: 2px 0 0; }
+.pzp .sec-acoes { display: flex; gap: 6px; flex-wrap: wrap; align-items: flex-start; }
+.pzp .sec-acoes [hidden] { display: none; }
+.pzp .sec-acoes button.btn-sec { width: auto; margin: 0; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.pzp-origem { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 12.5px; color: var(--suave); }
+.pzp-origem a { color: var(--secundaria-texto); font-weight: 600; }
+.pzp-so-ver { margin: 0; display: flex; gap: 8px; align-items: center; padding: 10px 12px; border-radius: 10px; background: var(--sup-3); font-size: 13px; color: var(--texto); }
+.pzp-corpo { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: start; }
+.pzp-form { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.pzp-bloco { display: flex; flex-direction: column; gap: 12px; padding: 18px 20px; margin: 0; }
+.pzp-texto { margin: 0; font-size: 13px; line-height: 1.5; color: var(--texto); opacity: .82; max-width: 72ch; }
+.pzp-nota { margin: 0; display: flex; gap: 8px; align-items: flex-start; padding: 9px 12px; border-radius: 10px; font-size: 13px; line-height: 1.45;
+  background: color-mix(in srgb, var(--acao) 8%, var(--cartao)); border: 1px solid color-mix(in srgb, var(--acao) 25%, transparent); color: var(--texto); }
+.pzp-nota .ti { color: var(--secundaria-texto); font-size: 16px; margin-top: 1px; }
+
+/* Legenda e cores das etapas */
+.pzp-legenda { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 12.5px; color: var(--texto); }
+.pzp-legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.pzp-legenda i { display: inline-block; width: 18px; height: 8px; border-radius: 3px; }
+.pzp-legenda i.pzp-leg-aviso { width: 2px; height: 14px; border-radius: 1px; background: var(--foco); }
+.pzp-legenda .pzp-legenda-nota { color: var(--suave); margin-left: auto; font-size: 12px; }
+.pzp-seg-at { background: var(--titulo); }
+.pzp-seg-so { background: color-mix(in srgb, var(--acao) 45%, var(--sup-3)); }
+.pzp-seg-fo { background: repeating-linear-gradient(-45deg, var(--acento) 0 3px, color-mix(in srgb, var(--acento) 25%, var(--cartao)) 3px 7px); }
+
+/* Tabela por gravidade: a mesma grade no cabeçalho e em cada linha */
+.pzp-tabela { --pzp-cols: 92px repeat(4, minmax(0, 1fr)); display: flex; flex-direction: column; gap: 8px; }
+.pzp-tab-cab, .pzp-tab-linha { display: grid; grid-template-columns: var(--pzp-cols); column-gap: 14px; }
+.pzp-tab-cab { padding: 0 14px 0 18px; align-items: end; }
+.pzp-tab-cab span { font-size: 12px; color: var(--suave); min-width: 0; }
+.pzp-tab-cab b { display: block; font: 600 12.5px var(--fonte-texto); color: var(--texto); }
+.pzp-tab-cab small { display: block; font-size: 11.5px; color: var(--suave); line-height: 1.3; }
+.pzp-tab-linha { row-gap: 6px; padding: 12px 14px 10px; border: 1px solid var(--borda); border-left-width: 4px; border-radius: 12px; background: var(--sup-2); align-items: start; }
+.pzp-tab-linha[data-sev="critica"] { border-left-color: var(--critica); }
+.pzp-tab-linha[data-sev="alta"] { border-left-color: var(--alta); }
+.pzp-tab-linha[data-sev="media"] { border-left-color: var(--media); }
+.pzp-tab-sev { padding-top: 7px; }
+.pzp-tab-cel { min-width: 0; }
+/* A resposta à cobrança não é etapa do ciclo: fica separada por um traço */
+.pzp-tab-cab .pzp-col-resposta, .pzp-tab-linha .pzp-col-resposta { border-left: 1px dashed var(--borda-forte); padding-left: 14px; }
+.pzp-tab-linha .pzp-col-resposta { align-self: stretch; }
+.pzp-rotulo-tab { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.pzp-selo { flex: none; display: inline-block; font: 700 12px var(--fonte-texto); padding: 3px 10px; border-radius: 999px; }
+.pzp-selo.critica { background: var(--critica-fundo); color: var(--critica-texto); box-shadow: inset 0 0 0 1px var(--critica-borda, transparent); }
+.pzp-selo.alta { background: var(--alta-fundo); color: var(--alta-texto); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--alta) 30%, transparent); }
+.pzp-selo.media { background: var(--media-fundo); color: var(--media-texto); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--media) 40%, transparent); }
+
+/* Linha do tempo do ciclo, embaixo das três colunas do ciclo */
+.pzp-trilha { grid-column: 2 / 5; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.pzp-faixa { position: relative; height: 10px; }
+.pzp-segs { display: flex; gap: 2px; height: 100%; border-radius: 5px; overflow: hidden; background: var(--sup-3); }
+.pzp-seg { display: block; height: 100%; min-width: 3px; transition: width var(--dur-curta, .15s) var(--ease-sai, ease-out); }
+.pzp-aviso { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; border-radius: 1px; background: var(--foco); box-shadow: 0 0 0 1.5px var(--cartao); }
+.pzp-marcas { position: relative; height: 15px; font-size: 11.5px; line-height: 15px; color: var(--suave); }
+.pzp-marcas:empty { display: none; }
+.pzp-marca { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pzp-marca.ini { transform: none; }
+.pzp-marca.fim { transform: translateX(-100%); }
+.pzp-marca b { color: var(--texto); font-weight: 600; }
+.pzp-marca.pzp-marca-aviso { color: var(--texto); font-weight: 600; }
+.pzp-trilha-aviso { margin: 0; font-size: 12px; color: var(--suave); }
+
+/* Campo: entrada com unidade e, embaixo, uma linha de altura fixa (equivalente e fábrica, ou o erro) */
+.pzp-campo { display: flex; flex-direction: column; gap: 3px; min-width: 0; position: relative; }
+.pzp-rotulo { font-size: 12.5px; font-weight: 600; color: var(--texto); }
+.pzp-entrada { display: flex; align-items: stretch; width: 100%; max-width: 220px; border: 1px solid var(--borda-forte); border-radius: 8px; background: var(--cartao); overflow: hidden;
+  transition: border-color var(--dur-curta, .15s) var(--ease-sai, ease-out), box-shadow var(--dur-curta, .15s) var(--ease-sai, ease-out); }
+.pzp-entrada:focus-within { outline: 2px solid var(--foco); outline-offset: 1px; }
+.pzp-entrada input { flex: 1; min-width: 0; width: 100%; border: 0; background: none; color: var(--texto); font: 600 14px var(--fonte-texto); font-variant-numeric: tabular-nums; padding: 7px 10px; min-height: 36px; outline: none; }
+.pzp-entrada select { flex: none; border: 0; border-left: 1px solid var(--borda); background: var(--sup-2); color: var(--texto); font: 500 13px var(--fonte-texto); padding: 0 6px; cursor: pointer; outline: none; }
+.pzp-campo.pendente .pzp-entrada { border-color: var(--acao); box-shadow: inset 3px 0 0 var(--acao); }
+.pzp-campo.com-erro .pzp-entrada { border-color: var(--critica); box-shadow: inset 3px 0 0 var(--critica); }
+.pzp-sob { display: block; min-height: 17px; font-size: 12px; line-height: 17px; }
+.pzp-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0 8px; color: var(--suave); }
+.pzp-campo.com-erro .pzp-meta { display: none; }
+.pzp-equivale:empty { display: none; }
+.pzp-volta { border: 0; background: none; padding: 0; display: inline-flex; align-items: center; gap: 3px; font: 600 12px var(--fonte-texto); color: var(--secundaria-texto); cursor: pointer; white-space: nowrap; }
+.pzp-volta:hover { text-decoration: underline; text-underline-offset: 2px; }
+.pzp-erro { display: block; font-weight: 600; color: var(--critica-texto); line-height: 1.35; }
+.pzp-erro:empty { display: none; }
+.pzp-leitura b { font-size: 14px; font-variant-numeric: tabular-nums; color: var(--texto); }
+.pzp-tab-cel .pzp-leitura { padding-top: 6px; }
+
+/* Linhas avulsas: o que o campo faz à esquerda, o campo à direita */
+.pzp-linha { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 6px 24px; align-items: start; padding-top: 12px; border-top: 1px solid var(--borda); }
+.pzp-bloco > h3 + .pzp-linha { border-top: 0; padding-top: 0; }
+.pzp-linha-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pzp-linha-tit { font-size: 13.5px; font-weight: 600; color: var(--texto); }
+.pzp-linha .pzp-texto { font-size: 12.5px; }
+
+/* Efeito nas ocorrências de agora (coluna ao lado ou barra) */
+.pzp-lado { display: none; position: sticky; top: 12px; }
+.pzp-efeito-cartao { gap: 8px; }
+.pzp-efeito { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.pzp-efeito:empty { display: none; }
+.pzp-ef-base { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--suave); }
+.pzp-ef-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.pzp-ef { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; font-size: 12.5px; color: var(--texto); }
+.pzp-ef b { font-variant-numeric: tabular-nums; }
+.pzp-ef .ti { font-size: 15px; }
+.pzp-ef.pior { background: var(--critica-fundo); }
+.pzp-ef.pior b, .pzp-ef.pior .ti { color: var(--critica-texto); }
+.pzp-ef.melhor { background: color-mix(in srgb, var(--positivo) 12%, var(--cartao)); }
+.pzp-ef.melhor b, .pzp-ef.melhor .ti { color: var(--positivo); }
+.pzp-barra .pzp-ef-lista { flex-direction: row; flex-wrap: wrap; }
+.pzp-barra .pzp-ef { padding: 3px 8px; border-radius: 999px; }
+
+/* Barra presa embaixo: só com mudança por salvar ou um aviso */
+.pzp-barra { position: sticky; bottom: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 10px 14px; border-radius: 12px; background: var(--vidro); border: 1px solid var(--borda); backdrop-filter: blur(10px);
+  transition: border-color var(--dur-curta, .15s) var(--ease-sai, ease-out), box-shadow var(--dur-curta, .15s) var(--ease-sai, ease-out); }
+.pzp-barra[hidden] { display: none; }
+.pzp-barra:not(.pendente) { position: static; background: var(--sup-2); backdrop-filter: none; }
+.pzp-barra.pendente { border-color: var(--acao); box-shadow: 0 -4px 18px rgba(11, 29, 34, .12); }
+.pzp-barra-texto { display: flex; flex-direction: column; gap: 6px; min-width: 0; flex: 1 1 320px; }
+.pzp-msg { margin: 0; font-size: 13px; color: var(--suave); display: flex; gap: 8px; align-items: center; }
+.pzp-msg:empty { display: none; }
+.pzp-barra.pendente .pzp-msg { color: var(--texto); font-weight: 600; }
+.pzp-barra.pendente .pzp-msg::before { content: ''; flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--acao); }
+.pzp-msg.erro { color: var(--critica-texto); font-weight: 600; }
+.pzp-botoes { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.pzp-botoes .btn-primario, .pzp-botoes .btn-sec { width: auto; margin: 0; padding: 8px 14px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.pzp-botoes [hidden] { display: none; }
+.pzp-botoes button:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Com espaço: o efeito vai para a coluna ao lado */
+@container pzp (min-width: 1080px) {
+  .pzp-editavel .pzp-corpo { grid-template-columns: minmax(0, 1fr) 270px; }
+  .pzp-editavel .pzp-lado { display: block; }
+  .pzp-barra [data-efeito="barra"] { display: none; }
+}
+/* Sem espaço: cada gravidade vira um cartão com os rótulos à vista */
+@container pzp (max-width: 700px) {
+  .pzp-tab-cab { display: none; }
+  .pzp-tab-linha { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; align-items: end; }
+  .pzp-tab-sev { grid-column: 1 / -1; padding-top: 0; }
+  .pzp-trilha { grid-column: 1 / -1; grid-row: 2; margin-bottom: 4px; }
+  .pzp-tab-linha .pzp-col-resposta { border-left: 0; padding-left: 0; }
+  .pzp-rotulo-tab { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; }
+  .pzp-entrada { max-width: none; }
+  .pzp-linha { grid-template-columns: 1fr; }
+  .pzp-legenda .pzp-legenda-nota { margin-left: 0; }
+}
+@media (max-width: 720px) {
+  .pzp .sec-topo { flex-direction: column; align-items: stretch; gap: 8px; }
+  .pzp .sec-topo .sec-acoes { align-self: flex-start; }
+  .pzp-bloco { padding: 14px; }
+  .pzp-barra { padding: 10px 12px; }
+  .pzp-barra.pendente { bottom: 64px; } /* acima do botão de menu do celular */
+  .pzp-botoes { width: 100%; }
+  .pzp-botoes button { flex: 1 1 auto; justify-content: center; }
+}
+
+/* Desempenho (js/desempenho.js): coluna "Equipe no prazo" e a linha do mesmo número sob o "no prazo".
+   Some no widget e em telas estreitas, como as colunas de tempo e metas. */
+.desemp-kpis .desemp-equipe { margin-top: 2px; }
+.widget .desemp-tabela .col-equipe { display: none; }
+@media (max-width: 900px) {
+  .visao-desempenho .desemp-tabela .col-equipe { display: none; }
+}

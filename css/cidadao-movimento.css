@@ -1,0 +1,116 @@
+/* Movimento do Portal do Cidadão (identidade-visual/movimento.md: temperatura "portal", macio).
+   Entrada: sobe 8 px + fade, --dur-media, itens em cascata de 40 ms (no máximo 6). Painéis entram com
+   --ease-move e saem mais rápido, com --ease-entra. Só transform e opacity (box-shadow só no alvo, uma vez).
+   Quando animar fica em js/portal-movimento.js. Com "reduzir movimento", tudo fica parado (fim do arquivo). */
+
+@keyframes p-entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes p-entra-lado { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+@keyframes p-entra-baixo { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes p-sai { to { opacity: 0; transform: translateY(8px); } }
+@keyframes p-sai-baixo { to { opacity: 0; transform: translateY(24px); } }
+@keyframes p-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes p-fade-sai { to { opacity: 0; } }
+@keyframes p-barra { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes p-traco { from { stroke-dashoffset: 1; fill-opacity: 0; } 70% { fill-opacity: 0; } to { stroke-dashoffset: 0; fill-opacity: 1; } }
+@keyframes p-curvas { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes p-mola { from { opacity: 0; transform: scale(0.35); } to { opacity: 1; transform: none; } }
+/* Número mudou (item 7): o fundo acende em Egeu 14% e apaga. */
+@keyframes p-acende { from { background-color: color-mix(in srgb, var(--primaria) 14%, transparent); } to { background-color: transparent; } }
+/* Alvo de foco (item 3): três anéis em Egeu que fecham sobre o item e somem. */
+@keyframes p-alvo {
+  from { box-shadow: 0 0 0 2px color-mix(in srgb, var(--primaria) 0%, transparent), 0 0 0 16px color-mix(in srgb, var(--primaria) 0%, transparent), 0 0 0 30px color-mix(in srgb, var(--primaria) 0%, transparent); }
+  35% { box-shadow: 0 0 0 2px var(--primaria), 0 0 0 10px color-mix(in srgb, var(--primaria) 35%, transparent), 0 0 0 18px color-mix(in srgb, var(--primaria) 15%, transparent); }
+  to { box-shadow: 0 0 0 2px color-mix(in srgb, var(--primaria) 0%, transparent), 0 0 0 2px color-mix(in srgb, var(--primaria) 0%, transparent), 0 0 0 2px color-mix(in srgb, var(--primaria) 0%, transparent); }
+}
+
+/* ---------- chegada: a capa em cascata (uma vez, ao abrir) ---------- */
+.p-chegando .p-capa-texto > * { animation: p-entra var(--dur-media) var(--ease-sai) both; }
+.p-chegando .p-capa-texto > :nth-child(2) { animation-delay: 40ms; }
+.p-chegando .p-capa-texto > :nth-child(3) { animation-delay: 80ms; }
+.p-chegando .p-capa-texto > :nth-child(4) { animation-delay: 120ms; }
+.p-chegando .p-capa-texto > :nth-child(5) { animation-delay: 160ms; }
+.p-chegando .p-capa-texto > :nth-child(n+6) { animation-delay: 200ms; }
+.p-chegando .p-mapa-caixa { animation: p-entra var(--dur-longa) var(--ease-sai) 160ms both; }
+.p-chegando .p-fab { animation: p-entra-baixo var(--dur-media) var(--ease-sai) 400ms both; }
+
+/* Manchete trocou (o aviso mais grave mudou): o bloco entra de novo, sem piscar. */
+.p-troca .p-capa-nivel, .p-troca h1, .p-troca .p-capa-sub, .p-troca .p-capa-acoes { animation: p-entra var(--dur-media) var(--ease-sai) both; }
+.p-troca h1 { animation-delay: 40ms; }
+.p-troca .p-capa-sub { animation-delay: 80ms; }
+.p-troca .p-capa-acoes { animation-delay: 120ms; }
+
+/* Tudo calmo (item 14): as curvas de nível da capa se desenham uma vez. */
+.p-curvas-desenhando path { stroke-dasharray: 1; animation: p-curvas 1200ms var(--ease-sai) both; }
+
+/* ---------- seções que aparecem ao rolar ---------- */
+/* Escondidas só com o JS ligado (html.p-revelar) e até entrarem na tela. */
+.p-revelar .p-secao:not(.p-visto) > *,
+.p-revelar #sec-meus-pedidos:not(.p-visto) > *,
+.p-revelar .p-atendimento:not(.p-visto) .p-atendimento-in > * { opacity: 0; }
+.p-animando.p-secao > *, #sec-meus-pedidos.p-animando > *, .p-atendimento.p-animando .p-atendimento-in > * { animation: p-entra var(--dur-media) var(--ease-sai) both; }
+.p-animando.p-secao > :nth-child(2), .p-atendimento.p-animando .p-atendimento-in > :nth-child(2) { animation-delay: 40ms; }
+.p-animando.p-secao > :nth-child(3), .p-atendimento.p-animando .p-atendimento-in > :nth-child(3) { animation-delay: 80ms; }
+.p-animando.p-secao > :nth-child(n+4), .p-atendimento.p-animando .p-atendimento-in > :nth-child(n+4) { animation-delay: 120ms; }
+/* Itens das listas em cascata, depois do título. */
+.p-animando :is(.p-hoje, .p-servicos, .p-avisos-c, .p-epoca-lista, .p-placar, .p-contatos) > li { animation: p-entra var(--dur-media) var(--ease-sai) both; animation-delay: 120ms; }
+.p-animando :is(.p-hoje, .p-servicos, .p-avisos-c, .p-epoca-lista, .p-placar, .p-contatos) > li:nth-child(2) { animation-delay: 160ms; }
+.p-animando :is(.p-hoje, .p-servicos, .p-avisos-c, .p-epoca-lista, .p-placar, .p-contatos) > li:nth-child(3) { animation-delay: 200ms; }
+.p-animando :is(.p-hoje, .p-servicos, .p-avisos-c, .p-epoca-lista, .p-placar, .p-contatos) > li:nth-child(4) { animation-delay: 240ms; }
+.p-animando :is(.p-hoje, .p-servicos, .p-avisos-c, .p-epoca-lista, .p-placar, .p-contatos) > li:nth-child(5) { animation-delay: 280ms; }
+.p-animando :is(.p-hoje, .p-servicos, .p-avisos-c, .p-epoca-lista, .p-placar, .p-contatos) > li:nth-child(n+6) { animation-delay: 320ms; }
+/* Seu bairro: o contorno se desenha (onde está?) e o preenchimento chega no fim. */
+.p-animando .p-silhueta path { stroke-dasharray: 1; animation: p-traco var(--dur-longa) var(--ease-sai) 120ms both; }
+/* Números: a barra do placar cresce da esquerda, a primeira contagem é feita pelo JS. */
+.p-placar-barra span { transform-origin: left center; }
+.p-animando .p-placar-barra span { animation: p-barra var(--dur-longa) var(--ease-sai) 200ms both; }
+
+/* Número mudou (item 7). */
+.p-mudou { animation: p-acende var(--dur-foco) var(--ease-sai); border-radius: 6px; }
+/* Aviso novo chegou à lista (não pisca: entra). */
+.p-novo { animation: p-entra var(--dur-media) var(--ease-sai) both; }
+/* Alvo de foco (item 3): substitui o antigo p-pisca. */
+.p-destacado { animation: p-alvo var(--dur-foco) var(--ease-sai) both; }
+
+/* ---------- abrir, fechar e trocar ---------- */
+/* Perguntas, avisos e listas que abrem no toque: o conteúdo chega. */
+:is(.p-pagina, .p-atendimento, .p-mapa-bairro, .p-folha) details[open] > :not(summary) { animation: p-entra var(--dur-media) var(--ease-sai) both; }
+.p-aviso-c details[open] .p-aviso-c-corpo { animation: p-entra var(--dur-media) var(--ease-sai) both; }
+.p-faq-seta { transition: transform var(--dur-curta) var(--ease-move); }
+
+/* Mapa em tela cheia: entra (painel, --ease-move) e sai mais rápido. */
+body.p-com-mapa .p-mapa-sec { animation: p-entra var(--dur-media) var(--ease-move) both; }
+body.p-com-mapa .p-mapa-sec.p-saindo { animation: p-sai var(--dur-curta) var(--ease-entra) both; }
+body.p-com-mapa .p-mapa-bairro:not(:empty) { animation: p-entra-baixo var(--dur-media) var(--ease-move) both; }
+@media (min-width: 900px) { body.p-com-mapa .p-mapa-bairro:not(:empty) { animation-name: p-entra-lado; } }
+
+/* Folha de pedidos: o fundo escurece e a folha sobe; ao fechar, desce mais rápido. */
+.p-folha { animation: p-fade var(--dur-media) var(--ease-move) both; }
+.p-folha .p-folha-caixa { animation: p-entra-baixo var(--dur-media) var(--ease-move) both; }
+.p-folha.p-saindo { animation: p-fade-sai var(--dur-curta) var(--ease-entra) both; }
+.p-folha.p-saindo .p-folha-caixa { animation: p-sai-baixo var(--dur-curta) var(--ease-entra) both; }
+/* Trocar de tela dentro da folha (tipo → onde → foto → enviado). */
+.p-folha-corpo.p-troca > * { animation: p-entra var(--dur-media) var(--ease-sai) both; }
+.p-folha-corpo.p-troca > :nth-child(2) { animation-delay: 40ms; }
+.p-folha-corpo.p-troca > :nth-child(n+3) { animation-delay: 80ms; }
+/* Protocolo enviado (item 13): o check cresce com mola e o número entra embaixo. */
+#aba-pedidos h1 > .ti-circle-check { display: inline-block; animation: p-mola 400ms var(--ease-alerta) 80ms both; }
+.pp-enviado .pp-protocolo { animation: p-entra var(--dur-media) var(--ease-sai) 240ms both; }
+
+/* Resultados da busca e aviso rápido. */
+.p-resultados { animation: p-entra var(--dur-curta) var(--ease-sai); }
+/* O aviso rápido fica centrado por transform: a entrada leva o translateX junto. */
+@keyframes p-entra-toast { from { opacity: 0; transform: translate(-50%, 24px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.p-toast { animation: p-entra-toast var(--dur-media) var(--ease-sai); }
+.p-dlg[open] { animation: p-entra var(--dur-media) var(--ease-move); }
+
+/* Toque: o botão encolhe e volta (item 11). */
+.p-btn, .p-fab, .p-chip { transition: background var(--dur-micro) var(--ease-sai), transform var(--dur-micro) var(--ease-sai), border-color var(--dur-micro); }
+.p-btn:active, .p-fab:active, .p-chip:active { transform: scale(0.97); }
+
+/* ---------- reduzir movimento ---------- */
+@media print, (prefers-reduced-motion: reduce) {
+  .p-revelar .p-secao:not(.p-visto) > *,
+  .p-revelar #sec-meus-pedidos:not(.p-visto) > *,
+  .p-revelar .p-atendimento:not(.p-visto) .p-atendimento-in > * { opacity: 1; }
+  .p-destacado { animation: none; outline: 2px solid var(--primaria); outline-offset: 2px; }
+}
