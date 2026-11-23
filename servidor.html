@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#0f4c5c">
+  <title>Vila Dourada · Portal do servidor</title>
+  <link rel="icon" type="image/svg+xml" href="identidade-visual/logo/svg/favicon.svg">
+  <link rel="apple-touch-icon" href="identidade-visual/logo/svg/app-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="identidade-visual/tokens.css">
+  <link rel="stylesheet" href="css/servidor.css">
+  <link rel="stylesheet" href="css/voz.css">
+  <!-- Tema salvo e aparência da Prefeitura (as cores do painel) antes de desenhar: nada pisca. -->
+  <script src="js/tema.js"></script>
+  <script src="js/permissoes.js"></script>
+  <script src="js/perfis-acesso.js"></script>
+  <script src="js/personalizacao.js"></script>
+</head>
+<!-- Portal do servidor: página própria de quem executa as demandas de uma pasta. Sem mapa, sem widgets e sem
+     indicadores: só o que foi passado à pessoa (fila, demandas e conta). Spec:
+     docs/specs/2026-11-17-vila-dourada-portal-do-servidor-design.md (fase 1). -->
+<body data-pagina="servidor">
+  <a class="sv-pular" href="#sv-conteudo">Pular para o conteúdo</a>
+  <header class="sv-topo">
+    <div class="sv-topo-in">
+      <a class="sv-marca" href="#/" aria-label="Minha fila">
+        <img class="logo-atlas" src="identidade-visual/logo/svg/reduzida-escuro.svg" alt="Golden Atlas">
+        <span class="sv-marca-txt"><b>Portal do servidor</b><small id="cidade-nome">Vila Dourada</small></span>
+      </a>
+      <nav class="sv-nav" aria-label="Seções">
+        <a href="#/" data-sv-aba="fila"><i class="ti ti-inbox" aria-hidden="true"></i> Minha fila</a>
+        <a href="#/demandas" data-sv-aba="demandas"><i class="ti ti-clipboard-list" aria-hidden="true"></i> Demandas</a>
+        <a href="#/conta" data-sv-aba="conta"><i class="ti ti-user-circle" aria-hidden="true"></i> Conta</a>
+      </nav>
+      <a class="sv-eu" href="#/conta" id="sv-eu" aria-label="Minha conta">
+        <span class="sv-avatar" id="sv-avatar" aria-hidden="true"></span>
+        <span class="sv-eu-txt"><b id="sv-eu-nome"></b><small id="sv-eu-cargo"></small></span>
+      </a>
+    </div>
+  </header>
+
+  <main id="sv-conteudo" class="sv-conteudo" tabindex="-1"></main>
+
+  <!-- No celular, as seções ficam numa barra embaixo (alvo de toque de 48 px). -->
+  <nav class="sv-abas" aria-label="Seções">
+    <a href="#/" data-sv-aba="fila"><i class="ti ti-inbox" aria-hidden="true"></i><span>Fila</span><b class="sv-abas-num" id="sv-num-fila" hidden></b></a>
+    <a href="#/demandas" data-sv-aba="demandas"><i class="ti ti-clipboard-list" aria-hidden="true"></i><span>Demandas</span></a>
+    <a href="#/conta" data-sv-aba="conta"><i class="ti ti-user-circle" aria-hidden="true"></i><span>Conta</span></a>
+  </nav>
+
+  <div class="sv-aviso" id="sv-aviso" role="status" aria-live="polite" hidden></div>
+
+  <!-- Maia do servidor (js/servidor/maia.js): roteirizada, só com o que é da pessoa (fila, salas, notícia). -->
+  <button type="button" class="sv-maia-fab" id="sv-maia-abrir" aria-controls="sv-maia" aria-expanded="false" aria-label="Fale com a Maia">
+    <span class="maia-rosto" aria-hidden="true"></span><span>Maia</span>
+  </button>
+  <section id="sv-maia" class="sv-maia" role="dialog" aria-labelledby="sv-maia-t" hidden>
+    <header class="sv-maia-topo">
+      <span class="maia-rosto" aria-hidden="true"></span>
+      <div><h2 id="sv-maia-t">Maia</h2><small>Suas demandas e as salas de crise em que você está</small></div>
+      <button type="button" class="sv-maia-x" id="sv-maia-fechar" aria-label="Fechar a conversa"><i class="ti ti-x" aria-hidden="true"></i></button>
+    </header>
+    <ol id="sv-maia-log" class="sv-maia-log" aria-live="polite" aria-label="Conversa com a Maia"></ol>
+    <form id="sv-maia-form" class="sv-maia-form">
+      <label class="sv-so-leitor" for="sv-maia-campo">Escreva para a Maia</label>
+      <input id="sv-maia-campo" autocomplete="off" maxlength="200" placeholder="Ex.: o que tenho para hoje?">
+      <button type="submit" class="sv-maia-enviar" aria-label="Enviar"><i class="ti ti-send" aria-hidden="true"></i></button>
+    </form>
+  </section>
+
+  <!-- Demonstração: ver o portal como outro servidor ou voltar ao painel. -->
+  <dialog class="sv-dlg" id="sv-dlg-demo" aria-labelledby="sv-dlg-demo-tit">
+    <form method="dialog">
+      <h2 id="sv-dlg-demo-tit">Demonstração</h2>
+      <p class="sv-dlg-sub">Veja o portal como outro servidor, ou volte ao painel da gestão.</p>
+      <label class="sv-campo">Servidor<select id="sv-sel-servidor"></select></label>
+      <div class="sv-dlg-pe">
+        <button type="submit" value="painel" class="sv-btn sec">Ir ao painel</button>
+        <button type="submit" value="voltar" class="sv-btn sec">Cancelar</button>
+        <button type="submit" value="ok" class="sv-btn">Ver como</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="js/icones.js"></script>
+  <script src="js/relogio.js"></script>
+  <script src="js/prazos.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/data-alertas.js"></script>
+  <script src="js/data-equipes.js"></script>
+  <script src="js/data-leitos.js"></script>
+  <script src="js/data-seguranca.js"></script>
+  <script src="js/data-risco.js"></script>
+  <script src="js/data-obras.js"></script>
+  <script src="js/data-educacao.js"></script>
+  <script src="js/data-frota.js"></script>
+  <script src="js/data-coleta.js"></script>
+  <script src="js/data-medicamentos.js"></script>
+  <script src="js/cidade.js"></script>
+  <script src="js/contrato.js"></script>
+  <script src="js/data-usuarios.js"></script>
+  <script src="js/usuarios.js"></script>
+  <script src="js/sessao.js"></script>
+  <script src="js/tarefas.js"></script>
+  <script src="js/crise.js"></script>
+  <script src="js/perfil.js"></script>
+  <script src="js/tarefas-demo.js"></script>
+  <script src="js/auditoria.js"></script>
+  <script src="js/servidor-fila.js"></script>
+  <script src="js/servidor/maia.js"></script>
+  <script src="js/servidor/app.js"></script>
+  <script src="js/voz.js"></script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f4c5c">
+  <title>Vila Dourada · Golden Atlas</title>
+  <link rel="icon" type="image/svg+xml" href="identidade-visual/logo/svg/favicon.svg">
+  <link rel="apple-touch-icon" href="identidade-visual/logo/svg/app-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="identidade-visual/tokens.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/v3.css">
+  <link rel="stylesheet" href="css/prazos.css">
+  <link rel="stylesheet" href="css/dominios/leitos.css">
+  <link rel="stylesheet" href="css/dominios/seguranca.css">
+  <link rel="stylesheet" href="css/dominios/risco.css">
+  <link rel="stylesheet" href="css/dominios/obras.css">
+  <link rel="stylesheet" href="css/dominios/educacao.css">
+  <link rel="stylesheet" href="css/dominios/frota.css">
+  <link rel="stylesheet" href="css/dominios/coleta.css">
+  <link rel="stylesheet" href="css/dominios/medicamentos.css">
+  <link rel="stylesheet" href="css/dominios/sazonal.css">
+  <link rel="stylesheet" href="css/dominios/entregas.css">
+  <link rel="stylesheet" href="css/dominios/vigilancia.css">
+  <link rel="stylesheet" href="css/dominios/transito.css">
+  <link rel="stylesheet" href="css/dominios/habitacao.css">
+  <link rel="stylesheet" href="css/dominios/predios.css">
+  <link rel="stylesheet" href="css/dominios/economia.css">
+  <link rel="stylesheet" href="css/dominios/orcamento.css">
+  <link rel="stylesheet" href="css/dominios/eventos.css">
+  <link rel="stylesheet" href="css/mapa-premium.css">
+  <link rel="stylesheet" href="css/mapa-atencao.css">
+  <link rel="stylesheet" href="css/mapa-camadas.css">
+  <link rel="stylesheet" href="css/mapa-ambiente.css">
+  <link rel="stylesheet" href="css/mapa-modos.css">
+  <link rel="stylesheet" href="css/mapa-comparar.css">
+  <link rel="stylesheet" href="css/telao.css">
+  <link rel="stylesheet" href="css/crise.css">
+  <link rel="stylesheet" href="css/modelos-crise.css">
+  <link rel="stylesheet" href="css/modo-crise.css">
+  <link rel="stylesheet" href="css/cobrancas.css">
+  <link rel="stylesheet" href="css/operacao.css">
+  <link rel="stylesheet" href="css/ajudas.css">
+  <link rel="stylesheet" href="css/tarefas.css">
+  <link rel="stylesheet" href="css/pedidos.css">
+  <link rel="stylesheet" href="css/acoes-prefeito.css">
+  <link rel="stylesheet" href="css/desfazer.css">
+  <link rel="stylesheet" href="css/pactos.css">
+  <link rel="stylesheet" href="css/regras-alerta.css">
+  <link rel="stylesheet" href="css/regras.css">
+  <link rel="stylesheet" href="css/conta.css">
+  <link rel="stylesheet" href="css/perfis-acesso.css">
+  <link rel="stylesheet" href="css/personalizar.css">
+  <link rel="stylesheet" href="css/resumo-dia.css">
+  <link rel="stylesheet" href="css/secretarias.css">
+  <link rel="stylesheet" href="css/indicadores.css">
+  <!-- social fica aqui (e não junto dos outros domínios) para manter a ordem do CSS de sempre -->
+  <link rel="stylesheet" href="css/dominios/social.css">
+  <link rel="stylesheet" href="css/perfis.css">
+  <link rel="stylesheet" href="css/widgets-ia.css">
+  <link rel="stylesheet" href="css/widgets-extra.css">
+  <link rel="stylesheet" href="css/widgets-mapa.css">
+  <link rel="stylesheet" href="css/embed-dialogo.css">
+  <link rel="stylesheet" href="css/resumo-semana.css">
+  <link rel="stylesheet" href="css/desde-visita.css">
+  <link rel="stylesheet" href="css/icone-maia.css">
+  <link rel="stylesheet" href="css/maia-conversas.css">
+  <link rel="stylesheet" href="css/maia-documentos.css">
+  <link rel="stylesheet" href="css/maia-acoes.css">
+  <link rel="stylesheet" href="css/maia-respostas.css">
+  <link rel="stylesheet" href="css/relatorios.css">
+  <link rel="stylesheet" href="css/cruzamento.css">
+  <link rel="stylesheet" href="css/sazonal.css">
+  <link rel="stylesheet" href="css/sazonal-config.css">
+  <link rel="stylesheet" href="css/entregas.css">
+  <link rel="stylesheet" href="css/metas.css">
+  <link rel="stylesheet" href="css/orcamento-gestao.css">
+  <link rel="stylesheet" href="css/visao-simples.css">
+  <link rel="stylesheet" href="css/resumo-essencial.css">
+  <link rel="stylesheet" href="css/resumo-telas.css">
+  <link rel="stylesheet" href="css/minha-visao.css">
+  <link rel="stylesheet" href="css/telas-novas.css">
+  <link rel="stylesheet" href="css/voz.css">
+  <link rel="stylesheet" href="css/marca.css">
+  <link rel="stylesheet" href="css/cabecalho.css">
+  <!-- Acabamento premium do painel inteiro (tokens --elev-* em identidade-visual/tokens.css). -->
+  <link rel="stylesheet" href="css/premium.css">
+  <link rel="stylesheet" href="css/comando.css">
+  <link rel="stylesheet" href="css/graficos.css">
+  <link rel="stylesheet" href="css/confirmacao.css">
+  <link rel="stylesheet" href="css/atalhos.css">
+  <!-- Acabamento premium da gaveta de Indicadores (só dentro de .dashboard). -->
+  <link rel="stylesheet" href="css/indicadores-premium.css">
+  <!-- Doca e cabeçalhos dos painéis dela em Titã, com as curvas de nível da marca. -->
+  <link rel="stylesheet" href="css/doca.css">
+  <!-- Aviso de alerta novo no mapa (cartão com gravidade, alvo e tempo; js/app/simulacao.js). -->
+  <link rel="stylesheet" href="css/aviso-novo.css">
+  <!-- Gaveta Alertas e detalhe do alerta (js/decisao.js, js/gaveta.js): vale sobre styles.css, v3.css e premium.css. -->
+  <link rel="stylesheet" href="css/alertas.css">
+  <link rel="stylesheet" href="css/expandir.css">
+  <script src="js/tema.js"></script>
+  <!-- Catálogo de permissões e perfis de acesso (GC.pode), antes de quem decide permissão. -->
+  <script src="js/permissoes.js"></script>
+  <script src="js/perfis-acesso.js"></script>
+  <script src="js/personalizacao.js"></script>
+  <script src="js/grafismo.js"></script>
+</head>
+<body data-pagina="gestor">
+  <!-- Tela de carregamento: some quando o mapa termina de carregar (ou depois de alguns segundos, no máximo). -->
+  <div id="carregando" class="carregando" role="status" aria-live="polite">
+    <div class="carregando-caixa">
+      <img class="carregando-logo" src="identidade-visual/logo/svg/vertical-escuro.svg" alt="" width="136" height="124">
+      <b id="carregando-nome">Vila Dourada</b>
+      <span>Carregando o mapa e os indicadores da cidade…</span>
+      <!-- Espera longa (movimento.md, item 5): passou de 2 s, o símbolo enche de baixo para cima; a exclamação vazada fica sempre visível. -->
+      <svg class="ga-espera" viewBox="4 6 56 54" aria-hidden="true" focusable="false"><defs><clipPath id="ga-espera-forma"><path clip-rule="evenodd" d="M27.467 56.736C26.741 58.695 24.872 59.996 22.783 59.996C17.849 60 7.999 60 7.999 60C5.805 60 3.999 58.194 3.999 56C3.999 55.631 4.05 55.265 4.15 54.91L17.15 8.91C17.636 7.193 19.215 5.999 21 6L43 6C44.785 5.999 46.364 7.193 46.85 8.91L59.85 54.91C59.95 55.265 60.001 55.631 60.001 56C60.001 58.194 58.195 60 56.001 60C56.001 60 46.151 60 41.217 60C39.126 60 37.255 58.699 36.528 56.738C35.6 54.257 35.6 51.514 35.6 48L35.6 36.1C35.6 34.125 33.975 32.5 32 32.5C30.025 32.5 28.4 34.125 28.4 36.1L28.4 48C28.4 51.514 28.4 54.257 27.467 56.736ZM26.4 22C26.4 25.072 28.928 27.6 32 27.6C35.072 27.6 37.6 25.072 37.6 22C37.6 18.928 35.072 16.4 32 16.4C28.928 16.4 26.4 18.928 26.4 22Z"/></clipPath></defs><path class="ga-espera-fundo" fill-rule="evenodd" d="M27.467 56.736C26.741 58.695 24.872 59.996 22.783 59.996C17.849 60 7.999 60 7.999 60C5.805 60 3.999 58.194 3.999 56C3.999 55.631 4.05 55.265 4.15 54.91L17.15 8.91C17.636 7.193 19.215 5.999 21 6L43 6C44.785 5.999 46.364 7.193 46.85 8.91L59.85 54.91C59.95 55.265 60.001 55.631 60.001 56C60.001 58.194 58.195 60 56.001 60C56.001 60 46.151 60 41.217 60C39.126 60 37.255 58.699 36.528 56.738C35.6 54.257 35.6 51.514 35.6 48L35.6 36.1C35.6 34.125 33.975 32.5 32 32.5C30.025 32.5 28.4 34.125 28.4 36.1L28.4 48C28.4 51.514 28.4 54.257 27.467 56.736ZM26.4 22C26.4 25.072 28.928 27.6 32 27.6C35.072 27.6 37.6 25.072 37.6 22C37.6 18.928 35.072 16.4 32 16.4C28.928 16.4 26.4 18.928 26.4 22Z"/><g clip-path="url(#ga-espera-forma)"><rect class="ga-espera-nivel" x="4" y="6" width="56" height="54"/></g></svg>
+    </div>
+  </div>
+  <script>
+    // "Achar o alerta" (manual, cap. 05): campo de símbolos apagados e um só aceso, em Chama, no terço oposto ao logo.
+    // Zona limpa de 2x em volta do logo e do texto; o campo some junto com a tela de abertura.
+    (function () {
+      var g = window.GC && GC.grafismo, el = document.getElementById("carregando");
+      if (!g || !el) return;
+      // Com logo próprio da prefeitura (Personalizar), o campo é feito com ele, como no login.
+      var logo = null;
+      try { logo = GC.personalizacao ? GC.personalizacao.config().marca().logo : null; } catch (e) { /* sem armazenamento */ }
+      // Fundo próprio (Personalizar → Entrada do painel: cor lisa ou imagem): sem o campo de símbolos.
+      var grafismo = true;
+      try { grafismo = GC.personalizacao ? GC.personalizacao.aplicarFundo(el) : true; } catch (e) { /* sem armazenamento */ }
+      if (grafismo) {
+        var campo = g.campoAlerta({ w: 1600, h: 900, k: 1.1, cor: "#ffffff", op: 0.13, zonas: [{ x: 520, y: 230, w: 560, h: 440 }], alvo: [1600 * 5 / 6, 900 / 4], logo: logo });
+        el.insertAdjacentHTML("afterbegin", g.fundo(campo, 1600, 900, "ga-grafismo carregando-campo"));
+      }
+      // Veio do login (entrar.html), que já mostrou esta mesma tela com o logo chegando: não repete a chegada.
+      try { if (sessionStorage.getItem("gc.vemDoLogin")) { el.classList.add("vem-do-login"); sessionStorage.removeItem("gc.vemDoLogin"); } } catch (e) { /* sem armazenamento */ }
+    })();
+  </script>
+  <div class="app menu-recolhido chat-recolhido">
+    <nav id="menu" class="menu vidro" aria-label="Telas do painel"></nav>
+
+    <!-- Palco: o mapa ocupa a janela; tudo o mais flutua por cima. Ao rolar, encolhe até uma faixa. -->
+    <section id="palco" class="palco" aria-label="Mapa da cidade">
+      <div id="mapa" class="mapa"></div>
+      <div class="esmaecer" aria-hidden="true"></div>
+
+      <header class="topo vidro">
+        <!-- Cabeçalho enxuto: nome e, embaixo, a linha de contexto (perfil, ao vivo com a hora, selo de demonstração);
+             3 números e os botões. O perfil entra em #topo-perfil (js/app/cabecalho.js). -->
+        <div class="topo-id">
+          <h1 id="cidade-nome">Vila Dourada</h1>
+          <p class="topo-contexto">
+            <span id="topo-perfil" class="topo-perfil"></span>
+            <span class="topo-vivo"><span class="ao-vivo" id="ao-vivo" aria-hidden="true"></span><span id="relogio">Ao vivo</span></span>
+            <button type="button" id="crise-chip" class="crise-chip" hidden></button>
+            <span class="selo-demo" title="Cidade fictícia: todos os números deste painel são de demonstração.">Demo<span class="selo-demo-longo">nstração · dados fictícios</span></span>
+          </p>
+        </div>
+        <section id="kpis" class="faixa" aria-label="Números-chave"></section>
+        <div class="topo-botoes">
+          <button type="button" id="btn-alertas" class="btn-vidro btn-alertas" aria-expanded="false" aria-controls="gaveta-atencao" title="Alertas: o que precisa de você"><i class="ti ti-bell" aria-hidden="true"></i> <span class="rot">Alertas</span> <span id="alertas-contador" class="alertas-contador" aria-hidden="true" hidden></span></button>
+          <button type="button" id="chat-aba" class="btn-vidro btn-ia" aria-expanded="false" aria-controls="gaveta-copiloto" title="Maia (IA)"><span class="maia-rosto" aria-hidden="true"></span> <span class="rot">Maia</span> <span id="chat-nao-lidas" class="chat-nao-lidas" title="Mensagens novas da Maia" hidden></span></button>
+          <!-- Menu ⋯: abre no avatar de quem usa o painel (sem usuário, nos três pontos). Conta, ferramentas e demonstração. -->
+          <div class="mais">
+            <button type="button" id="btn-mais" class="btn-vidro btn-mais-avatar" aria-haspopup="true" aria-expanded="false" aria-controls="menu-mais" title="Mais opções" aria-label="Mais opções"><span id="avatar-iniciais" class="mais-iniciais" aria-hidden="true" hidden></span><i class="ti ti-dots mais-pontos" aria-hidden="true"></i></button>
+            <div id="menu-mais" class="menu-mais vidro" hidden>
+              <!-- Conta: quem usa o painel (js/app/cabecalho.js preenche); o avatar é o próprio botão do menu. -->
+              <button type="button" id="btn-conta" class="item-mais item-conta"><span class="conta-texto"><b id="conta-nome">Minha conta</b><small id="conta-cargo"></small></span></button>
+              <!-- Grupos com título; um grupo sem item à vista some inteiro (css/v3.css). -->
+              <div class="mais-grupo" role="group" aria-labelledby="mais-g-painel">
+                <p id="mais-g-painel" class="mais-grupo-tit">Painel</p>
+                <button type="button" id="btn-telao" class="item-mais"><i class="ti ti-device-tv" aria-hidden="true"></i> Modo telão</button>
+                <button type="button" id="btn-dados" class="item-mais"><i class="ti ti-database" aria-hidden="true"></i> Dados</button>
+                <button type="button" id="btn-historico-cobrancas" class="item-mais"><i class="ti ti-speakerphone" aria-hidden="true"></i> Histórico de cobranças</button>
+              </div>
+              <div class="mais-grupo" role="group" aria-labelledby="mais-g-admin">
+                <p id="mais-g-admin" class="mais-grupo-tit">Administração</p>
+                <button type="button" id="btn-regras" class="item-mais"><i class="ti ti-bell-cog" aria-hidden="true"></i> Regras de alerta</button>
+                <button type="button" id="btn-prazos" class="item-mais"><i class="ti ti-clock-cog" aria-hidden="true"></i> Parâmetros de prazo</button>
+                <button type="button" id="btn-usuarios" class="item-mais"><i class="ti ti-users" aria-hidden="true"></i> Usuários e permissões</button>
+                <button type="button" id="btn-auditoria" class="item-mais"><i class="ti ti-list-search" aria-hidden="true"></i> Auditoria</button>
+                <button type="button" id="btn-personalizar" class="item-mais"><i class="ti ti-palette" aria-hidden="true"></i> Personalização</button>
+                <button type="button" id="btn-governanca" class="item-mais"><i class="ti ti-robot" aria-hidden="true"></i> Governança da Maia</button>
+                <button type="button" id="btn-fontes" class="item-mais"><i class="ti ti-database-cog" aria-hidden="true"></i> Fontes e integrações</button>
+              </div>
+              <div class="mais-grupo mais-demo" role="group" aria-labelledby="mais-g-demo">
+                <p id="mais-g-demo" class="mais-grupo-tit">Demonstração</p>
+                <div class="mais-demo-campos">
+                  <label class="item-mais-campo">Cidade
+                    <select id="cidade-sel" class="cidade-sel" aria-label="Cidade da demonstração"></select></label>
+                  <label id="perfil-campo" class="item-mais-campo">Perfil
+                    <select id="perfil-sel" class="cidade-sel" aria-label="Perfil de acesso"></select></label>
+                </div>
+                <p id="perfil-desc" class="item-mais-dica"></p>
+                <div class="mais-demo-linha">
+                  <button type="button" id="btn-tour" class="item-mais"><i class="ti ti-player-play" aria-hidden="true"></i> Tour guiado</button>
+                  <span class="mais-atalho" title="Atalho da demonstração: N simula uma ocorrência nova"><kbd>N</kbd> nova ocorrência</span>
+                </div>
+              </div>
+              <div class="mais-rodape">
+                <a id="link-privacidade" class="item-mais" href="privacidade.html"><i class="ti ti-shield-lock" aria-hidden="true"></i> Privacidade</a>
+                <button type="button" id="btn-entrar" class="item-mais" title="Entrar com usuário"><i class="ti ti-login-2" aria-hidden="true"></i> Entrar</button>
+                <button type="button" id="btn-sair" class="item-mais" hidden><i class="ti ti-logout" aria-hidden="true"></i> Sair</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modo de crise: aparece com gabinete de crise ativo (js/app/modo-crise.js, css/modo-crise.css). -->
+        <div id="crise-faixa" class="crise-faixa" role="status" aria-live="polite" hidden></div>
+      </header>
+
+      <!-- Uma fileira só sobre o mapa: busca e seletor de visualização à esquerda; à direita, Filtros e Camadas. -->
+      <div class="sob-topo">
+        <!-- Busca rápida: a lupa abre um campo para achar bairro, ocorrência, escola, hospital… (atalho: /). -->
+        <div id="busca" class="busca">
+          <button type="button" id="btn-busca" class="btn-vidro btn-busca" aria-expanded="false" aria-controls="busca-caixa" aria-label="Buscar" title="Buscar (atalho: /)"><i class="ti ti-search" aria-hidden="true"></i></button>
+          <div id="busca-caixa" class="busca-caixa vidro" hidden>
+            <div class="busca-campo">
+              <i class="ti ti-search" aria-hidden="true"></i>
+              <input id="busca-input" type="text" autocomplete="off" spellcheck="false" placeholder="Buscar bairro, ocorrência, escola, hospital…" aria-label="Buscar no painel" role="combobox" aria-expanded="false" aria-controls="busca-lista" aria-autocomplete="list">
+              <kbd>Esc</kbd>
+              <button type="button" id="busca-fechar" class="busca-fechar" aria-label="Fechar busca" title="Fechar (Esc)"><i class="ti ti-x" aria-hidden="true"></i></button>
+            </div>
+            <ul id="busca-lista" class="busca-lista" role="listbox" aria-label="Resultados da busca"></ul>
+          </div>
+        </div>
+        <!-- Visualizações rápidas: troca o conjunto de filtros + widgets num clique (salvar e descartar ficam na lista). -->
+        <div id="vistas" class="vistas vidro" aria-label="Visualização"></div>
+        <div id="mapa-controles" class="mapa-controles">
+          <button type="button" id="btn-limpar-camada" class="btn-vidro" hidden><i class="ti ti-x" aria-hidden="true"></i> Limpar camada</button>
+          <!-- Filtros ao lado de Camadas: os dois decidem o que aparece no mapa. -->
+          <!-- Filtros ao lado de Camadas: os dois decidem o que aparece no mapa (cada um abre a sua gaveta). -->
+          <button type="button" id="btn-filtros" class="btn-vidro btn-filtros" aria-expanded="false" aria-controls="gaveta-filtros" title="Filtros e visualização"><i class="ti ti-adjustments-horizontal" aria-hidden="true"></i> <span class="rot">Filtros</span> <span class="filtros-contador" hidden></span></button>
+          <button type="button" id="btn-camadas" class="btn-vidro" aria-expanded="false" aria-controls="gaveta-camadas" title="Camadas do mapa"><i class="ti ti-stack-2" aria-hidden="true"></i> <span class="rot">Camadas</span> <span id="camadas-contador" class="camadas-contador" hidden></span></button>
+        </div>
+      </div>
+
+      <div id="mapa-legenda" class="mapa-legenda" hidden></div>
+
+      <!-- Widgets fixados no mapa (alfinete no cartão ou na gaveta Widgets): salvos com a visualização. -->
+      <div id="widgets-mapa" class="widgets-mapa" role="region" aria-label="Widgets fixados no mapa" hidden></div>
+
+      <div class="base-palco">
+        <div id="legenda" class="legenda">
+          <button type="button" class="btn-vidro legenda-alternar" aria-expanded="false" aria-controls="mapa-legenda-fixa"><i class="ti ti-list-details" aria-hidden="true"></i> Legenda</button>
+          <div id="mapa-legenda-fixa" class="mapa-legenda-fixa vidro" aria-label="Legenda do mapa" hidden></div>
+        </div>
+      </div>
+
+      <!-- Doca na base do mapa: cada painel abre só no clique (a rodinha do mouse é do zoom do mapa). -->
+      <div id="doca" class="doca">
+        <section id="resumo-dia" class="resumo-dia vidro" aria-label="Resumo do dia" hidden></section>
+        <section id="resumo-semana" class="resumo-dia resumo-semana vidro" aria-label="Resumo da semana" hidden></section>
+        <section id="desde-visita" class="resumo-dia desde-visita vidro" aria-label="Desde a sua última visita" hidden></section>
+        <!-- Visão resumida (js/visao-simples.js): o resumo do dia num cartão só (js/resumo-essencial.js). -->
+        <section id="resumo-essencial" class="resumo-dia resumo-essencial vidro" aria-label="Resumo de hoje" hidden></section>
+        <div class="doca-botoes vidro" role="toolbar" aria-label="Painéis do mapa">
+          <button type="button" id="btn-resumo-essencial" class="doca-btn so-visao-simples" aria-expanded="false" aria-controls="resumo-essencial"><i class="ti ti-sun" aria-hidden="true"></i> <span class="rot">Resumo de hoje</span><span class="rot-curto">Resumo</span></button>
+          <button type="button" id="btn-resumo-dia" class="doca-btn" aria-expanded="false" aria-controls="resumo-dia"><i class="ti ti-sun" aria-hidden="true"></i> <span class="rot">Resumo do dia</span><span class="rot-curto">Resumo</span> <span id="resumo-dia-n" class="rd-n" hidden></span> <i class="ti ti-chevron-up doca-seta" aria-hidden="true"></i></button>
+          <button type="button" id="btn-resumo-semana" class="doca-btn" aria-expanded="false" aria-controls="resumo-semana"><i class="ti ti-calendar-week" aria-hidden="true"></i> <span class="rot">Resumo da semana</span><span class="rot-curto">Semana</span> <i class="ti ti-chevron-up doca-seta" aria-hidden="true"></i></button>
+          <button type="button" id="btn-desde-visita" class="doca-btn" aria-expanded="false" aria-controls="desde-visita" title="O que mudou desde a sua última visita"><i class="ti ti-history" aria-hidden="true"></i> <span class="rot">Desde a última visita</span><span class="rot-curto">Novidades</span> <span id="desde-visita-n" class="rd-n dv-n" hidden></span> <i class="ti ti-chevron-up doca-seta" aria-hidden="true"></i></button>
+          <button type="button" id="ir-dashboard" class="doca-btn" aria-expanded="false" aria-controls="dashboard"><i class="ti ti-chart-bar" aria-hidden="true"></i> <span class="rot">Indicadores</span><span class="rot-curto">Indicadores</span> <i class="ti ti-chevron-up doca-seta" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div id="aviso-novo" class="aviso-novo vidro" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <!-- Indicadores: a única porta é "Indicadores" na doca (ou #/indicadores). A gaveta sobe da base e
+         cobre a tela inteira; duas abas: Painel (widgets) e Fichas (catálogo de js/tela-indicadores.js). -->
+    <main id="dashboard" class="dashboard" aria-label="Indicadores" hidden>
+      <header class="dash-topo">
+        <h2>Indicadores <small id="dash-escopo"></small></h2>
+        <div class="dash-abas" role="tablist" aria-label="Indicadores">
+          <button type="button" role="tab" id="aba-widgets" class="dash-aba" data-aba="widgets" aria-controls="widgets" aria-selected="true"><i class="ti ti-layout-dashboard" aria-hidden="true"></i> Painel</button>
+          <button type="button" role="tab" id="aba-metas" class="dash-aba" data-aba="metas" aria-controls="tela-indicadores" aria-selected="false" tabindex="-1"><i class="ti ti-target-arrow" aria-hidden="true"></i> Fichas</button>
+        </div>
+        <!-- Um botão só: liga a edição no painel (arrastar, P/M/L, ocultar) e abre a gaveta Widgets para adicionar. -->
+        <button type="button" class="btn-sec" id="dash-editar" aria-pressed="false" aria-controls="gaveta-widgets" title="Adicionar, ordenar, redimensionar e ocultar widgets"><i class="ti ti-adjustments" aria-hidden="true"></i> <span class="rot">Personalizar</span></button>
+        <button type="button" class="btn-sec" id="dash-fechar" aria-label="Voltar ao mapa" aria-keyshortcuts="Escape" title="Voltar ao mapa (Esc)"><i class="ti ti-map-2" aria-hidden="true"></i> <span class="rot">Voltar ao mapa</span><kbd class="dash-esc" aria-hidden="true">Esc</kbd></button>
+      </header>
+      <div id="widgets" class="widgets" role="tabpanel" aria-labelledby="aba-widgets"></div>
+      <div id="tela-indicadores" class="dash-metas" role="tabpanel" aria-labelledby="aba-metas" hidden></div>
+    </main>
+    <!-- Detalhes de um widget: o cartão mostra o resumo; a lista completa abre aqui. -->
+    <dialog id="w-modal" class="w-modal" aria-labelledby="w-modal-titulo">
+      <header class="w-modal-cab"><h2 id="w-modal-titulo"></h2><button type="button" class="gaveta-x" data-fechar-modal aria-label="Fechar os detalhes"><i class="ti ti-x" aria-hidden="true"></i></button></header>
+      <div class="w-modal-corpo"></div>
+    </dialog>
+
+    <!-- Telas sem mapa: num painel sobre o mapa esmaecido. -->
+    <section id="sobre" class="sobre vidro" aria-label="Tela" hidden>
+      <button type="button" id="sobre-expandir" class="btn-expandir sobre-expandir btn-vidro" data-expandir="tela" aria-pressed="false" title="Expandir para a tela inteira" aria-label="Expandir para a tela inteira"><i class="ti ti-arrows-maximize" aria-hidden="true"></i><i class="ti ti-arrows-minimize" aria-hidden="true"></i></button>
+      <button type="button" id="sobre-fechar" class="sobre-fechar btn-vidro" title="Voltar ao mapa (Esc)"><i class="ti ti-x" aria-hidden="true"></i><span class="sobre-fechar-rotulo">Voltar ao mapa</span></button>
+      <div id="esqueleto" class="esqueleto" aria-hidden="true" hidden>
+        <div class="esq-linha"><i></i><i></i><i></i><i></i></div>
+        <div class="esq-bloco grande"></div>
+        <div class="esq-linha dupla"><i></i><i></i></div>
+      </div>
+      <div id="tela-relatorios" class="tela tela-rolagem" hidden></div>
+      <div id="tela-alertas" class="tela tela-rolagem" hidden></div>
+      <div id="tela-cruzamento" class="tela tela-rolagem" hidden></div>
+      <div id="tela-sazonal" class="tela tela-rolagem" hidden></div>
+      <div id="tela-entregas" class="tela tela-rolagem" hidden></div>
+      <div id="tela-metas" class="tela tela-rolagem" hidden></div>
+      <div id="tela-orcamento" class="tela tela-rolagem" hidden></div>
+      <div id="tela-tarefas" class="tela tela-rolagem" hidden></div>
+      <div id="tela-publicacoes" class="tela tela-rolagem" hidden></div>
+      <div id="tela-governanca" class="tela tela-rolagem" hidden></div>
+      <div id="tela-fontes" class="tela tela-rolagem" hidden></div>
+      <div id="tela-dados" class="tela tela-rolagem" hidden></div>
+      <div id="tela-secretarias" class="tela tela-rolagem" hidden></div>
+      <div id="tela-secretaria" class="tela tela-rolagem" hidden></div>
+      <div id="tela-crise" class="tela tela-rolagem" hidden></div>
+      <div id="tela-conta" class="tela tela-rolagem" hidden></div>
+      <div id="tela-auditoria" class="tela tela-rolagem" hidden></div>
+      <div id="tela-cobrancas" class="tela tela-rolagem" hidden></div>
+      <div id="tela-usuarios" class="tela tela-rolagem" hidden></div>
+      <div id="tela-regras" class="tela tela-rolagem" hidden></div>
+      <div id="tela-prazos" class="tela tela-rolagem" hidden></div>
+      <div id="tela-personalizar" class="tela tela-rolagem" hidden></div>
+      <div id="tela-aviso" class="tela tela-rolagem tela-aviso" hidden></div>
+    </section>
+
+    <!-- Gavetas pela direita: uma por vez, por cima de tudo (Alertas, Filtros, Widgets, Visualizações, Maia, detalhe). -->
+    <aside id="gavetas" class="gavetas vidro" aria-label="Gaveta" hidden>
+      <section id="gaveta-atencao" class="gaveta-painel" data-gaveta="atencao" aria-label="Alertas" hidden></section>
+      <section id="gaveta-filtros" class="gaveta-painel" data-gaveta="filtros" aria-label="Filtros" hidden>
+        <header class="gaveta-cab">
+          <div><h2><i class="ti ti-adjustments-horizontal" aria-hidden="true"></i> Filtros</h2><p>O único lugar para filtrar: vale para o mapa, os alertas, a legenda e os indicadores.</p></div>
+          <button type="button" id="filtros-fechar" class="gaveta-x" aria-label="Fechar"><i class="ti ti-x" aria-hidden="true"></i></button>
+        </header>
+        <!-- Uma rolagem só (o rodapé fica preso embaixo). A visualização fica fora, ao lado da busca. -->
+        <div class="filtros-rolagem">
+          <div id="filtros-corpo" class="filtros-corpo"></div>
+        </div>
+      </section>
+      <section id="gaveta-camadas" class="gaveta-painel" data-gaveta="camadas" aria-label="Camadas do mapa" hidden>
+        <header class="gaveta-cab">
+          <div><h2><i class="ti ti-stack-2" aria-hidden="true"></i> Camadas</h2><p>O que o mapa mostra além das ocorrências. <span class="so-mouse">Passe o mouse numa camada ligada para destacá-la.</span><span class="so-toque">Toque no olho da Legenda para destacar uma camada.</span></p></div>
+          <button type="button" id="camadas-fechar" class="gaveta-x" aria-label="Fechar"><i class="ti ti-x" aria-hidden="true"></i></button>
+        </header>
+        <!-- #painel-camadas envolve a lista e o pé: o change de qualquer interruptor sobe até ele (contador, visualização). -->
+        <div id="painel-camadas" class="painel-camadas" role="group" aria-label="Camadas do mapa">
+          <div id="camadas-lista" class="camadas-lista">
+            <label class="toggle"><input type="checkbox" id="toggle-frota"> <i class="ti ti-bus" aria-hidden="true"></i> Frota e linhas</label>
+            <label class="toggle"><input type="checkbox" id="toggle-transito"> <i class="ti ti-car-crash" aria-hidden="true"></i> Trânsito</label>
+            <label class="toggle"><input type="checkbox" id="toggle-eventos"> <i class="ti ti-confetti" aria-hidden="true"></i> Grandes eventos</label>
+            <label class="toggle"><input type="checkbox" id="toggle-coleta"> <i class="ti ti-truck" aria-hidden="true"></i> Coleta de lixo</label>
+            <label class="toggle"><input type="checkbox" id="toggle-escolas"> <i class="ti ti-school" aria-hidden="true"></i> Escolas</label>
+            <label class="toggle"><input type="checkbox" id="toggle-predios"> <i class="ti ti-building" aria-hidden="true"></i> Prédios públicos</label>
+            <label class="toggle"><input type="checkbox" id="toggle-obras"> <i class="ti ti-crane" aria-hidden="true"></i> Obras</label>
+            <label class="toggle"><input type="checkbox" id="toggle-risco"> <i class="ti ti-alert-triangle ic-alerta" aria-hidden="true"></i> Áreas de risco</label>
+            <label class="toggle"><input type="checkbox" id="toggle-habitacao"> <i class="ti ti-home" aria-hidden="true"></i> Habitação e ocupações</label>
+            <label class="toggle"><input type="checkbox" id="toggle-calor-bo"> <i class="ti ti-flame ic-critica" aria-hidden="true"></i> B.O.s (30 dias)</label>
+            <label class="toggle"><input type="checkbox" id="toggle-leitos"> <i class="ti ti-bed" aria-hidden="true"></i> Leitos</label>
+            <label class="toggle"><input type="checkbox" id="toggle-farmacias"> <i class="ti ti-pill" aria-hidden="true"></i> Medicamentos</label>
+            <label class="toggle"><input type="checkbox" id="toggle-vigilancia"> <i class="ti ti-virus" aria-hidden="true"></i> Vigilância em saúde</label>
+            <label class="toggle"><input type="checkbox" id="toggle-economia"> <i class="ti ti-building-store" aria-hidden="true"></i> Economia local</label>
+            <label class="toggle"><input type="checkbox" id="toggle-orcamento"> <i class="ti ti-coin" aria-hidden="true"></i> Custo e orçamento</label>
+            <label class="toggle"><input type="checkbox" id="toggle-conquistas"> <i class="ti ti-star ic-ouro" aria-hidden="true"></i> Conquistas</label>
+          </div>
+          <footer class="gaveta-pe camadas-pe">
+            <!-- Botão, não checkbox: o contador, "Limpar todas" e o recorte do perfil contam só as camadas. -->
+            <button type="button" id="camadas-so-atencao" class="camadas-atencao" role="switch" aria-checked="true" title="Com 2 ou mais camadas, o que está em dia não aparece" aria-describedby="camadas-so-atencao-dica">
+              <i class="ti ti-filter" aria-hidden="true"></i>
+              <span class="camadas-atencao-txt">Só o que pede atenção<small id="camadas-so-atencao-dica" class="sr-only">Com 2 ou mais camadas, o que está em dia não aparece</small></span>
+              <span class="camadas-atencao-chave" aria-hidden="true"></span>
+            </button>
+            <button type="button" id="camadas-fundo-ruas" class="camadas-atencao" role="switch" aria-checked="false" title="O desenho das ruas, claro e sem nomes, por baixo dos bairros" aria-describedby="camadas-fundo-ruas-dica">
+              <i class="ti ti-road" aria-hidden="true"></i>
+              <span class="camadas-atencao-txt">Ruas no fundo<small id="camadas-fundo-ruas-dica" class="sr-only">O desenho das ruas, claro e sem nomes, por baixo dos bairros</small></span>
+              <span class="camadas-atencao-chave" aria-hidden="true"></span>
+            </button>
+            <div class="camadas-pe-linha"><span id="camadas-ligadas" class="camadas-ligadas">Nenhuma camada ligada</span><button type="button" id="camadas-limpar" class="camadas-limpar" disabled><i class="ti ti-eraser" aria-hidden="true"></i> Limpar todas</button></div>
+          </footer>
+        </div>
+      </section>
+      <section id="gaveta-widgets" class="gaveta-painel" data-gaveta="widgets" aria-label="Widgets" hidden></section>
+      <section id="gaveta-vistas" class="gaveta-painel" data-gaveta="vistas" aria-label="Visualizações" hidden></section>
+      <section id="gaveta-copiloto" class="gaveta-painel chat" data-gaveta="copiloto" aria-label="Maia" hidden>
+        <header class="chat-topo">
+          <div>
+            <h2><span class="maia-rosto" aria-hidden="true"></span> Maia</h2>
+            <p>IA da Prefeitura · dados em tempo real</p>
+          </div>
+          <div class="chat-topo-acoes">
+            <button type="button" id="btn-nova-conversa" class="chat-topo-btn" title="Nova conversa" aria-label="Nova conversa"><i class="ti ti-message-plus" aria-hidden="true"></i></button>
+            <button type="button" id="btn-conversas" class="chat-topo-btn" title="Conversas anteriores" aria-label="Conversas anteriores" aria-expanded="false" aria-controls="chat-conversas"><i class="ti ti-history" aria-hidden="true"></i></button>
+            <button type="button" class="btn-expandir chat-topo-btn" data-expandir="maia" aria-pressed="false" title="Expandir para a tela inteira" aria-label="Expandir para a tela inteira"><i class="ti ti-arrows-maximize" aria-hidden="true"></i><i class="ti ti-arrows-minimize" aria-hidden="true"></i></button>
+            <button type="button" id="btn-recolher-chat" class="gaveta-x" aria-label="Fechar a conversa com a Maia"><i class="ti ti-x" aria-hidden="true"></i></button>
+          </div>
+        </header>
+        <div id="chat-conversas" class="chat-conversas" aria-label="Conversas com a Maia" hidden></div>
+        <div id="chat-mensagens" class="chat-mensagens" aria-live="polite"></div>
+        <div id="chat-sugestoes" class="chat-sugestoes"></div>
+        <form id="chat-form" class="chat-form" autocomplete="off">
+          <input id="chat-input" type="text" placeholder="Pergunte sobre a cidade…" aria-label="Pergunta para a IA">
+          <button type="submit" aria-label="Enviar"><i class="ti ti-send-2" aria-hidden="true"></i></button>
+        </form>
+      </section>
+      <section id="gaveta-info" class="gaveta-painel gaveta-info" data-gaveta="info" aria-label="Detalhes" hidden></section>
+      <aside id="gaveta" class="gaveta gaveta-painel" data-gaveta="alerta" aria-label="Detalhes do alerta" hidden></aside>
+    </aside>
+  </div>
+
+  <script src="https://unpkg.com/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script src="js/icones.js"></script>
+  <script src="js/relogio.js"></script>
+  <script src="js/prazos.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/data-alertas.js"></script>
+  <script src="js/data-equipes.js"></script>
+  <script src="js/data-leitos.js"></script>
+  <script src="js/data-seguranca.js"></script>
+  <script src="js/data-risco.js"></script>
+  <script src="js/data-obras.js"></script>
+  <script src="js/data-educacao.js"></script>
+  <script src="js/data-frota.js"></script>
+  <script src="js/data-coleta.js"></script>
+  <script src="js/data-medicamentos.js"></script>
+  <script src="js/data-social.js"></script>
+  <script src="js/data-entregas.js"></script>
+  <script src="js/entregas-registro.js"></script>
+  <script src="js/cidade.js"></script>
+  <!-- Domínios que se posicionam pelos bairros já remontados pelo cidade.js -->
+  <script src="js/data-vigilancia.js"></script>
+  <script src="js/data-transito.js"></script>
+  <script src="js/data-habitacao.js"></script>
+  <script src="js/data-predios.js"></script>
+  <script src="js/data-economia.js"></script>
+  <script src="js/data-eventos.js"></script>
+  <script src="js/data-gestao.js"></script>
+  <script src="js/data-orcamento.js"></script>
+  <script src="js/orcamento-gestao.js"></script>
+  <script src="js/data-secretarias.js"></script>
+  <script src="js/data-sazonal.js"></script>
+  <script src="js/sazonal-registro.js"></script>
+  <script src="js/data-pedidos.js"></script>
+  <script src="js/data-usuarios.js"></script>
+  <script src="js/usuarios.js"></script>
+  <script src="js/sessao.js"></script>
+  <script src="js/prazos-parametros.js"></script>
+  <script src="js/regras-alerta.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/cobrancas.js"></script>
+  <script src="js/cobrancas-historico.js"></script>
+  <script src="js/operacao.js"></script>
+  <script src="js/ajudas.js"></script>
+  <script src="js/tarefas.js"></script>
+  <script src="js/pedidos.js"></script>
+  <script src="js/satisfacao.js"></script>
+  <script src="js/acoes-prefeito.js"></script>
+  <script src="js/pactos.js"></script>
+  <script src="js/reuniao.js"></script>
+  <script src="js/caixa-entrada.js"></script>
+  <script src="js/perfil.js"></script>
+  <script src="js/tarefas-demo.js"></script>
+  <script src="js/auditoria.js"></script>
+  <script src="js/foco.js"></script>
+  <script src="js/visualizacoes.js"></script>
+  <script src="js/widgets-ia.js"></script>
+  <script src="js/contrato.js"></script>
+  <script src="js/ia-roteiro.js"></script>
+  <script src="js/ia/entender.js"></script>
+  <script src="js/ia/foco-gabinete.js"></script>
+  <script src="js/ia/foco-relatorio.js"></script>
+  <script src="js/ia/foco-resumo-dia.js"></script>
+  <script src="js/ia/foco-decisoes.js"></script>
+  <script src="js/ia/rascunhos.js"></script>
+  <script src="js/ia/acoes-prontas.js"></script>
+  <script src="js/ia/arquivos.js"></script>
+  <script src="js/ia/cards.js"></script>
+  <script src="js/ia/audio.js"></script>
+  <script src="js/ia/cruzamento-ia.js"></script>
+  <!-- Temas da Maia: um por arquivo (a ordem de desempate fica no campo "ordem" de cada tema). -->
+  <script src="js/ia/tema-alagamento.js"></script>
+  <script src="js/ia/tema-cobrancas.js"></script>
+  <script src="js/ia/tema-ajuda.js"></script>
+  <script src="js/ia/tema-metas.js"></script>
+  <script src="js/ia/tema-caixa.js"></script>
+  <script src="js/ia/tema-equipes.js"></script>
+  <script src="js/ia/tema-desempenho.js"></script>
+  <script src="js/ia/tema-educacao.js"></script>
+  <script src="js/ia/tema-energia.js"></script>
+  <script src="js/ia/tema-frota.js"></script>
+  <script src="js/ia/tema-leitos.js"></script>
+  <script src="js/ia/tema-limpeza.js"></script>
+  <script src="js/ia/tema-medicamentos.js"></script>
+  <script src="js/ia/tema-mobilidade.js"></script>
+  <script src="js/ia/tema-obras.js"></script>
+  <script src="js/ia/tema-prioridade.js"></script>
+  <script src="js/ia/tema-resumo.js"></script>
+  <script src="js/ia/tema-risco.js"></script>
+  <script src="js/ia/tema-satisfacao.js"></script>
+  <script src="js/ia/tema-sazonal.js"></script>
+  <script src="js/ia/tema-entregas.js"></script>
+  <script src="js/ia/tema-saude.js"></script>
+  <script src="js/ia/tema-seguranca.js"></script>
+  <script src="js/ia/tema-social.js"></script>
+  <script src="js/ia/tema-violencia.js"></script>
+  <script src="js/ia/tema-vigilancia.js"></script>
+  <script src="js/ia/tema-transito.js"></script>
+  <script src="js/ia/tema-habitacao.js"></script>
+  <script src="js/ia/tema-predios.js"></script>
+  <script src="js/ia/tema-economia.js"></script>
+  <script src="js/ia/tema-orcamento.js"></script>
+  <script src="js/ia/tema-eventos.js"></script>
+  <script src="js/mapa-logica.js"></script>
+  <script src="js/mapa-ambiente.js"></script>
+  <script src="js/map.js"></script>
+  <!-- Camadas do mapa: uma por domínio. A ordem é a de empilhar (a de baixo fica por cima no mapa). -->
+  <script src="js/mapa/camada-seguranca.js"></script>
+  <script src="js/mapa/camada-risco.js"></script>
+  <script src="js/mapa/camada-frota.js"></script>
+  <script src="js/mapa/camada-coleta.js"></script>
+  <script src="js/mapa/camada-leitos.js"></script>
+  <script src="js/mapa/camada-obras.js"></script>
+  <script src="js/mapa/camada-medicamentos.js"></script>
+  <script src="js/mapa/camada-educacao.js"></script>
+  <script src="js/mapa/camada-vigilancia.js"></script>
+  <script src="js/mapa/camada-transito.js"></script>
+  <script src="js/mapa/camada-habitacao.js"></script>
+  <script src="js/mapa/camada-predios.js"></script>
+  <script src="js/mapa/camada-economia.js"></script>
+  <script src="js/mapa/camada-orcamento.js"></script>
+  <script src="js/mapa/camada-eventos.js"></script>
+  <!-- Depois de todas as camadas: destacar, agrupar por bairro, menos detalhe e sobrepostos (lê as outras). -->
+  <script src="js/mapa/varias-camadas.js"></script>
+  <script src="js/conversas.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/visao-simples.js"></script>
+  <script src="js/minha-visao.js"></script>
+  <script src="js/resumo-telas.js"></script>
+  <script src="js/tamanho-texto.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/desempenho.js"></script>
+  <script src="js/cobrancas-ui.js"></script>
+  <script src="js/operacao-ui.js"></script>
+  <script src="js/prazos-ui.js"></script>
+  <script src="js/ajudas-ui.js"></script>
+  <script src="js/tarefas-ui.js"></script>
+  <script src="js/pedidos-ui.js"></script>
+  <script src="js/acoes-prefeito-ui.js"></script>
+  <script src="js/desfazer.js"></script>
+  <script src="js/desfazer-ui.js"></script>
+  <script src="js/confirmacao.js"></script>
+  <script src="js/pactos-ui.js"></script>
+  <script src="js/expandir.js"></script>
+  <script src="js/decisao.js"></script>
+  <script src="js/gaveta.js"></script>
+  <script src="js/gavetas.js"></script>
+  <script src="js/filtros.js"></script>
+  <script src="js/busca.js"></script>
+  <script src="js/widgets-extra.js"></script>
+  <!-- Conteúdo dos widgets: um arquivo por domínio (base.js primeiro) -->
+  <script src="js/widgets/base.js"></script>
+  <script src="js/widgets/geral.js"></script>
+  <script src="js/widgets/leitos.js"></script>
+  <script src="js/widgets/seguranca.js"></script>
+  <script src="js/widgets/risco.js"></script>
+  <script src="js/widgets/obras.js"></script>
+  <script src="js/widgets/educacao.js"></script>
+  <script src="js/widgets/frota.js"></script>
+  <script src="js/widgets/coleta.js"></script>
+  <script src="js/widgets/medicamentos.js"></script>
+  <script src="js/widgets/social.js"></script>
+  <script src="js/widgets/sazonal.js"></script>
+  <script src="js/widgets/entregas.js"></script>
+  <script src="js/widgets/vigilancia.js"></script>
+  <script src="js/widgets/transito.js"></script>
+  <script src="js/widgets/habitacao.js"></script>
+  <script src="js/widgets/predios.js"></script>
+  <script src="js/widgets/economia.js"></script>
+  <script src="js/widgets/eventos.js"></script>
+  <script src="js/embed/dialogo.js"></script>
+  <script src="js/widgets.js"></script>
+  <script src="js/relatorios.js"></script>
+  <script src="js/tela-relatorios.js"></script>
+  <script src="js/relatorio-formatos.js"></script>
+  <script src="js/cruzamento.js"></script>
+  <script src="js/tela-cruzamento.js"></script>
+  <script src="js/tela-sazonal.js"></script>
+  <script src="js/tela-sazonal-config.js"></script>
+  <script src="js/tela-tarefas.js"></script>
+  <script src="js/tela-entregas.js"></script>
+  <script src="js/tela-alertas.js"></script>
+  <script src="js/dados.js"></script>
+  <script src="js/tela-dados.js"></script>
+  <script src="js/tela-secretaria.js"></script>
+  <script src="js/tela-secretarias.js"></script>
+  <script src="js/modelos-crise.js"></script>
+  <script src="js/crise.js"></script>
+  <script src="js/modo-crise.js"></script>
+  <script src="js/tela-crise.js"></script>
+  <script src="js/tela-modelos-crise.js"></script>
+  <script src="js/tela-conta.js"></script>
+  <script src="js/tela-auditoria.js"></script>
+  <script src="js/tela-cobrancas.js"></script>
+  <script src="js/tela-perfis.js"></script>
+  <script src="js/tela-usuarios.js"></script>
+  <script src="js/tela-regras.js"></script>
+  <script src="js/tela-prazos.js"></script>
+  <script src="js/tela-personalizar.js"></script>
+  <script src="js/tela-aviso.js"></script>
+  <script src="js/resumo-dia.js"></script>
+  <script src="js/resumo-semana.js"></script>
+  <script src="js/desde-visita.js"></script>
+  <script src="js/resumo-essencial.js"></script>
+  <script src="js/indicadores.js"></script>
+  <!-- Compromissos do plano de governo: depois dos indicadores e da agenda de entregas (calcula com eles ao carregar). -->
+  <script src="js/metas-governo.js"></script>
+  <script src="js/plano-eixos.js"></script>
+  <script src="js/tela-metas.js"></script>
+  <script src="js/tela-orcamento.js"></script>
+  <script src="js/orcamento-oficio.js"></script>
+  <script src="js/tela-publicacoes.js"></script>
+  <script src="js/tela-fontes.js"></script>
+  <script src="js/tela-governanca.js"></script>
+  <script src="js/tela-indicadores.js"></script>
+  <script src="js/grafico-dica.js"></script>
+  <script src="js/rotas.js"></script>
+  <script src="js/painel-bairro.js"></script>
+  <script src="js/linha-tempo.js"></script>
+  <script src="js/linha-tempo-indicadores.js"></script>
+  <script src="js/modos-mapa.js"></script>
+  <script src="js/mapa-comparar.js"></script>
+  <script src="js/telao/cena-crise.js"></script>
+  <script src="js/telao/cena-numeros.js"></script>
+  <script src="js/telao/cena-secretarias.js"></script>
+  <script src="js/telao/cena-resolvidas.js"></script>
+  <script src="js/telao/cena-24h.js"></script>
+  <script src="js/telao/cena-bairros.js"></script>
+  <script src="js/telao/cena-sazonal.js"></script>
+  <script src="js/telao/cena-entregas.js"></script>
+  <script src="js/telao/ajustes.js"></script>
+  <!-- Partes do app (cada uma recebe o "app" de js/app.js, que as monta) -->
+  <script src="js/app/desfazer.js"></script>
+  <script src="js/app/telas.js"></script>
+  <script src="js/app/doca.js"></script>
+  <script src="js/app/camadas.js"></script>
+  <script src="js/app/simulacao.js"></script>
+  <script src="js/app/cabecalho.js"></script>
+  <script src="js/app/modo-crise.js"></script>
+  <script src="js/app/maia-telas.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/tour.js"></script>
+  <!-- Cascata dos cartões e números que contam ao abrir Indicadores e telas (só observa o DOM). -->
+  <script src="js/movimento.js"></script>
+  <!-- Atalhos visíveis ao segurar Ctrl. -->
+  <script src="js/atalhos.js"></script>
+  <script src="js/voz.js"></script>
+</body>
+</html>

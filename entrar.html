@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f4c5c">
+  <meta name="robots" content="noindex">
+  <title>Entrar · Golden Atlas</title>
+  <link rel="icon" type="image/svg+xml" href="identidade-visual/logo/svg/favicon.svg">
+  <link rel="apple-touch-icon" href="identidade-visual/logo/svg/app-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="identidade-visual/tokens.css">
+  <link rel="stylesheet" href="css/entrar.css">
+  <script src="js/tema.js"></script>
+  <!-- Cores e marca da prefeitura (padrão de todos) já no <head>, sem piscar. -->
+  <script src="js/personalizacao.js" data-entrada></script>
+  <script src="js/grafismo.js"></script>
+</head>
+<!-- Entrada do painel do gestor (login opcional da demonstração: index.html?login=1 manda para cá sem sessão).
+     Três passos para recuperar a senha: e-mail, código e senha nova. Tudo simulado no navegador (js/sessao.js). -->
+<body class="en" data-pagina="entrar">
+  <main class="en-palco">
+    <section class="en-marca" aria-labelledby="en-titulo-marca">
+      <div class="en-marca-in">
+        <img class="en-logo" src="identidade-visual/logo/svg/horizontal-escuro.svg" alt="Golden Atlas" width="190" height="40">
+        <!-- Com logo próprio da prefeitura (Personalizar), ele vai para o topo e o Golden Atlas vira a assinatura. -->
+        <span id="en-brasao" class="en-brasao" hidden><img alt=""></span>
+        <div class="en-marca-texto">
+          <h1 id="en-titulo-marca"><small>Prefeitura de</small> <span id="en-cidade">Vila Dourada</span></h1>
+          <p>Painel de gestão da cidade: ocorrências, secretarias, gabinete de crise e indicadores num lugar só.</p>
+          <p id="en-assinatura" class="en-assinatura" hidden>Uma solução <img src="identidade-visual/logo/svg/horizontal-escuro.svg" alt="Golden Atlas" width="95" height="20"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="en-lado">
+      <div class="en-fileira">
+      <div class="en-cartao">
+        <div id="en-aviso" class="en-aviso" role="status" hidden></div>
+        <!-- Anuncia a troca de passo para o leitor de tela (o foco vai para o campo, que não diz que a tela mudou). -->
+        <p id="en-anuncio" class="so-leitor" aria-live="polite"></p>
+
+        <!-- 0. Como entrar: gov.br em destaque, e-mail como segunda opção. -->
+        <div id="en-inicio" class="en-passo" data-passo="inicio">
+          <h2>Entrar no painel</h2>
+          <p class="en-sub">Escolha como você quer entrar.</p>
+          <button type="button" class="en-botao en-botao-govbr" data-ir="govbr"><i class="ti ti-shield-check" aria-hidden="true"></i> Entrar com <b>gov.br</b></button>
+          <button type="button" class="en-botao-sec" data-ir="entrar"><i class="ti ti-mail" aria-hidden="true"></i> Entrar com e-mail</button>
+          <p class="en-erro" role="alert" hidden></p>
+        </div>
+
+        <!-- 1. Entrar com e-mail -->
+        <form id="en-entrar" class="en-passo" data-passo="entrar" novalidate hidden>
+          <div class="en-topo-passo">
+            <button type="button" class="en-voltar en-voltar-menor" data-ir="inicio"><i class="ti ti-arrow-left" aria-hidden="true"></i> Voltar</button>
+          </div>
+          <h2>Entrar com e-mail</h2>
+          <p class="en-sub">Use o seu e-mail da prefeitura.</p>
+          <!-- "Continuar como": quem entrou por último neste navegador (js/sessao.js, ultimo). Toma o lugar do e-mail. -->
+          <div id="en-conta" class="en-conta" hidden></div>
+          <div class="en-campo">
+            <label for="en-email">E-mail</label>
+            <input id="en-email" type="email" name="email" autocomplete="username" inputmode="email" required aria-describedby="en-email-erro">
+            <p id="en-email-erro" class="en-erro-campo" hidden></p>
+          </div>
+          <div class="en-campo">
+            <span class="en-rotulo"><label for="en-senha">Senha</label><button type="button" class="en-link en-link-rotulo" data-ir="email">Esqueci a senha</button></span>
+            <span class="en-senha">
+              <input id="en-senha" type="password" name="senha" autocomplete="current-password" required aria-describedby="en-senha-erro en-senha-caps">
+              <button type="button" class="en-ver" aria-controls="en-senha" aria-pressed="false" title="Mostrar senha" aria-label="Mostrar senha"><i class="ti ti-eye" aria-hidden="true"></i></button>
+            </span>
+            <p id="en-senha-caps" class="en-caps" hidden><i class="ti ti-arrow-big-up-line" aria-hidden="true"></i> Caps Lock ligado</p>
+            <p id="en-senha-erro" class="en-erro-campo" hidden></p>
+          </div>
+          <label class="en-marcar"><input id="en-manter" type="checkbox"> <span>Manter conectado</span></label>
+          <p class="en-erro" role="alert" hidden></p>
+          <button type="submit" class="en-botao">Entrar</button>
+        </form>
+
+        <!-- Entrar com gov.br (simulado): na versão real, o Login Único abre na página do gov.br e devolve CPF e nível.
+             Aqui, de propósito, nada imita a página do gov.br: é um passo do nosso cartão, marcado como simulação. -->
+        <form id="en-govbr" class="en-passo" data-passo="govbr" novalidate hidden>
+          <div class="en-topo-passo">
+            <button type="button" class="en-voltar" data-ir="inicio"><i class="ti ti-arrow-left" aria-hidden="true"></i> Voltar</button>
+            <span class="en-selo-sim">Simulação</span>
+          </div>
+          <h2>Entrar com gov.br</h2>
+          <p class="en-sub">Na versão real, o gov.br abre na página dele para você confirmar quem é, e o painel recebe só o seu CPF e o nível da conta. Aqui, escolha uma conta fictícia.</p>
+          <div id="en-govbr-lista" class="en-govbr-lista"></div>
+          <p class="en-erro" role="alert" hidden></p>
+          <p class="en-govbr-nota"><i class="ti ti-info-circle" aria-hidden="true"></i> O painel aceita contas gov.br prata ou ouro.</p>
+        </form>
+
+        <!-- 2. Recuperar: e-mail -->
+        <form id="en-recuperar" class="en-passo" data-passo="email" novalidate hidden>
+          <div class="en-topo-passo">
+            <button type="button" class="en-voltar" data-ir="entrar"><i class="ti ti-arrow-left" aria-hidden="true"></i> Voltar</button>
+            <p class="en-etapa" data-etapa="1"><span>Passo 1 de 3</span><i></i><i></i><i></i></p>
+          </div>
+          <h2>Recuperar a senha</h2>
+          <p class="en-sub">Informe o e-mail. Enviamos um código de 6 números para você criar uma senha nova.</p>
+          <div class="en-campo">
+            <label for="en-rec-email">E-mail</label>
+            <input id="en-rec-email" type="email" name="email" autocomplete="username" inputmode="email" required aria-describedby="en-rec-email-erro">
+            <p id="en-rec-email-erro" class="en-erro-campo" hidden></p>
+          </div>
+          <p class="en-erro" role="alert" hidden></p>
+          <button type="submit" class="en-botao">Enviar código</button>
+        </form>
+
+        <!-- 3. Recuperar: código -->
+        <form id="en-codigo" class="en-passo" data-passo="codigo" novalidate hidden>
+          <div class="en-topo-passo">
+            <button type="button" class="en-voltar" data-ir="email"><i class="ti ti-arrow-left" aria-hidden="true"></i> Trocar o e-mail</button>
+            <p class="en-etapa" data-etapa="2"><span>Passo 2 de 3</span><i></i><i></i><i></i></p>
+          </div>
+          <h2>Digite o código</h2>
+          <p class="en-sub">Se <b id="en-cod-email"></b> estiver cadastrado, enviamos um código de 6 números.</p>
+          <div class="en-campo">
+            <label for="en-cod">Código</label>
+            <!-- Um campo só (colar e o preenchimento do celular funcionam); as 6 casas são o desenho por cima. -->
+            <span class="en-casas">
+              <input id="en-cod" class="en-cod" type="text" name="codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="\d{6}" required aria-describedby="en-cod-erro en-validade">
+              <span class="en-casas-ver" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+            </span>
+            <p id="en-cod-erro" class="en-erro-campo" hidden></p>
+          </div>
+          <p id="en-validade" class="en-validade"><i class="ti ti-clock" aria-hidden="true"></i> <span></span></p>
+          <p class="en-erro" role="alert" hidden></p>
+          <button type="submit" class="en-botao">Conferir código</button>
+          <button type="button" class="en-link" id="en-reenviar">Reenviar código</button>
+        </form>
+
+        <!-- 4. Recuperar: senha nova -->
+        <form id="en-nova" class="en-passo" data-passo="senha" novalidate hidden>
+          <div class="en-topo-passo">
+            <button type="button" class="en-voltar" data-ir="entrar"><i class="ti ti-x" aria-hidden="true"></i> Cancelar</button>
+            <p class="en-etapa" data-etapa="3"><span>Passo 3 de 3</span><i></i><i></i><i></i></p>
+          </div>
+          <h2>Crie a senha nova</h2>
+          <p class="en-sub">Para <b id="en-nova-email"></b>.</p>
+          <div class="en-campo">
+            <label for="en-nova-senha">Senha nova</label>
+            <span class="en-senha">
+              <input id="en-nova-senha" type="password" autocomplete="new-password" required aria-describedby="en-regras">
+              <button type="button" class="en-ver" aria-controls="en-nova-senha" aria-pressed="false" title="Mostrar senha" aria-label="Mostrar senha"><i class="ti ti-eye" aria-hidden="true"></i></button>
+            </span>
+          </div>
+          <div class="en-campo">
+            <label for="en-nova-conf">Repita a senha nova</label>
+            <span class="en-senha">
+              <input id="en-nova-conf" type="password" autocomplete="new-password" required aria-describedby="en-regras">
+              <button type="button" class="en-ver" aria-controls="en-nova-conf" aria-pressed="false" title="Mostrar senha" aria-label="Mostrar senha"><i class="ti ti-eye" aria-hidden="true"></i></button>
+            </span>
+          </div>
+          <ul id="en-regras" class="en-regras" aria-live="polite"></ul>
+          <p class="en-erro" role="alert" hidden></p>
+          <button type="submit" class="en-botao">Salvar senha</button>
+        </form>
+
+        <!-- Primeiro acesso: entrou com a senha provisória (usuário cadastrado em Usuários e permissões). -->
+        <form id="en-primeiro" class="en-passo" data-passo="primeiro" novalidate hidden>
+          <div class="en-topo-passo">
+            <button type="button" class="en-voltar" data-ir="entrar"><i class="ti ti-x" aria-hidden="true"></i> Cancelar</button>
+          </div>
+          <h2>Crie a sua senha</h2>
+          <p class="en-sub">Primeiro acesso de <b id="en-pri-nome"></b>. A senha provisória deixa de valer assim que você criar a sua.</p>
+          <div class="en-campo">
+            <label for="en-pri-senha">Senha nova</label>
+            <span class="en-senha">
+              <input id="en-pri-senha" type="password" autocomplete="new-password" required aria-describedby="en-pri-regras">
+              <button type="button" class="en-ver" aria-controls="en-pri-senha" aria-pressed="false" title="Mostrar senha" aria-label="Mostrar senha"><i class="ti ti-eye" aria-hidden="true"></i></button>
+            </span>
+          </div>
+          <div class="en-campo">
+            <label for="en-pri-conf">Repita a senha nova</label>
+            <span class="en-senha">
+              <input id="en-pri-conf" type="password" autocomplete="new-password" required aria-describedby="en-pri-regras">
+              <button type="button" class="en-ver" aria-controls="en-pri-conf" aria-pressed="false" title="Mostrar senha" aria-label="Mostrar senha"><i class="ti ti-eye" aria-hidden="true"></i></button>
+            </span>
+          </div>
+          <ul id="en-pri-regras" class="en-regras" aria-live="polite"></ul>
+          <p class="en-erro" role="alert" hidden></p>
+          <button type="submit" class="en-botao">Criar senha e entrar</button>
+        </form>
+
+        <!-- Demonstração: entrar com um usuário fictício, sem digitar senha (o caminho rápido da apresentação). -->
+        <!-- Um cartão por papel (o caminho da apresentação) e, recolhida, a lista com todos os usuários. -->
+        <section class="en-demo" aria-labelledby="en-demo-titulo">
+          <p id="en-demo-titulo" class="en-demo-titulo"><i class="ti ti-user-bolt" aria-hidden="true"></i> Demonstração: entrar sem senha como</p>
+          <div id="en-demo-papeis" class="en-demo-papeis"></div>
+          <details class="en-demo-todos">
+            <summary>Ver todos os usuários <span id="en-demo-total"></span></summary>
+            <p class="en-demo-dica">Usuários fictícios. A senha de todos é <code id="en-senha-demo"></code>.</p>
+            <div id="en-demo-lista" class="en-demo-lista"></div>
+          </details>
+        </section>
+      </div>
+
+      <!-- Caixa de entrada simulada: mostra o e-mail com o código de recuperação. -->
+      <aside id="en-caixa" class="en-caixa" aria-label="Caixa de entrada da demonstração" aria-live="polite" hidden></aside>
+      </div>
+
+      <footer class="en-rodape">
+        <a id="en-portal" href="cidadao.html"><i class="ti ti-users" aria-hidden="true"></i> Sou morador: abrir o Portal do Cidadão</a>
+        <a id="en-privacidade" class="en-rodape-sec" href="privacidade.html">Privacidade e dados pessoais</a>
+      </footer>
+    </section>
+  </main>
+
+  <script src="js/relogio.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/data-alertas.js"></script>
+  <script src="js/data-leitos.js"></script>
+  <script src="js/data-seguranca.js"></script>
+  <script src="js/data-risco.js"></script>
+  <script src="js/data-obras.js"></script>
+  <script src="js/data-educacao.js"></script>
+  <script src="js/data-frota.js"></script>
+  <script src="js/data-coleta.js"></script>
+  <script src="js/data-medicamentos.js"></script>
+  <script src="js/cidade.js"></script>
+  <script src="js/contrato.js"></script>
+  <script src="js/data-usuarios.js"></script>
+  <script src="js/permissoes.js"></script>
+  <script src="js/perfis-acesso.js"></script>
+  <script src="js/usuarios.js"></script>
+  <script src="js/sessao.js"></script>
+  <script src="js/auditoria.js"></script>
+  <script src="js/tela-entrar.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f4c5c">
+  <title>Privacidade · Golden Atlas</title>
+  <link rel="icon" type="image/svg+xml" href="identidade-visual/logo/svg/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="identidade-visual/tokens.css">
+  <link rel="stylesheet" href="css/privacidade.css">
+  <link rel="stylesheet" href="css/desfazer.css">
+  <script src="js/tema.js"></script>
+</head>
+<!-- Aviso de privacidade do painel do gestor (LGPD, Lei nº 13.709/2018). Texto-modelo da demonstração:
+     a versão oficial é escrita e aprovada pela Prefeitura e pelo encarregado de dados dela. -->
+<body class="pv">
+  <a class="pv-pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="pv-topo">
+    <div class="pv-topo-in">
+      <img src="identidade-visual/logo/svg/horizontal-escuro.svg" alt="Golden Atlas" width="150" height="32">
+      <a id="pv-voltar" class="pv-voltar" href="index.html"><i class="ti ti-arrow-left" aria-hidden="true"></i> Voltar ao painel</a>
+    </div>
+  </header>
+
+  <main id="conteudo" class="pv-conteudo" tabindex="-1">
+    <h1>Privacidade e dados pessoais</h1>
+    <p class="pv-lead">Como o painel de gestão da Prefeitura de <span class="pv-cidade">Vila Dourada</span> trata dados pessoais, com base na Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018).</p>
+
+    <aside class="pv-demo" aria-labelledby="pv-demo-tit">
+      <h2 id="pv-demo-tit"><i class="ti ti-presentation" aria-hidden="true"></i> Nesta demonstração</h2>
+      <p>Todas as pessoas, ocorrências e números são fictícios. Senhas, sessão e auditoria ficam só neste navegador e somem ao limpar os dados do site. Este texto é um modelo: a versão oficial é da Prefeitura.</p>
+      <button type="button" id="pv-apagar" class="pv-botao"><i class="ti ti-trash" aria-hidden="true"></i> Apagar os dados da demonstração neste navegador</button>
+      <p id="pv-apagado" class="pv-ok" role="status" hidden></p>
+    </aside>
+
+    <nav class="pv-indice" aria-label="Nesta página">
+      <a href="#quem">Quem trata os dados</a><a href="#quais">Quais dados</a><a href="#para-que">Para quê</a><a href="#base">Base legal</a>
+      <a href="#compartilha">Com quem</a><a href="#guarda">Por quanto tempo</a><a href="#seguranca">Segurança</a><a href="#direitos">Seus direitos</a><a href="#contato">Contato</a>
+    </nav>
+
+    <section id="quem"><h2>Quem trata os dados</h2>
+      <p>A <b>Prefeitura de <span class="pv-cidade">Vila Dourada</span></b> é a controladora: decide como e para que os dados do painel são usados. As secretarias usam o painel dentro das suas atribuições.</p></section>
+
+    <section id="quais"><h2>Quais dados o painel usa</h2>
+      <ul>
+        <li><b>De quem acessa o painel</b> (servidores e gestores): nome, cargo, e-mail institucional, secretaria e perfil de acesso.</li>
+        <li><b>Registros de uso (auditoria):</b> data e hora de entrada e saída, tentativas de acesso, e as ações feitas no painel, como cobrar uma secretaria, avançar uma tarefa de gabinete de crise ou cadastrar um usuário.</li>
+        <li><b>Das ocorrências da cidade:</b> tipo, local aproximado, situação e prazos. O painel do gestor não mostra quem fez o chamado.</li>
+        <li><b>No Portal do Cidadão:</b> o bairro escolhido fica guardado só no seu aparelho.</li>
+        <li><b>Pedidos pelo Portal do Cidadão:</b> o tipo de problema, o local marcado no mapa e, se você mandar, uma descrição e uma foto. O portal não pede nome, telefone nem e-mail: você acompanha pelo número do protocolo. A foto e a descrição só aparecem para quem atende o pedido e no seu aparelho; no mapa público aparecem só o tipo, o número de relatos e a situação. Não fotografe pessoas nem placas de carro.</li>
+      </ul></section>
+
+    <section id="para-que"><h2>Para que usamos</h2>
+      <ul>
+        <li>Controlar quem entra e o que cada perfil pode ver e fazer.</li>
+        <li>Acompanhar e resolver as ocorrências e coordenar as secretarias.</li>
+        <li>Registrar quem decidiu o quê e quando, para prestação de contas e controle interno.</li>
+        <li>Proteger o sistema contra acesso indevido.</li>
+      </ul></section>
+
+    <section id="base"><h2>Base legal</h2>
+      <p>O tratamento é feito pelo poder público para cumprir as suas atribuições legais e executar políticas públicas (LGPD, art. 7º, incisos II e III, e art. 23). Não pedimos consentimento para essas finalidades porque elas não dependem dele, mas você continua com os direitos descritos abaixo.</p></section>
+
+    <section id="compartilha"><h2>Com quem compartilhamos</h2>
+      <p>Os dados circulam entre as secretarias que precisam deles para resolver uma ocorrência. Podem ser enviados a órgãos de controle (como o Tribunal de Contas) quando a lei exigir. A Prefeitura não vende dados nem os usa para fins comerciais.</p></section>
+
+    <section id="guarda"><h2>Por quanto tempo guardamos</h2>
+      <p>Os prazos seguem a tabela de temporalidade de documentos da Prefeitura. Os registros de auditoria são guardados pelo tempo necessário à prestação de contas. Depois disso, os dados são eliminados ou anonimizados.</p></section>
+
+    <section id="seguranca"><h2>Como protegemos</h2>
+      <ul>
+        <li>Perfis de acesso: cada pessoa vê só o que a função dela exige (o gestor do setor vê só a própria secretaria).</li>
+        <li>Senha pessoal, criada pela própria pessoa no primeiro acesso, e bloqueio temporário depois de várias tentativas erradas.</li>
+        <li>Auditoria de acessos e de ações, consultada pelo Gabinete e por cada secretaria na sua pasta.</li>
+      </ul></section>
+
+    <section id="direitos"><h2>Seus direitos</h2>
+      <p>Pela LGPD (art. 18), você pode pedir à Prefeitura:</p>
+      <ul>
+        <li>confirmação de que tratamos dados seus e acesso a eles;</li>
+        <li>correção de dados incompletos, inexatos ou desatualizados;</li>
+        <li>anonimização, bloqueio ou eliminação de dados desnecessários ou tratados em desconformidade com a lei;</li>
+        <li>informação sobre com quem os dados foram compartilhados.</li>
+      </ul>
+      <p>Alguns dados precisam ser mantidos por obrigação legal, como os registros de auditoria; nesses casos, explicamos o motivo na resposta.</p></section>
+
+    <section id="contato"><h2>Contato</h2>
+      <p>Encarregado de dados da Prefeitura: <a href="mailto:encarregado@prefeitura.demo">encarregado@prefeitura.demo</a> <small>(endereço fictício da demonstração)</small>.</p>
+      <p>Se não ficar satisfeito com a resposta, você pode procurar a Autoridade Nacional de Proteção de Dados (ANPD).</p></section>
+  </main>
+
+  <script src="js/relogio.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/data-alertas.js"></script>
+  <script src="js/data-leitos.js"></script>
+  <script src="js/data-seguranca.js"></script>
+  <script src="js/data-risco.js"></script>
+  <script src="js/data-obras.js"></script>
+  <script src="js/data-educacao.js"></script>
+  <script src="js/data-frota.js"></script>
+  <script src="js/data-coleta.js"></script>
+  <script src="js/data-medicamentos.js"></script>
+  <script src="js/cidade.js"></script>
+  <script src="js/desfazer-ui.js"></script>
+  <script src="js/tela-privacidade.js"></script>
+</body>
+</html>
